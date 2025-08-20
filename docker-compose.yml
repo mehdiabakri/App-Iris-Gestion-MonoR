@@ -6,13 +6,13 @@ services:
       context: ./Iris-Gestion-Back
       args:
         APP_ENV: prod
-        DATABASE_URL: "mysql://user:password@db:3306/app_db?serverVersion=8.0&charset=utf8mb4"
+        DATABASE_URL: ${DATABASE_URL}
     restart: unless-stopped
     environment:
       # On passe l'URL pour se connecter à la BDD Docker locale
       # Le mot de passe vient du service 'db' ci-dessous
-      DATABASE_URL: "mysql://user:password@db:3306/app_db?serverVersion=8.0&charset=utf8mb4"
-    
+      DATABASE_URL: ${DATABASE_URL}
+      APP_SECRET: ${APP_SECRET}
     # Connecte le service au réseau 'iris-network'
     networks:
       - iris-network
@@ -38,13 +38,12 @@ services:
     image: mysql:8.0
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root_password 
-      MYSQL_DATABASE: app_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} 
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      # Rend les données persistantes sur votre machine locale entre les `docker-compose down/up`
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/mysql
     networks:
       - iris-network
 

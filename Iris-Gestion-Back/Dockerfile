@@ -29,6 +29,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+COPY .env.dist .env
+
 COPY composer.json composer.lock ./
 
 # Installez les dépendances SANS exécuter les scripts

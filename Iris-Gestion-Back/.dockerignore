@@ -1,0 +1,10 @@
+# Fichiers de configuration locaux - ON GARDE CEUX-CI
+.env.local
+.env.*.local
+
+# Dépendances, cache, logs... (le reste du fichier ne change pas)
+vendor/
+var/cache/
+var/log/
+.git/
+.gitignore

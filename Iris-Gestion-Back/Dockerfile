@@ -31,6 +31,8 @@ WORKDIR /var/www/html
 
 COPY .env.dist .env
 
+RUN echo "--- CONTENU DU FICHIER .env DANS LE BUILD ---" && cat .env && echo "--- FIN DU CONTENU ---"
+
 COPY composer.json composer.lock ./
 
 # Installez les dépendances SANS exécuter les scripts

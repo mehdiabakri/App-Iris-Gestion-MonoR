@@ -1,0 +1,34 @@
+security:
+    password_hashers:
+        App\Entity\User: 'auto'
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        
+        # On remet le firewall "login" qui va intercepter notre route
+        login:
+            pattern:  ^/api/login # Note: le chemin est maintenant /api/login
+            stateless: true
+            json_login:
+                check_path: /api/login # L'URL où le front enverra l'email/mot de passe
+                username_path: email
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+
+    access_control:
+        
+        # Tout le reste de l'API est protégé
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

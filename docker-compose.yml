@@ -1,0 +1,56 @@
+# version: '3.8' # Cette ligne est obsolète, vous pouvez la supprimer
+services:
+  # Le service pour notre backend Symfony
+  symfony:
+    build:
+      context: ./Iris-Gestion-Back
+      args:
+        APP_ENV: prod
+        DATABASE_URL: "mysql://user:password@db:3306/app_db?serverVersion=8.0&charset=utf8mb4"
+    restart: unless-stopped
+    environment:
+      # On passe l'URL pour se connecter à la BDD Docker locale
+      # Le mot de passe vient du service 'db' ci-dessous
+      DATABASE_URL: "mysql://user:password@db:3306/app_db?serverVersion=8.0&charset=utf8mb4"
+    
+    # Connecte le service au réseau 'iris-network'
+    networks:
+      - iris-network
+
+  # Le service pour Nginx (notre porte d'entrée)
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: unless-stopped
+    ports:
+      # On expose le port 80 pour y accéder depuis notre navigateur
+      - "80:80"
+    depends_on:
+      - symfony
+    networks:
+      - iris-network
+
+  # --- Base de données pour le test local ---
+  # Ce service ne sera pas déployé sur votre VPS si la BDD est déjà gérée là-bas
+  db:
+  
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password 
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      # Rend les données persistantes sur votre machine locale entre les `docker-compose down/up`
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - iris-network
+
+volumes:
+  db_data:
+
+networks:
+  iris-network:
+    driver: bridge

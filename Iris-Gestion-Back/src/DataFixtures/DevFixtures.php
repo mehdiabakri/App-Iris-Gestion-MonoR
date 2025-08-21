@@ -6,12 +6,12 @@ use App\Entity\ProduitBase;
 use App\Entity\Client;
 use App\Entity\Commande;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class DevFixtures extends Fixture implements DependentFixtureInterface
-{
+class DevFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface{
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -100,10 +100,15 @@ class DevFixtures extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
     }
+
     public function getDependencies(): array
     {
         return [
             ProdFixtures::class,
         ];
+    }
+    public static function getGroups(): array
+    {
+        return ['dev']; // On assigne ce fichier au groupe 'dev'
     }
 }

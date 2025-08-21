@@ -6,10 +6,10 @@ use App\Entity\Categorie;
 use App\Entity\Option;
 use App\Entity\ProduitBase;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ProdFixtures extends Fixture
-{
+class ProdFixtures extends Fixture implements FixtureGroupInterface{
     public function load(ObjectManager $manager): void
     { {
 
@@ -160,9 +160,9 @@ class ProdFixtures extends Fixture
             $this->addReference('produit_rond', $produitRond);
         }
     }
-
     public static function getGroups(): array
     {
         return ['prod'];
     }
+
 }

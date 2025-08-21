@@ -14,3 +14,4 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/DataFixtures/DevFixtures.php'

@@ -160,4 +160,9 @@ class ProdFixtures extends Fixture
             $this->addReference('produit_rond', $produitRond);
         }
     }
+
+    public static function getGroups(): array
+    {
+        return ['prod'];
+    }
 }

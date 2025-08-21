@@ -4,34 +4,28 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements FixtureGroupInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
-    private ParameterBagInterface $params;
 
-    // On demande à Symfony de nous donner le service pour hasher les mots de passe
-    public function __construct(UserPasswordHasherInterface $passwordHasher, ParameterBagInterface $params)
+    // Le constructeur est simple, il ne demande que le service pour hasher.
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
-        $this->params = $params;
     }
 
-    /**
-     * Cette méthode sera appelée quand on lancera la commande doctrine:fixtures:load
-     */
     public function load(ObjectManager $manager): void
     {
-        // --- SÉCURITÉ : On lit le mot de passe depuis les variables d'environnement ---
-        $adminPassword = $this->params->get('env(ADMIN_PASSWORD)');
+        // LA BONNE FAÇON de lire une variable d'environnement : directement depuis la superglobale $_ENV.
+        // C'est simple, direct, et ça ne dépend d'aucune configuration de service complexe.
+        $adminPassword = $_ENV['ADMIN_PASSWORD'] ?? null;
 
-        // Si la variable n'est pas définie, on ne fait rien pour éviter de créer un admin sans mot de passe
         if (!$adminPassword) {
+            // Si la variable ADMIN_PASSWORD n'est pas définie dans votre .env, on ne fait rien.
             return;
         }
 
@@ -39,17 +33,15 @@ class UserFixtures extends Fixture
         $admin->setEmail('honfleur@youandeyephoto.com');
         $admin->setRoles(['ROLE_ADMIN']);
         
-        // On hash le mot de passe qui vient de l'environnement
         $admin->setPassword(
-            $this->passwordHasher->hashPassword(
-                $admin,
-                $adminPassword // <-- On utilise la variable sécurisée
-            )
+            $this->passwordHasher->hashPassword($admin, $adminPassword)
         );
 
         $manager->persist($admin);
         $manager->flush();
     }
+
+    // On assigne ce fixture au groupe "setup" pour pouvoir le lancer séparément.
     public static function getGroups(): array
     {
         return ['setup'];

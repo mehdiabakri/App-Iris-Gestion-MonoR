@@ -26,6 +26,7 @@ services:
     ports:
       # On expose le port 80 pour y accéder depuis notre navigateur
       - "80:80"
+      - "443:443"
     depends_on:
       - symfony
     networks:

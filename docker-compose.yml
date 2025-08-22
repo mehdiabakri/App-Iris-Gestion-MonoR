@@ -12,6 +12,10 @@ services:
       # Le mot de passe vient du service 'db' ci-dessous
       DATABASE_URL: ${DATABASE_URL}
       APP_SECRET: ${APP_SECRET}
+
+    env_file:
+      - .env
+
     # Connecte le service au réseau 'iris-network'
     networks:
       - iris-network

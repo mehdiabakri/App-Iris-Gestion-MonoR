@@ -44,6 +44,6 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     // On assigne ce fixture au groupe "setup" pour pouvoir le lancer séparément.
     public static function getGroups(): array
     {
-        return ['setup'];
+        return ['prod'];
     }
 }

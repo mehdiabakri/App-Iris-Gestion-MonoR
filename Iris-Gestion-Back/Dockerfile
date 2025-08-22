@@ -46,5 +46,8 @@ RUN composer run-script post-install-cmd
 # Assurez-vous que les permissions sont correctes
 RUN chown -R www-data:www-data /var/www/html/var
 
+COPY config/jwt /var/www/html/config/jwt/
+RUN chown -R www-data:www-data /var/www/html/config/jwt
+
 CMD ["php-fpm"]
 EXPOSE 9000

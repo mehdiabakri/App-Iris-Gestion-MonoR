@@ -15,7 +15,7 @@ FROM nginx:stable-alpine
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 # Copier notre fichier de configuration personnalisé pour Nginx
-COPY docker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Exposer le port 80 pour le trafic web
 EXPOSE 80

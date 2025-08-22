@@ -1,4 +1,3 @@
-# version: '3.8' # Cette ligne est obsolète, vous pouvez la supprimer
 services:
   # Le service pour notre backend Symfony
   symfony:
@@ -32,8 +31,6 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
       # Monte les certificats Let's Encrypt en lecture seule (sécurité)
       - /etc/letsencrypt:/etc/letsencrypt:ro
-      # code backend Symfony dans le conteneur Nginx
-      - ./Iris-Gestion-Back:/var/www/html
       # ---- Renou. ssl ----
       - ./data/certbot/www:/var/www/certbot
 

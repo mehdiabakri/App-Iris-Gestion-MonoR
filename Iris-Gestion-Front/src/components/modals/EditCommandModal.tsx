@@ -176,7 +176,7 @@ const EditCommandModal = ({
     >
       <ModalOverlay />
       <ModalContent maxH="90vh" overflowY="auto">
-        <ModalHeader color="brand.600">
+        <ModalHeader color="brand.700">
           Modifier la Commande #{commandId?.substring(0, 8)}
         </ModalHeader>
         <ModalCloseButton />
@@ -385,7 +385,7 @@ const EditCommandModal = ({
                 Annuler
               </Button>
               <Button
-                colorScheme="purple"
+                colorScheme="yellow"
                 isLoading={mutation.isPending}
                 type="submit"
               >

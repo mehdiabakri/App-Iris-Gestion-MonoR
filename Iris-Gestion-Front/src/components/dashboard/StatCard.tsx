@@ -27,7 +27,7 @@ const StatCard = ({ title, value, icon }: StatCardProps) => {
           alignItems="center"
           justifyContent="center"
           borderRadius="full"
-          bg={`brand.100`}
+          //bg={`brand.100`}
           color={`brand.500`}
         >
           <Icon as={icon} boxSize={8} />

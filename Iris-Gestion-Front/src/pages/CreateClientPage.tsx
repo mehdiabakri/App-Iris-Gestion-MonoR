@@ -227,7 +227,12 @@ const CreateClientPage = () => {
                     <option value="A retoucher">A retoucher</option>
                     <option value="A imprimer">A imprimer</option>
                     <option value="A envoyer client">A envoyer client</option>
-                    {/* ... autres options de statut ... */}
+                    <option value="Attente retour client">Attente retour client</option>
+                    <option value="A commander">A commander</option>
+                    <option value="Commande OK">Commande OK</option>
+                    <option value="Livraison en cours">Livraison en cours</option>
+                    <option value="Terminé">Terminé</option>
+                    
                   </Select>
                   <FormErrorMessage>
                     {errors.commande?.statut?.message}
@@ -393,7 +398,7 @@ const CreateClientPage = () => {
             {/* --- Bouton de Soumission --- */}
             <Button
               mt={8}
-              colorScheme="purple"
+              colorScheme="yellow"
               isLoading={mutation.isPending}
               type="submit"
               size="lg"

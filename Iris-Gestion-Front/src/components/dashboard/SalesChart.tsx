@@ -56,7 +56,7 @@ const SalesChart = () => {
       bg="white"
       h="400px"
     >
-      <Heading size="md" mb={4}>
+      <Heading color="brand.200" size="md" mb={4}>
         Ventes Mensuelles
       </Heading>
       <ResponsiveContainer width="100%" height="90%">
@@ -72,7 +72,7 @@ const SalesChart = () => {
           <Bar
             dataKey="totalCommandes"
             name="Nombre de commandes"
-            fill="#8884d8"
+            fill="#f8de29"
           />
         </BarChart>
       </ResponsiveContainer>

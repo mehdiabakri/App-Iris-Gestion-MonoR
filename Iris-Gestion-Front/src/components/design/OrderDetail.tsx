@@ -34,11 +34,11 @@ const OrderDetail = ({ order }: { order: Commande | null }) => {
       boxShadow="sm"
     >
       <HStack justify="space-between" mb={4}>
-        <Heading size="md" color="brand.600">
+        <Heading size="md" color="brand.700">
           Détails de la Commande : {order.id.substring(0, 8)}
         </Heading>
         <Tag
-          colorScheme={order.statut === "Terminé" ? "green" : "purple"}
+          colorScheme={order.statut === "Terminé" ? "green" : "orange"}
           variant="solid"
         >
           {order.statut}
@@ -80,7 +80,7 @@ const OrderDetail = ({ order }: { order: Commande | null }) => {
       <Heading size="sm" mt={6} mb={4} color="brand.700">
         Informations de livraison :
       </Heading>
-      <HStack justify="space-between" p={2} bg="brand.200" borderRadius="md">
+      <HStack justify="space-between" p={2} bg="brand.100" borderRadius="md">
         <Text>
           <strong>Mode de livraison :</strong> {order.livraison}
         </Text>
@@ -108,12 +108,12 @@ const OrderDetail = ({ order }: { order: Commande | null }) => {
       </Heading>
       <VStack align="stretch" spacing={3} mb={6}>
         {/* On affiche le produit de base */}
-        <HStack justify="space-between" p={2} bg="gray.100" borderRadius="md">
+        <HStack justify="space-between" p={2} bg="brand.500" borderRadius="md">
           <Text fontWeight="bold">Catégorie :</Text>
           <Text>{order.produitBase?.categorie?.nom || "N/A"}</Text>
         </HStack>
         {/* On affiche le produit de base */}
-        <HStack justify="space-between" p={2} bg="gray.100" borderRadius="md">
+        <HStack justify="space-between" p={2} bg="brand.600" borderRadius="md">
           <Text fontWeight="bold">Produit :</Text>
           <Text>{order.produitBase?.nom || "N/A"}</Text>
         </HStack>
@@ -125,7 +125,7 @@ const OrderDetail = ({ order }: { order: Commande | null }) => {
               key={option.id}
               justify="space-between"
               p={2}
-              bg="gray.50"
+              bg="brand.600"
               borderRadius="md"
             >
               <Text color="gray.600">{option.type} :</Text>

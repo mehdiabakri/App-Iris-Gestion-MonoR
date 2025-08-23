@@ -30,7 +30,6 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
   return (
     // 1. On transforme le Box en Flex et on le met en colonne.
     //    On supprime la hauteur fixe `h={425}`.
-    //    `justifyContent="space-between"` va pousser le contenu en haut et le bouton en bas.
     <Flex
       flexDirection="column"
       justifyContent="space-between"
@@ -49,10 +48,9 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
     >
       {/* 2. On garde un VStack pour tout le contenu SAUF le bouton final */}
       <VStack spacing={3} align="stretch" w="100%">
-        {/* En-tête de la carte (inchangé) */}
         <Flex justify="space-between" gap={6} align="center">
           <Tooltip label={commande.client?.email || ""} placement="top">
-            <Heading size="md" color="brand.600" isTruncated>
+            <Heading size="md" color="brand.700" isTruncated>
               {commande.client?.email || "N/A"}
             </Heading>
           </Tooltip>
@@ -145,7 +143,7 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
         justifyContent="center"
         borderRadius="md"
         cursor="pointer"
-        bg="brand.100"
+        bg="brand.500"
         _hover={{ bg: "brand.400" }}
         p={2}
       >

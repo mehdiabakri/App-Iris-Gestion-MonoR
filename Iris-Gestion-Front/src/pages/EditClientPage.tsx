@@ -107,8 +107,8 @@ const EditClientPage = () => {
 
   return (
     <Box p={{ base: 4, md: 8 }}>
-      <Heading mb={6}>
-        Modifier {clientData.prenom} {clientData.nom}
+      <Heading color="brand.500" mb={6}>
+        Modifier : {clientData.prenom} {clientData.nom}
       </Heading>
 
       <FormProvider {...methods}>
@@ -175,7 +175,7 @@ const EditClientPage = () => {
 
             <Button
               mt={4} // On ajuste la marge
-              colorScheme="purple"
+              colorScheme="yellow"
               isLoading={mutation.isPending}
               type="submit"
               size="lg"

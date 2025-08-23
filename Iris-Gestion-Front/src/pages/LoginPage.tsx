@@ -36,7 +36,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Flex minH="100vh" align="center" justify="center" bg="gray.50">
+    <Flex minH="100vh" align="center" justify="center">
       <Box
         p={8}
         maxWidth="400px"
@@ -70,7 +70,7 @@ const LoginPage = () => {
 
           <Button
             type="submit"
-            colorScheme="purple"
+            colorScheme="yellow"
             width="full"
             isLoading={isSubmitting}
           >

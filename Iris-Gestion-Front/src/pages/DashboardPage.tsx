@@ -38,7 +38,7 @@ const DashboardPage = () => {
     >
       <Box p={{ base: 4, md: 8 }}>
         <Box mt={50} mb={110}>
-          <Heading mb={5}>Chiffres du mois</Heading>
+          <Heading color="white" mb={5}>Ventes du mois</Heading>
           {/* Section des KPIs */}
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6} mb={8}>
             <StatCard
@@ -76,7 +76,7 @@ const DashboardPage = () => {
 
         {/* Section du Graphique */}
         <Box>
-          <Heading mb={5}>Ventes annuelles</Heading>
+          <Heading color="white" mb={5}>Ventes annuelles</Heading>
           <SalesChart />
         </Box>
       </Box>

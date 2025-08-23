@@ -64,7 +64,7 @@ const ExportDateModal = ({ isOpen, onClose }: ExportDateModalProps) => {
             <Button variant="ghost" mr={3} onClick={onClose}>
               Annuler
             </Button>
-            <Button colorScheme="green" type="submit">
+            <Button colorScheme="yellow" type="submit">
               Télécharger
             </Button>
           </ModalFooter>

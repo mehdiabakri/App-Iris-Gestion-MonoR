@@ -154,7 +154,7 @@ const ClientDetailPage = () => {
           </Heading>
         </HStack>
         <HStack spacing={3} mt={{ base: 4, md: 0 }}>
-          <Button as={RouterLink} to={`/clients/${client?.id}/edit`} colorScheme="purple" variant="outline">
+          <Button as={RouterLink} to={`/clients/${client?.id}/edit`} colorScheme="yellow">
             Modifier Client
           </Button>
           <Button colorScheme="red" variant="solid" onClick={handleDeleteClick} isLoading={deleteMutation.isPending}>
@@ -168,7 +168,7 @@ const ClientDetailPage = () => {
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 6, lg: 8 }}>
         {/* Colonne de gauche: Détails du contact */}
         <Box p={6} borderWidth="1px" borderColor="gray.200" borderRadius="lg" bg="white" boxShadow="sm">
-          <Heading size="md" mb={6} color="brand.600">Détails du Contact</Heading>
+          <Heading size="md" mb={6} color="brand.700">Détails du Contact</Heading>
           <VStack spacing={5} align="stretch">
             <HStack>
               <InfoLine icon={MdEmail} label="Email" value={client?.email} />
@@ -192,7 +192,7 @@ const ClientDetailPage = () => {
         {/* Colonne de droite: Historique des commandes */}
         <Box p={6} borderWidth="1px" borderColor="gray.200" borderRadius="lg" bg="white" boxShadow="sm">
           <HStack gap={10} mb={6}>
-            <Heading size="md" color="brand.600">Historique des Commandes</Heading>
+            <Heading size="md" color="brand.700">Historique des Commandes</Heading>
             <Box
               as="button"
               onClick={handleNewOrderClick}
@@ -201,8 +201,8 @@ const ClientDetailPage = () => {
               justifyContent="center"
               borderRadius="md"
               cursor="pointer"
-              bg="brand.400"
-              _hover={{ bg: "brand.500" }}
+              bg="brand.500"
+              _hover={{ bg: "brand.300" }}
               p={2}
             >
               <Icon as={MdAddAPhoto} color="white" boxSize={6} />
@@ -217,10 +217,10 @@ const ClientDetailPage = () => {
                   align="center"
                   p={3}
                   borderRadius="md"
-                  bg={selectedOrder?.id === commande.id ? "brand.200" : "brand.50"}
+                  bg={selectedOrder?.id === commande.id ? "brand.600" : "brand.50"}
                   borderWidth="1px"
                   borderColor={selectedOrder?.id === commande.id ? "brand.500" : "gray.200"}
-                  _hover={{ bg: "brand.200", borderColor: "brand.500" }}
+                  _hover={{ bg: "brand.600", borderColor: "brand.500" }}
                 >
                   <Box flex="1" onClick={() => setSelectedOrder(commande)} cursor="pointer">
                     <Text fontWeight="bold" color="brand.700">#{commande.id.substring(0, 8)}</Text>
@@ -270,7 +270,7 @@ const ClientDetailPage = () => {
       {/* --- Modales --- */}
       {commandeAModifier && (
         <EditCommandModal
-          isOpen={isEditModalOpen} // CORRECTION : Utilise les bons états
+          isOpen={isEditModalOpen}
           onClose={onEditModalClose}
           commandId={commandeAModifier.id}
           onSuccess={handleModalSuccess}

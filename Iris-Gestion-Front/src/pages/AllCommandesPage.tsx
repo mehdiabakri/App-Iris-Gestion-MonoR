@@ -59,12 +59,13 @@ const AllCommandesPage = () => {
           onChange={handleStatutChange}
           value={filters.statut || ''} 
           maxWidth="300px"
+          bg="white"
         >
           {STATUTS.map(statut => (
             <option key={statut} value={statut}>{statut}</option>
           ))}
         </Select>
-        <Button onClick={handleResetFilters}>Réinitialiser</Button>
+        <Button onClick={handleResetFilters} colorScheme='yellow'>Réinitialiser</Button>
       </HStack>
 
       {/* --- Affichage des résultats --- */}

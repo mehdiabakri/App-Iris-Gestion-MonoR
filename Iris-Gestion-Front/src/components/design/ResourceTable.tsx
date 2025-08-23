@@ -14,18 +14,18 @@ type ResourceTableProps<T extends { id: string }> = {
 const ResourceTable = <T extends { id: string }>({ data, columns, onRowClick }: ResourceTableProps<T>) => {
   return (
     <TableContainer>
-      <Table variant="simple" size="lg">
+      <Table variant="simple" size="lg"  color="white">
         <Thead>
           <Tr>
-            {columns.map((col) => <Th key={String(col.key)}>{col.label}</Th>)}
+            {columns.map((col) => <Th  color="white" key={String(col.key)}>{col.label}</Th>)}
           </Tr>
         </Thead>
         <Tbody>
           {data.map((item) => (
             <Tr 
               key={item.id} 
-              onClick={() => onRowClick?.(item)} // On rend la ligne cliquable
-              _hover={{ bg: "gray.50", cursor: "pointer" }}
+              onClick={() => onRowClick?.(item)}
+              _hover={{ color: "brand.700", bg: "brand.600", cursor: "pointer" }}
             >
               {columns.map((col) => (
                 <Td key={String(col.key)}>

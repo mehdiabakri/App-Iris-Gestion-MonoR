@@ -37,6 +37,7 @@ import { useRef, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa6";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ExportDateModal from "../modals/ExportDateModal";
+import logoSrc from '../../assets/logo-Iris-Gestion.png';
 
 export default function Topbar() {
   const clients = useDisclosure();
@@ -213,7 +214,7 @@ export default function Topbar() {
       >
         <Flex align="center" justify="space-between" mx="auto">
             <Avatar 
-            src="../../../public/logo-Iris-Gestion.png" 
+            src={logoSrc} 
             name="M2 Core"
             boxSize="40px" 
             borderRadius="none"

@@ -1,0 +1,34 @@
+FROM php:8.3-fpm-alpine
+
+RUN apk --no-cache add \
+        icu-dev \
+        libzip-dev \
+        zlib-dev \
+        mysql-client \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
+        linux-headers \
+        $PHPIZE_DEPS \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+        gd \
+        intl \
+        pdo_mysql \
+        zip \
+        opcache
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+COPY composer.json composer.lock ./
+
+COPY . .
+
+RUN composer install --no-interaction --optimize-autoloader
+
+CMD ["php-fpm"]
+EXPOSE 9000

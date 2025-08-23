@@ -6,18 +6,17 @@ export default defineConfig({
   plugins: [react()],
   
   server: {
-    proxy: {
-      // On intercepte toutes les requêtes qui commencent par '/api'
-      '/api': {
-        // On redirige vers votre serveur Symfony
-        // Assurez-vous que l'adresse et le port sont les bons
-        target: 'http://127.0.0.1:8000', 
-        
-        // Indispensable pour que le serveur Symfony accepte la requête
-        changeOrigin: true,
-        
-        secure: false,      
-      }
-    }
+    host: true, 
+    
+    port: 5173,
+    
+    hmr: {
+      clientPort: 5173,
+    },
+    
+    // 4. On aide Vite à détecter les changements de fichiers dans Docker.
+    watch: {
+      usePolling: true,
+    },
   }
 })

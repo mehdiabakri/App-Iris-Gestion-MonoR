@@ -202,12 +202,14 @@ const EditCommandModal = ({
                       <FormControl isInvalid={!!errors.statut}>
                         <FormLabel>Statut</FormLabel>
                         <Select {...register("statut")}>
-                          <option value="A retoucher">A retoucher</option>
-                          <option value="A imprimer">A imprimer</option>
-                          <option value="A envoyer client">
-                            A envoyer client
-                          </option>
-                          <option value="Terminé">Terminé</option>
+                    <option value="A retoucher">A retoucher</option>
+                    <option value="A imprimer">A imprimer</option>
+                    <option value="A envoyer client">A envoyer client</option>
+                    <option value="Attente retour client">Attente retour client</option>
+                    <option value="A commander">A commander</option>
+                    <option value="Commande OK">Commande OK</option>
+                    <option value="Livraison en cours">Livraison en cours</option>
+                    <option value="Terminé">Terminé</option>
                         </Select>
                       </FormControl>
                       <FormControl>

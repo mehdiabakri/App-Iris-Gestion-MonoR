@@ -32,13 +32,14 @@ import {
   FiPlusSquare,
   FiChevronDown,
   FiShare,
+  FiImage,
 } from "react-icons/fi";
 import { useRef, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa6";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ExportDateModal from "../modals/ExportDateModal";
 
-import logoSrc from '../../assets/logo-Iris-Gestion.png'; 
+import logoSrc from "../../assets/logo-Iris-Gestion.png";
 
 export default function Topbar() {
   const clients = useDisclosure();
@@ -214,10 +215,10 @@ export default function Topbar() {
         zIndex={1000}
       >
         <Flex align="center" justify="space-between" mx="auto">
-            <Avatar 
-            src={logoSrc} 
+          <Avatar
+            src={logoSrc}
             name="M2 Core"
-            boxSize="40px" 
+            boxSize="40px"
             borderRadius="none"
             mr={8}
           />
@@ -275,35 +276,36 @@ export default function Topbar() {
             <NavItem icon={FiPackage} label="Commandes" to="/commandes" />
           </HStack>
 
-          <HStack spacing={3} display={{ base: "none", tablet: "flex" }}>
+          <HStack spacing={1} display={{ base: "none", tablet: "flex" }}>
+            <Tooltip label="Ajouter un client" placement="bottom">
             <Button
+              aria-label="Ajouter un client"
               as={RouterLink}
               to="/clients/new"
-              leftIcon={<FiPlusSquare />}
+              leftIcon={<FiPlusSquare fontSize="28px" />}
               variant="ghost"
               color="brand.700"
               _hover={{ bg: "whiteAlpha.200" }}
-            >
-              Nouveau Client
-            </Button>
-            <Button
-              as={RouterLink}
-              to="https://www.galeries.mehdiabakri.fr/admin.php?page=albums"
-              leftIcon={<FiLogOut />}
-              variant="ghost"
-              color="brand.700"
-              _hover={{ bg: "whiteAlpha.200" }}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Galeries Piwigo
-            </Button>
+            ></Button>
+            </Tooltip>
+            <Tooltip label="Voir les galeries" placement="bottom">
+              <Button
+                aria-label="Voir les galeries"
+                as={RouterLink}
+                to="https://www.galeries.mehdiabakri.fr/admin.php?page=albums"
+                leftIcon={<FiImage fontSize="28px" />}
+                variant="ghost"
+                color="brand.700"
+                _hover={{ bg: "whiteAlpha.200" }}
+                target="_blank"
+                rel="noopener noreferrer"
+              ></Button>
+            </Tooltip>
             <Tooltip label="Exporter les données" placement="bottom">
-              <IconButton
+              <Button
                 aria-label="Exporter les données"
-                icon={<FiShare />}
+                leftIcon={<FiShare fontSize="28px" />}
                 onClick={handleExportClick}
-                isRound={true}
                 variant="ghost"
                 color="brand.700"
                 fontSize="xl"
@@ -315,11 +317,12 @@ export default function Topbar() {
               leftIcon={<FiLogOut />}
               colorScheme="red"
               variant="solid"
+              ml={50}
             >
               Ciao
             </Button>
           </HStack>
-          
+
           <IconButton
             aria-label="Ouvrir le menu"
             icon={<HamburgerIcon />}
@@ -328,7 +331,6 @@ export default function Topbar() {
             variant="ghost"
             color="brand.700"
           />
-
         </Flex>
       </Box>
       <ExportDateModal
@@ -342,7 +344,12 @@ export default function Topbar() {
           <DrawerBody mt={8}>
             {/* On recrée la navigation ici, verticalement */}
             <VStack align="stretch" spacing={4}>
-              <NavItem icon={FiHome} label="Dashboard" to="/" onClick={onClose} />
+              <NavItem
+                icon={FiHome}
+                label="Dashboard"
+                to="/"
+                onClick={onClose}
+              />
 
               {/* Menu Clients dans le drawer */}
               <NavItem
@@ -371,9 +378,19 @@ export default function Topbar() {
                 </VStack>
               </Collapse>
 
-              <NavItem icon={FiEdit} label="Retouches" to="/retouches" onClick={onClose} />
-              <NavItem icon={FiPackage} label="Commandes" to="/commandes" onClick={onClose} />
-              
+              <NavItem
+                icon={FiEdit}
+                label="Retouches"
+                to="/retouches"
+                onClick={onClose}
+              />
+              <NavItem
+                icon={FiPackage}
+                label="Commandes"
+                to="/commandes"
+                onClick={onClose}
+              />
+
               <Button
                 as={RouterLink}
                 to="/clients/new"
@@ -384,7 +401,6 @@ export default function Topbar() {
               >
                 Nouveau Client
               </Button>
-              
             </VStack>
           </DrawerBody>
         </DrawerContent>

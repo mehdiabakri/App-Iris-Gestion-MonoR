@@ -23,7 +23,7 @@ class DashboardStatsController extends AbstractController
         $commandesTableaux = $this->commandeRepository->countCommandesByCategory('Tableaux');
         $commandesCaisson = $this->commandeRepository->countCommandesByCategory('Caissons Lumineux');
         $commandesFichiers = $this->commandeRepository->countCommandesByCategory('Fichiers Digitaux');
-        $commandesBlocs = $this->commandeRepository->countCommandesByCategory('Blocs Acryliques');
+        $commandesBlocs = $this->commandeRepository->countCommandesByCategory('Blocs');
         $commandesImpressions = $this->commandeRepository->countCommandesByCategory('Impressions');
         $commandesRonds = $this->commandeRepository->countCommandesByCategory('Format Rond');
 

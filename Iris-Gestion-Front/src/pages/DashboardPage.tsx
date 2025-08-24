@@ -40,7 +40,7 @@ const DashboardPage = () => {
         <Box mt={50} mb={110}>
           <Heading color="white" mb={5}>Ventes du mois</Heading>
           {/* Section des KPIs */}
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6} mb={8}>
+          <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={6} mb={8}>
             <StatCard
               title="Tableaux"
               value={stats?.commandesTableaux ?? 0}

@@ -73,7 +73,7 @@ const ProductConfigurationField = () => {
         <FormControl>
           <FormLabel>Catégorie</FormLabel>
           {isLoadingCategories ? <Spinner size="sm"/> : (
-            <Select placeholder="Choisir une catégorie" {...register("commande.categorie")} onChange={handleCategoryChange}>
+            <Select bg="white" placeholder="Choisir une catégorie" {...register("commande.categorie")} onChange={handleCategoryChange}>
               {categories?.map((cat: Categorie) => (
                 <option key={cat["@id"]} value={cat["@id"]}>{cat.nom}</option>
               ))}
@@ -86,7 +86,7 @@ const ProductConfigurationField = () => {
             <FormControl>
               <FormLabel>Produit</FormLabel>
               {isLoadingProduits ? <Spinner size="sm"/> : (
-                <Select placeholder="Choisir un produit" {...register("commande.produitBase")} onChange={handleProduitChange}>
+                <Select bg="white" placeholder="Choisir un produit" {...register("commande.produitBase")} onChange={handleProduitChange}>
                     {produits?.map((p: ProduitBase) => (
                       <option key={p["@id"]} value={p["@id"]}>{p.nom}</option>
                     ))}
@@ -103,7 +103,7 @@ const ProductConfigurationField = () => {
                   {optionsDisponiblesByType["Finition"] && (
                     <FormControl>
                       <FormLabel>Finition</FormLabel>
-                      <Select placeholder="Choisir une finition" {...register("commande.options_Finition")}>
+                      <Select bg="white" placeholder="Choisir une finition" {...register("commande.options_Finition")}>
                         {optionsDisponiblesByType["Finition"].map(opt => <option key={opt["@id"]} value={opt["@id"]}>{opt.nom}</option>)}
                       </Select>
                     </FormControl>
@@ -111,18 +111,18 @@ const ProductConfigurationField = () => {
                   {optionsDisponiblesByType["Taille"] && (
                     <FormControl>
                       <FormLabel>Taille</FormLabel>
-                      <Select placeholder="Choisir une taille" {...register("commande.options_Taille")}>
+                      <Select bg="white" placeholder="Choisir une taille" {...register("commande.options_Taille")}>
                         {optionsDisponiblesByType["Taille"].map(opt => <option key={opt["@id"]} value={opt["@id"]}>{opt.nom}</option>)}
                       </Select>
                     </FormControl>
                   )}
               </SimpleGrid>
               {optionsDisponiblesByType["Extra"] && (
-                <FormControl>
+                <FormControl bg="white" p={5} borderRadius={6}>
                   <FormLabel>Extras</FormLabel>
                   <Controller name="commande.options_Extra" control={control} defaultValue={[]} render={({ field }) => (
-                    <CheckboxGroup {...field}>
-                      <Stack direction={{ base: "column", md: "row" }} spacing={4}>
+                    <CheckboxGroup  {...field}>
+                      <Stack  direction={{ base: "column", md: "row" }} spacing={4}>
                         {optionsDisponiblesByType["Extra"].map(opt => <Checkbox key={opt['@id']} value={opt['@id']}>{opt.nom}</Checkbox>)}
                       </Stack>
                     </CheckboxGroup>

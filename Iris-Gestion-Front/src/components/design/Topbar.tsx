@@ -39,7 +39,7 @@ import { FaUserPlus } from "react-icons/fa6";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ExportDateModal from "../modals/ExportDateModal";
 
-import logoSrc from "../../assets/logo-Iris-Gestion.png";
+import logoSrc from "../../../public/logo-Iris-Gestion.png";
 
 export default function Topbar() {
   const clients = useDisclosure();

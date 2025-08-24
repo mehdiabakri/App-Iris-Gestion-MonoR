@@ -79,7 +79,7 @@ export const allOrderColumns: ColumnDefinition<Commande>[] = [
     label: "Téléphone",
     render: (cmd) => `${cmd.client?.telephone}`,
   },
-  { key: "statut", label: "Statut", render: (cmd) => cmd.photographe },
+  { key: "statut", label: "Statut", render: (cmd) => cmd.statut },
   {
     key: "createdAt",
     label: "Date Commande",

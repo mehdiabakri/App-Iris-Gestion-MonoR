@@ -15,22 +15,25 @@ import { useMonthlySales } from "../../hooks/useDashboardStats";
 const SalesChart = () => {
   const { data: salesData, isLoading, isError } = useMonthlySales();
 
-  const formattedData = useMemo(() => {
+const formattedData = useMemo(() => {
     if (!Array.isArray(salesData)) return [];
 
     return salesData.map((item) => {
-      // On ajoute "-02" pour éviter les problèmes de fuseau horaire (le 1er du mois)
-      const date = new Date(`${item.month}-02`);
+      // 1. On sépare l'année et le mois à partir de la chaîne "YYYY-MM"
+      const [year, month] = item.month.split('-').map(Number);
 
-      // On formate la date en "Mois Année" (ex: "août 2025") en français
+      // ATTENTION : les mois en JS sont indexés à partir de 0 (0=Janvier, 11=Décembre)
+      // C'est pourquoi je fait "month - 1".
+      const date = new Date(year, month - 1, 2); 
+
+      // On formate la date en "Mois Année"
       const monthName = new Intl.DateTimeFormat("fr-FR", {
         month: "long",
       }).format(date);
 
       return {
         ...item,
-        // On ajoute une nouvelle clé avec le nom formaté
-        monthName: monthName.charAt(0).toUpperCase() + monthName.slice(1), // Met une majuscule
+        monthName: monthName.charAt(0).toUpperCase() + monthName.slice(1),
       };
     });
   }, [salesData]);

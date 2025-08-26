@@ -1,0 +1,221 @@
+[33mcommit d2a6814c5a731fef0b44dc7fd36d21e398b7a086[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Tue Aug 26 11:34:09 2025 +0200
+
+    Fix(Backend): mise a jour env.dist dans backend
+
+[33mcommit 55baecb6ce5c531f492f8016cdb168d315a308ac[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Tue Aug 26 11:32:34 2025 +0200
+
+    Fix(Backend): mise a jour env.dist dans backend
+
+[33mcommit 7116fbfdc7bac3cd5f1ef0baf1a14b8e89d25076[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/DEV[m[33m, [m[1;32mDEV[m[33m)[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Tue Aug 26 11:14:59 2025 +0200
+
+    feat: envoi du mail suivi de colis via BREVO
+
+[33mcommit a49ddbba1e5e33f420d7ca352bbfea9626b66db4[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sun Aug 24 14:29:12 2025 +0200
+
+    feat: WebAPP deuxieme essai
+
+[33mcommit ecf947033f8270170cc2368570105e48f7c818f4[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sun Aug 24 14:26:41 2025 +0200
+
+    fix: correction affichage commandes +  date pour résoudre bug sous safari
+
+[33mcommit d73ed6a223cbd011fd09e710b5c998242eaffa53[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sun Aug 24 13:43:24 2025 +0200
+
+    on oublie le  projet webApp
+
+[33mcommit 7bad006eb62f77c40a67f865bdb8e037862fddac[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sun Aug 24 13:21:09 2025 +0200
+
+    fix: probleme focus sur iPad
+
+[33mcommit 91e38884f283d80d50e7fea938d4105fbaf15993[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sun Aug 24 13:12:36 2025 +0200
+
+    fix: lien vers logos et manist.json
+
+[33mcommit bd9fbb315ce134309195e2d08280078afb554236[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sun Aug 24 13:03:00 2025 +0200
+
+    feat: déploiement du manifest pour webApp
+
+[33mcommit 7bbabfaf83511436be47802041ebe40b24fb4653[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sun Aug 24 12:46:53 2025 +0200
+
+    fix: correction probleme de compte des blocs sut homePage + quelques modif design
+
+[33mcommit eda2a6b1222cee8ff66541908cd79f9788008d00[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sat Aug 23 17:59:10 2025 +0200
+
+    fix: mise à jour liste statut dans créa commande
+
+[33mcommit 003520ce6f6eb270d1ea92442905f71518cc8c0c[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sat Aug 23 17:50:07 2025 +0200
+
+    fix: proble affichage logo en barre de menu
+
+[33mcommit 45853efbcd4b53af00cf2fdb99898a02fb5bde21[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sat Aug 23 17:33:00 2025 +0200
+
+    nouveau design
+
+[33mcommit f722b55da523f5ae68892592c9e46547b889aafe[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sat Aug 23 14:05:01 2025 +0200
+
+    remise en place env dev en local suite soucis docker en local
+
+[33mcommit e30c788f7ef69cee7b9e41f0eb2c7fb0be157a0d[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Sat Aug 23 12:23:49 2025 +0200
+
+    rebuil docker car bug et pb de port
+
+[33mcommit d68fa5a93b3089c57295c084813a5d673a89802d[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 17:05:19 2025 +0200
+
+    fix : revue du dockerfile
+
+[33mcommit d95291cd85f756aaeeb821dc115b331819284e95[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 16:57:00 2025 +0200
+
+    fix : volume des clés de sécurité
+
+[33mcommit 58051f1dfc6cef7a931d75ea2390705985a5d83d[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 16:08:00 2025 +0200
+
+    fix : ajout l'accès au .env dans le conteneur
+
+[33mcommit 66b8c82bfaebc0f024404eb5658bf4f959a5dc9d[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 15:41:59 2025 +0200
+
+    fix : changement groupe des fixtures users vers [prod]
+
+[33mcommit 87c262905ebd58f1a543519cfd80ccf100691502[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 15:21:49 2025 +0200
+
+    fix : correction nginx.conf chemin vers api
+
+[33mcommit 2d73f25bd7cc1c1e7fec9a8963519c62fdb08996[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 15:17:24 2025 +0200
+
+    fix : mise en place aiguillage nginx front X back
+
+[33mcommit 93185004dd7002981c534cf1d3a949313428906a[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 14:41:53 2025 +0200
+
+    fix : renouvellement auto cert ssl
+
+[33mcommit 95e059e3a5ea54a7b8f7bddb039049a172e28483[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 14:10:41 2025 +0200
+
+    fix : chemin accès au nginx.conf
+
+[33mcommit d91d4f436147a4a5c04992d15c57a397268cb0f9[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Fri Aug 22 14:04:55 2025 +0200
+
+    fix : correction Nginx gestion https
+
+[33mcommit 589d0042ae2571808a838ce3a6a6b519af0d47d9[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Thu Aug 21 18:24:27 2025 +0200
+
+    feat: Mise à jour du nom de domaine pour m2-core.fr
+
+[33mcommit 23135c896346bdcaecf667ed4992e3db824a160e[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Thu Aug 21 16:32:49 2025 +0200
+
+    Fix: Ajout du mapping du port 443 pour Nginx
+
+[33mcommit e482ba4af86b58aaf927170225dcd1171b7ae3b5[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Thu Aug 21 16:22:26 2025 +0200
+
+    FIX(ULTIME): Séparation correcte des fixtures par environnement
+
+[33mcommit 3a6c1d0b8a34538b16193a21e83489aed4423ae9[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Thu Aug 21 16:09:28 2025 +0200
+
+    FIX: Correction finale de la config et de la lecture des variables d'env
+
+[33mcommit bb12e44d7e26b04936fa764a7421a3705dc89bf1[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Thu Aug 21 15:52:05 2025 +0200
+
+    fix(config): Activation du FixturesBundle pour tous les environnements
+
+[33mcommit 83347275acbdd62f688e0399840b824ebbcc3b24[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Thu Aug 21 15:40:40 2025 +0200
+
+    feat: Déplacement du FixturesBundle en dépendance de production
+
+[33mcommit 6b4b4b26187a422461a7782a3123653412141cad[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Wed Aug 20 19:08:20 2025 +0200
+
+    debug: Affiche le contenu du .env pendant le build
+
+[33mcommit 9079856257ab883e97741196c5cc58ca4e35182d[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Wed Aug 20 18:47:18 2025 +0200
+
+    fix(build): Correction de la DATABASE_URL dans .env.dist
+
+[33mcommit 5739bc5fce4e818b7129e06e67335d8980258aa5[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Wed Aug 20 18:41:46 2025 +0200
+
+    fix(build): Mise en place de la stratégie .env.dist pour les builds Docker
+
+[33mcommit 822cb69da9ad315306fe79453c824d700502459b[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Wed Aug 20 18:14:19 2025 +0200
+
+    fix: Autorise la copie du .env de base dans l'image Docker
+
+[33mcommit 72edf7f91aaa4a4e89bc39f6ef9249121d67aa23[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Wed Aug 20 17:59:21 2025 +0200
+
+    fix: Intégration correcte des codes front et back dans le dépôt principal
+
+[33mcommit 503c1d3606ab9e9597e20f869652111b5518559e[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Wed Aug 20 17:35:39 2025 +0200
+
+    fix: dépendances des fixtures
+
+[33mcommit a6dba6e5f1b8068a24ddaa1cf7003172b50ff8e7[m
+Author: mehdiabakri <mehdiabakri@gmail.com>
+Date:   Wed Aug 20 15:53:38 2025 +0200
+
+    Initial commit

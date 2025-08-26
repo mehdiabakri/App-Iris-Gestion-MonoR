@@ -27,7 +27,7 @@ use ApiPlatform\Metadata\Patch;
         new Post(denormalizationContext: ['groups' => 'commande:write']),
         new Patch(denormalizationContext: ['groups' => 'commande:write'], normalizationContext: ['groups' => 'commande:detail'])
     ],
-    
+
     // On trie par défaut les commandes de la plus récente à la plus ancienne
     order: ['createdAt' => 'DESC'],
 
@@ -38,7 +38,7 @@ class Commande
 {
     #[ORM\Id]
     #[ORM\Column(type: "string", length: 36)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])] 
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
     private string $id;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -93,6 +93,14 @@ class Commande
     #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
     private ?string $lienSuiviColis = null;
 
+    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    private ?\DateTimeImmutable $trackingEmailSentAt = null;
+
+    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    private ?\DateTimeImmutable $googleReviewEmailSentAt = null;
+
     #[ORM\Column(type: "text", nullable: true)]
     #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
     private ?string $remarque = null;
@@ -108,17 +116,17 @@ class Commande
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail','client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write'])]
     private ?ProduitBase $produitBase = null;
 
     /**
      * @var Collection<int, Option>
      */
     #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'commandes', cascade: ['persist'])]
-    #[Groups(['commande:read','commande:detail', 'commande:write', 'client:detail','client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write'])]
     private Collection $optionsChoisies;
 
-    
+
 
     public function __construct()
     {
@@ -248,13 +256,36 @@ class Commande
         $this->remarque = $remarque;
         return $this;
     }
-     public function getLienSuiviColis(): string
+    public function getLienSuiviColis(): string
     {
         return $this->lienSuiviColis;
     }
     public function setLienSuiviColis(string $lienSuiviColis): self
     {
         $this->lienSuiviColis = $lienSuiviColis;
+        return $this;
+    }
+    public function getTrackingEmailSentAt(): ?\DateTimeImmutable
+    {
+        return $this->trackingEmailSentAt;
+    }
+
+    public function setTrackingEmailSentAt(\DateTimeImmutable $trackingEmailSentAt): static
+    {
+        $this->trackingEmailSentAt = $trackingEmailSentAt;
+
+        return $this;
+    }
+
+    public function getGoogleReviewEmailSentAt(): ?\DateTimeImmutable
+    {
+        return $this->googleReviewEmailSentAt;
+    }
+
+    public function setGoogleReviewEmailSentAt(\DateTimeImmutable $googleReviewEmailSentAt): static
+    {
+        $this->googleReviewEmailSentAt = $googleReviewEmailSentAt;
+
         return $this;
     }
     public function getCreatedAt(): \DateTimeImmutable
@@ -296,22 +327,21 @@ class Commande
         return $this->optionsChoisies;
     }
 
-public function addOptionsChoisy(Option $option): static
-{
-    if (!$this->optionsChoisies->contains($option)) {
-        $this->optionsChoisies->add($option);
-        $option->addCommande($this); // Celle-ci est optionnelle mais ne fait pas de mal
+    public function addOptionsChoisy(Option $option): static
+    {
+        if (!$this->optionsChoisies->contains($option)) {
+            $this->optionsChoisies->add($option);
+            $option->addCommande($this); // Celle-ci est optionnelle mais ne fait pas de mal
+        }
+
+        return $this;
     }
 
-    return $this;
-}
-
-public function removeOptionsChoisy(Option $option): static
-{
-    if ($this->optionsChoisies->removeElement($option)) {
-        $option->removeCommande($this); // Celle-ci est optionnelle
+    public function removeOptionsChoisy(Option $option): static
+    {
+        if ($this->optionsChoisies->removeElement($option)) {
+            $option->removeCommande($this); // Celle-ci est optionnelle
+        }
+        return $this;
     }
-    return $this;
-}
-
 }

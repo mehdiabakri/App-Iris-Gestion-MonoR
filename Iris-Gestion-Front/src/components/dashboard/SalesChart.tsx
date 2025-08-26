@@ -23,7 +23,7 @@ const formattedData = useMemo(() => {
       const [year, month] = item.month.split('-').map(Number);
 
       // ATTENTION : les mois en JS sont indexés à partir de 0 (0=Janvier, 11=Décembre)
-      // C'est pourquoi je fait "month - 1".
+      // C'est pourquoi je fais "month - 1".
       const date = new Date(year, month - 1, 2); 
 
       // On formate la date en "Mois Année"

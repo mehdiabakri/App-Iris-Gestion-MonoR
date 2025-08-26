@@ -9,9 +9,13 @@ import {
   Divider,
   Tag,
   Link,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 
 import type { Commande } from "../../types/Types";
+import SuiviColis from "../emailSender/SuiviColis";
+import { FiSearch } from "react-icons/fi";
 
 const OrderDetail = ({ order }: { order: Commande | null }) => {
   if (!order) {
@@ -80,26 +84,32 @@ const OrderDetail = ({ order }: { order: Commande | null }) => {
       <Heading size="sm" mt={6} mb={4} color="brand.700">
         Informations de livraison :
       </Heading>
-      <HStack justify="space-between" p={2} bg="brand.100" borderRadius="md">
-        <Text>
-          <strong>Mode de livraison :</strong> {order.livraison}
-        </Text>
-        <Text>
-          {order.lienSuiviColis ? (
-            <Link
-              href={order.lienSuiviColis}
-              isExternal
-              color="purple.500"
-              fontWeight="bold"
-              _hover={{ textDecoration: "underline" }}
-            >
-              Suivre le colis
-            </Link>
-          ) : (
-            ""
-          )}
-        </Text>
-      </HStack>
+      <SimpleGrid columns={{ base: 1 }} spacing={2}>
+        <HStack justify="space-between" p={2} bg="brand.100" borderRadius="md">
+          <Text>
+            <strong>Mode de livraison :</strong> {order.livraison}
+          </Text>
+          <Text>
+            {order.lienSuiviColis ? (
+              <Tooltip label="Suivre le colis" placement="top" hasArrow>
+                <IconButton
+                  as={Link}
+                  href={order.lienSuiviColis}
+                  fontSize="xl"
+                  isExternal
+                  aria-label="Suivre le colis"
+                  icon={<FiSearch />}
+                  colorScheme="black"
+                  variant="ghost"
+                />
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Text>
+        </HStack>
+        <SuiviColis order={order} />
+      </SimpleGrid>
 
       <Divider />
 

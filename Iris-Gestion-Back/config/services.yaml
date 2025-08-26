@@ -2,6 +2,8 @@ parameters:
     # On déclare ici les variables d'environnement que notre application utilise
     # pour que le conteneur de services de Symfony en soit conscient.
     env(JWT_PASSPHRASE): ''
+    app.sender_email: 'honfleur@youandeyephoto.com'
+    app.sender_name: 'You & Eye Photo - Honfleur'
 
 services:
     _defaults:
@@ -15,3 +17,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/DataFixtures/DevFixtures.php'
+
+    App\Service\EmailSender:
+        arguments:
+            $senderEmail: '%app.sender_email%'
+            $senderName: '%app.sender_name%'

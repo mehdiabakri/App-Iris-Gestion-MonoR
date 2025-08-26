@@ -64,6 +64,7 @@ export type Commande = {
   codeCarteCadeau?: string;
   remarque?: string;
   lienSuiviColis?: string;
+  trackingEmailSentAt?: string;
   produitBase: ProduitBase;
   optionsChoisies: Option[];
   client: {

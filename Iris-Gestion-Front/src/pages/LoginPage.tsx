@@ -52,7 +52,7 @@ const LoginPage = () => {
             <FormLabel>Email</FormLabel>
             <Input
               type="email"
-              placeholder="admin@test.com"
+              placeholder="Email"
               {...register('email', { required: 'L\'email est requis' })}
             />
             <FormErrorMessage>{errors.email?.message as string}</FormErrorMessage>
@@ -62,7 +62,7 @@ const LoginPage = () => {
             <FormLabel>Mot de passe</FormLabel>
             <Input
               type="password"
-              placeholder="password"
+              placeholder="Super mot de passe"
               {...register('password', { required: 'Le mot de passe est requis' })}
             />
             <FormErrorMessage>{errors.password?.message as string}</FormErrorMessage>

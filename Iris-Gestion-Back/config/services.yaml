@@ -10,6 +10,11 @@ services:
         autowire: true
         autoconfigure: true
 
+        bind:
+            $piwigoUrl: 'https://www.galeries.mehdiabakri.fr'
+            $piwigoUser: '3qg4b'
+            $piwigoPassword: 's%4#FbOc$F'
+
     App\:
         resource: '../src/'
         exclude:

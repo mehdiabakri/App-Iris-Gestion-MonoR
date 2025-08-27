@@ -126,6 +126,10 @@ class Commande
     #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write'])]
     private Collection $optionsChoisies;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    private ?string $piwigoAlbumUrl = null;
+
 
 
     public function __construct()
@@ -342,6 +346,18 @@ class Commande
         if ($this->optionsChoisies->removeElement($option)) {
             $option->removeCommande($this); // Celle-ci est optionnelle
         }
+        return $this;
+    }
+
+    public function getPiwigoAlbumUrl(): ?string
+    {
+        return $this->piwigoAlbumUrl;
+    }
+
+    public function setPiwigoAlbumUrl(?string $piwigoAlbumUrl): static
+    {
+        $this->piwigoAlbumUrl = $piwigoAlbumUrl;
+
         return $this;
     }
 }

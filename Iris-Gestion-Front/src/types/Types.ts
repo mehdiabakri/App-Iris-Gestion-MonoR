@@ -67,6 +67,7 @@ export type Commande = {
   trackingEmailSentAt?: string;
   produitBase: ProduitBase;
   optionsChoisies: Option[];
+  piwigoAlbumUrl?: string;
   client: {
     "@id": string;
     id: string;

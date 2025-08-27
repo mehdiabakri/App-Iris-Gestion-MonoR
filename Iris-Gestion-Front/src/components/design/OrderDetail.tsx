@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react";
 import {
   Box,
   Heading,
@@ -11,13 +12,28 @@ import {
   Link,
   IconButton,
   Tooltip,
+  Button, 
+  Spinner,
+  Alert,
+  AlertIcon,
+  useToast
 } from "@chakra-ui/react";
 
 import type { Commande } from "../../types/Types";
 import SuiviColis from "../emailSender/SuiviColis";
-import { FiSearch } from "react-icons/fi";
+import { FiCamera, FiExternalLink, FiMail, FiSearch } from "react-icons/fi";
 
-const OrderDetail = ({ order }: { order: Commande | null }) => {
+interface OrderDetailProps {
+  order: Commande | null;
+  onUpdate: () => void; 
+}
+
+const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const toast = useToast(); // Pour afficher de jolies notifications
+
   if (!order) {
     return (
       <Box p={6} borderWidth="1px" borderRadius="lg" bg="white" boxShadow="sm">
@@ -27,6 +43,106 @@ const OrderDetail = ({ order }: { order: Commande | null }) => {
       </Box>
     );
   }
+
+  const token = localStorage.getItem('jwt_token');
+
+    const handleCreateGallery = async () => {
+    if (!order) return;
+
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(`/api/commandes/${order.id}/create-gallery`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'La création de la galerie a échoué.');
+      }
+  
+      const data = await response.json();
+      
+      toast({
+        title: "Succès",
+        description: data.message || "La galerie a été créée avec succès.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      onUpdate();
+      
+    } catch (err) {
+      let errorMessage = "Une erreur inattendue est survenue.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
+      toast({
+        title: "Erreur",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSendGalleryLink = async () => {
+    if (!order) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/commandes/${order.id}/send-gallery-link`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "L'envoi de l'email a échoué.");
+      }
+
+      const data = await response.json();
+
+      toast({
+        title: "Succès",
+        description: data.message || "L'email a bien été envoyé au client.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+
+    } catch (err) {
+      let errorMessage = "Une erreur inattendue est survenue.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
+      toast({
+        title: "Erreur",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -161,6 +277,67 @@ const OrderDetail = ({ order }: { order: Commande | null }) => {
           </Box>
         </>
       )}
+
+            <Divider />
+      
+      <Heading size="sm" mt={6} mb={4} color="brand.700">
+        Galerie Photo Piwigo
+      </Heading>
+
+      {/* On affiche un message d'erreur s'il y en a un */}
+      {error && (
+        <Alert status="error" mb={4} borderRadius="md">
+          <AlertIcon />
+          {error}
+        </Alert>
+      )}
+
+      <HStack spacing={4}>
+        {/* CAS 1 : La galerie n'a pas encore été créée */}
+        {!order.piwigoAlbumUrl && (
+          <Button
+            leftIcon={<FiCamera />}
+            colorScheme="yellow"
+            onClick={handleCreateGallery}
+            isLoading={isLoading}
+            loadingText="Création..."
+          >
+            Créer la galerie client
+          </Button>
+        )}
+
+        {/* CAS 2 : La galerie existe */}
+        {order.piwigoAlbumUrl && (
+          <>
+            <Tooltip label="Ouvrir la galerie dans un nouvel onglet" placement="top" hasArrow>
+              <Button
+                as={Link}
+                href={order.piwigoAlbumUrl}
+                isExternal
+                leftIcon={<FiExternalLink />}
+                variant="outline"
+              >
+                Voir la galerie
+              </Button>
+            </Tooltip>
+
+            <Tooltip label="Envoyer le lien par email au client" placement="top" hasArrow>
+              <Button
+                leftIcon={<FiMail />}
+                colorScheme="teal"
+                onClick={handleSendGalleryLink}
+                isLoading={isLoading}
+                loadingText="Envoi..."
+              >
+                Envoyer le lien
+              </Button>
+            </Tooltip>
+          </>
+        )}
+      </HStack>
+      
+      <Divider mt={6} />
+
     </Box>
   );
 };

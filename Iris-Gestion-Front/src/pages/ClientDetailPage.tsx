@@ -41,7 +41,15 @@ import { fetchCategories } from "../api/categorie";
 import { fetchProduitsBase } from "../api/produitsBase";
 import { fetchOptions } from "../api/options";
 
-const InfoLine = ({ icon, label, value }: { icon: React.ElementType; label: string; value: string | null | undefined }) => (
+const InfoLine = ({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: string | null | undefined;
+}) => (
   <HStack spacing={4} align="center">
     <Icon as={icon} color="brand.500" w={6} h={6} />
     <Box>
@@ -57,18 +65,34 @@ const InfoLine = ({ icon, label, value }: { icon: React.ElementType; label: stri
 
 const ClientDetailPage = () => {
   const { clientId } = useParams<{ clientId: string }>();
-  const { data: client, isLoading, isError, error, refetch } = useClient(clientId);
-  
+  const {
+    data: client,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useClient(clientId);
+
   // Un gestionnaire d'état pour CHAQUE modale
-  const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
-  const { isOpen: isNewModalOpen, onOpen: onNewModalOpen, onClose: onNewModalClose } = useDisclosure();
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isNewModalOpen,
+    onOpen: onNewModalOpen,
+    onClose: onNewModalClose,
+  } = useDisclosure();
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const toast = useToast();
 
   const [selectedOrder, setSelectedOrder] = useState<Commande | null>(null);
-  const [commandeAModifier, setCommandeAModifier] = useState<Commande | null>(null);
+  const [commandeAModifier, setCommandeAModifier] = useState<Commande | null>(
+    null
+  );
 
   const handleEditClick = (commande: Commande) => {
     setCommandeAModifier(commande);
@@ -80,12 +104,18 @@ const ClientDetailPage = () => {
   };
 
   const handleModalSuccess = () => {
-    refetch();
+    // On invalide la query qui charge LE client spécifique
+    queryClient.invalidateQueries({ queryKey: ["client", clientId] });
+
+    // Par sécurité, on invalide aussi la query qui charge TOUS les clients (pour la liste)
+    queryClient.invalidateQueries({ queryKey: ["clients"] });
   };
 
   const currentOrder = useMemo(() => {
     if (!client?.commandes) return null;
-    return client.commandes.find((commande: Commande) => commande.statut !== "Terminé");
+    return client.commandes.find(
+      (commande: Commande) => commande.statut !== "Terminé"
+    );
   }, [client?.commandes]);
 
   const deleteMutation = useMutation({
@@ -106,24 +136,54 @@ const ClientDetailPage = () => {
   });
 
   const handleDeleteClick = () => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce client et toutes ses commandes ? Cette action est irréversible.")) {
+    if (
+      window.confirm(
+        "Êtes-vous sûr de vouloir supprimer ce client et toutes ses commandes ? Cette action est irréversible."
+      )
+    ) {
       if (clientId) {
         deleteMutation.mutate(clientId);
       }
     }
   };
 
-    useEffect(() => {
-    queryClient.prefetchQuery({ queryKey: ['categories'], queryFn: fetchCategories });
-    queryClient.prefetchQuery({ queryKey: ['produitsBase'], queryFn: fetchProduitsBase });
-    queryClient.prefetchQuery({ queryKey: ['options'], queryFn: fetchOptions });
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["categories"],
+      queryFn: fetchCategories,
+    });
+    queryClient.prefetchQuery({
+      queryKey: ["produitsBase"],
+      queryFn: fetchProduitsBase,
+    });
+    queryClient.prefetchQuery({ queryKey: ["options"], queryFn: fetchOptions });
   }, [queryClient]);
 
   useEffect(() => {
-    if (client) {
-      setSelectedOrder(currentOrder || client.commandes[0] || null);
+    // Si on n'a pas encore de données du client, on ne fait rien.
+    if (!client) {
+      return;
     }
-  }, [client, currentOrder]);
+
+    // On met à jour la commande sélectionnée.
+    // On utilise la forme fonctionnelle pour éviter d'avoir `selectedOrder` en dépendance.
+    setSelectedOrder((prevSelectedOrder) => {
+      // Si une commande était déjà sélectionnée (état précédent)...
+      if (prevSelectedOrder) {
+        // ...on cherche sa nouvelle version dans les données fraîches du client.
+        const updatedOrder = client.commandes.find(
+          (c) => c.id === prevSelectedOrder.id
+        );
+        // On retourne la nouvelle version, ou null si elle a disparu.
+        return updatedOrder || null;
+      }
+
+      // Si aucune commande n'était sélectionnée (premier chargement),
+      // on applique la logique par défaut.
+      const currentOrder = client.commandes.find((c) => c.statut !== "Terminé");
+      return currentOrder || client.commandes[0] || null;
+    });
+  }, [client]); // On ne dépend QUE de `client`.
 
   if (isLoading) {
     return (
@@ -154,10 +214,19 @@ const ClientDetailPage = () => {
           </Heading>
         </HStack>
         <HStack spacing={3} mt={{ base: 4, md: 0 }}>
-          <Button as={RouterLink} to={`/clients/${client?.id}/edit`} colorScheme="yellow">
+          <Button
+            as={RouterLink}
+            to={`/clients/${client?.id}/edit`}
+            colorScheme="yellow"
+          >
             Modifier Client
           </Button>
-          <Button colorScheme="red" variant="solid" onClick={handleDeleteClick} isLoading={deleteMutation.isPending}>
+          <Button
+            colorScheme="red"
+            variant="solid"
+            onClick={handleDeleteClick}
+            isLoading={deleteMutation.isPending}
+          >
             Supprimer Client
           </Button>
         </HStack>
@@ -167,22 +236,51 @@ const ClientDetailPage = () => {
       {/* --- Grille Principale --- */}
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 6, lg: 8 }}>
         {/* Colonne de gauche: Détails du contact */}
-        <Box p={6} borderWidth="1px" borderColor="gray.200" borderRadius="lg" bg="white" boxShadow="sm">
-          <Heading size="md" mb={6} color="brand.700">Détails du Contact</Heading>
+        <Box
+          p={6}
+          borderWidth="1px"
+          borderColor="gray.200"
+          borderRadius="lg"
+          bg="white"
+          boxShadow="sm"
+        >
+          <Heading size="md" mb={6} color="brand.700">
+            Détails du Contact
+          </Heading>
           <VStack spacing={5} align="stretch">
             <HStack>
               <InfoLine icon={MdEmail} label="Email" value={client?.email} />
               <CopyButton textToCopy={client?.email || ""} />
             </HStack>
-            <InfoLine icon={MdPhone} label="Téléphone" value={client?.telephone} />
-            <InfoLine icon={MdLocationOn} label="Adresse" value={`${client?.adresse || ''}, ${client?.codePostal || ''} ${client?.ville || ''}`} />
-            {currentOrder && <InfoLine icon={MdAutoFixHigh} label="Provenance" value={currentOrder.provenance} />}
+            <InfoLine
+              icon={MdPhone}
+              label="Téléphone"
+              value={client?.telephone}
+            />
+            <InfoLine
+              icon={MdLocationOn}
+              label="Adresse"
+              value={`${client?.adresse || ""}, ${client?.codePostal || ""} ${
+                client?.ville || ""
+              }`}
+            />
+            {currentOrder && (
+              <InfoLine
+                icon={MdAutoFixHigh}
+                label="Provenance"
+                value={currentOrder.provenance}
+              />
+            )}
             {client?.remarque && (
               <>
                 <Divider />
                 <Box pt={2}>
-                  <Text fontSize="sm" color="gray.600">Remarque</Text>
-                  <Text fontStyle="italic" color="brand.700">"{client.remarque}"</Text>
+                  <Text fontSize="sm" color="gray.600">
+                    Remarque
+                  </Text>
+                  <Text fontStyle="italic" color="brand.700">
+                    "{client.remarque}"
+                  </Text>
                 </Box>
               </>
             )}
@@ -190,9 +288,18 @@ const ClientDetailPage = () => {
         </Box>
 
         {/* Colonne de droite: Historique des commandes */}
-        <Box p={6} borderWidth="1px" borderColor="gray.200" borderRadius="lg" bg="white" boxShadow="sm">
+        <Box
+          p={6}
+          borderWidth="1px"
+          borderColor="gray.200"
+          borderRadius="lg"
+          bg="white"
+          boxShadow="sm"
+        >
           <HStack gap={10} mb={6}>
-            <Heading size="md" color="brand.700">Historique des Commandes</Heading>
+            <Heading size="md" color="brand.700">
+              Historique des Commandes
+            </Heading>
             <Box
               as="button"
               onClick={handleNewOrderClick}
@@ -217,18 +324,36 @@ const ClientDetailPage = () => {
                   align="center"
                   p={3}
                   borderRadius="md"
-                  bg={selectedOrder?.id === commande.id ? "brand.600" : "brand.50"}
+                  bg={
+                    selectedOrder?.id === commande.id ? "brand.600" : "brand.50"
+                  }
                   borderWidth="1px"
-                  borderColor={selectedOrder?.id === commande.id ? "brand.500" : "gray.200"}
+                  borderColor={
+                    selectedOrder?.id === commande.id ? "brand.500" : "gray.200"
+                  }
                   _hover={{ bg: "brand.600", borderColor: "brand.500" }}
                 >
-                  <Box flex="1" onClick={() => setSelectedOrder(commande)} cursor="pointer">
-                    <Text fontWeight="bold" color="brand.700">#{commande.id.substring(0, 8)}</Text>
+                  <Box
+                    flex="1"
+                    onClick={() => setSelectedOrder(commande)}
+                    cursor="pointer"
+                  >
+                    <Text fontWeight="bold" color="brand.700">
+                      #{commande.id.substring(0, 8)}
+                    </Text>
                     <Text fontSize="xs" color="gray.600">
-                      Passée le {new Date(commande.createdAt).toLocaleDateString("fr-FR")}
+                      Passée le{" "}
+                      {new Date(commande.createdAt).toLocaleDateString("fr-FR")}
                     </Text>
                   </Box>
-                  <Tag colorScheme={commande.statut === "Terminé" ? "green" : "purple"} variant="subtle" alignSelf="center" mx={4}>
+                  <Tag
+                    colorScheme={
+                      commande.statut === "Terminé" ? "green" : "purple"
+                    }
+                    variant="subtle"
+                    alignSelf="center"
+                    mx={4}
+                  >
                     {commande.statut}
                   </Tag>
                   <HStack>
@@ -259,7 +384,7 @@ const ClientDetailPage = () => {
       {/* --- Section Détail de la Commande Sélectionnée --- */}
       <Box mt={10}>
         {selectedOrder ? (
-          <OrderDetail order={selectedOrder} />
+          <OrderDetail order={selectedOrder} onUpdate={refetch} />
         ) : (
           <Text fontStyle="italic" textAlign="center" color="gray.500">
             Sélectionnez une commande dans l'historique pour voir les détails.

@@ -22,6 +22,7 @@ use ApiPlatform\Metadata\Patch;
 #[ApiResource(
     // On définit explicitement les opérations et les groupes à utiliser pour chacune
     operations: [
+
         new GetCollection(normalizationContext: ['groups' => 'commande:read']),
         new Get(normalizationContext: ['groups' => 'commande:detail']),
         new Post(denormalizationContext: ['groups' => 'commande:write']),
@@ -109,6 +110,14 @@ class Commande
     #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'client:read'])]
+    private ?string $piwigoAlbumUrl = null;
+
+    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'client:read'])]
+    private ?\DateTimeImmutable $galleryCreatedAt = null;
+
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:write'])]
@@ -126,9 +135,7 @@ class Commande
     #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write'])]
     private Collection $optionsChoisies;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
-    private ?string $piwigoAlbumUrl = null;
+
 
 
 
@@ -349,6 +356,7 @@ class Commande
         return $this;
     }
 
+    #[Groups(['commande:read', 'commande:detail', 'client:read', 'client:detail'])]
     public function getPiwigoAlbumUrl(): ?string
     {
         return $this->piwigoAlbumUrl;
@@ -358,6 +366,18 @@ class Commande
     {
         $this->piwigoAlbumUrl = $piwigoAlbumUrl;
 
+        return $this;
+    }
+
+    #[Groups(['commande:read', 'commande:detail', 'client:read', 'client:detail'])]
+    public function getGalleryCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->galleryCreatedAt;
+    }
+
+    public function setGalleryCreatedAt(?\DateTimeImmutable $galleryCreatedAt): static
+    {
+        $this->galleryCreatedAt = $galleryCreatedAt;
         return $this;
     }
 }

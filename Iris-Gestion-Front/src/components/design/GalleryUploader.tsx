@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -6,127 +6,120 @@ import {
   FormLabel,
   Input,
   VStack,
-  Text,
-  List,
-  ListItem,
-  ListIcon,
   useToast,
   Progress,
-} from '@chakra-ui/react';
-import { MdCheckCircle } from 'react-icons/md';
-import type { Commande } from '../../types/Types';
+} from "@chakra-ui/react";
+import type { Commande } from "../../types/Types";
 
-interface PiwigoUploaderProps {
+// On définit les props
+interface GalleryUploaderProps {
   order: Commande;
   onUpdate: () => void;
 }
 
-const GalleryUploader = ({ order, onUpdate }: PiwigoUploaderProps) => {
+const GalleryUploader = ({ order, onUpdate }: GalleryUploaderProps) => {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
-  const token = localStorage.getItem('jwt_token');
+  const token = localStorage.getItem("jwt_token");
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFiles(event.target.files);
-  };
+  // Remplacez ces valeurs par les vôtres !
+  const CLOUDINARY_API_KEY = "353942736124422";
+  const CLOUDINARY_CLOUD_NAME = "dyjhgjwir";
+  const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!selectedFiles || selectedFiles.length === 0) {
-      toast({
-        title: 'Aucun fichier sélectionné',
-        status: 'warning',
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
+    if (!selectedFiles || selectedFiles.length === 0) return;
 
     setIsLoading(true);
 
-    const formData = new FormData();
-    // On ajoute chaque fichier au FormData.
-    // Le nom 'photos[]' est crucial pour que Symfony le reçoive comme un tableau.
-    Array.from(selectedFiles).forEach(file => {
-      formData.append('photos[]', file);
-    });
-
     try {
-      const response = await fetch(`/api/commandes/${order.id}/upload-photos`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-        body: formData,
+      // 1. On demande une signature à notre backend
+      const sigResponse = await fetch(
+        `/api/commandes/${order.id}/upload-signature`,
+        {
+          // On passe l'ID de la commande
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (!sigResponse.ok)
+        throw new Error("Impossible d'obtenir la signature du serveur.");
+      // On récupère TOUS les paramètres signés
+      const { signature, timestamp, folder, tags } = await sigResponse.json();
+
+      // 2. On upload chaque fichier
+      const uploadPromises = Array.from(selectedFiles).map((file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", CLOUDINARY_API_KEY);
+        // On utilise les paramètres fournis par le backend pour être sûr qu'ils sont identiques
+        formData.append("timestamp", timestamp);
+        formData.append("signature", signature);
+        formData.append("folder", folder);
+        formData.append("tags", tags);
+
+        return fetch(CLOUDINARY_UPLOAD_URL, {
+          method: "POST",
+          body: formData,
+        });
       });
 
-      const data = await response.json();
+      // 3. On attend que tous les uploads soient terminés
+      const results = await Promise.all(uploadPromises);
 
-      if (!response.ok) {
-        throw new Error(data.message || 'L\'upload a échoué.');
+      // On vérifie si tout s'est bien passé
+      const successfulUploads = results.filter((res) => res.ok);
+
+      if (successfulUploads.length === 0) {
+        throw new Error("L'upload des photos a échoué.");
       }
 
       toast({
-        title: 'Upload réussi !',
-        description: data.message,
-        status: 'success',
+        title: "Upload réussi !",
+        description: `${successfulUploads.length} photo(s) ont été uploadées.`,
+        status: "success",
         duration: 5000,
         isClosable: true,
       });
-      setSelectedFiles(null);
 
-      onUpdate();
-
+      onUpdate(); // On rafraîchit l'interface
     } catch (err) {
       if (err instanceof Error) {
-        toast({
-          title: 'Erreur',
-          description: err.message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
+        toast({ title: "Erreur", description: err.message, status: "error" });
       }
     } finally {
       setIsLoading(false);
+      setSelectedFiles(null);
     }
   };
 
   return (
-    <Box mt={4} p={4} borderWidth="1px" borderRadius="md" borderColor="gray.300">
+    <Box
+      mt={4}
+      p={4}
+      borderWidth="1px"
+      borderRadius="md"
+      borderColor="gray.300"
+    >
       <form onSubmit={handleSubmit}>
         <VStack spacing={4}>
           <FormControl>
-            <FormLabel>Sélectionner des photos à uploader</FormLabel>
+            <FormLabel>Étape 2 : Sélectionner des photos à uploader</FormLabel>
             <Input
               type="file"
-              multiple // Permet de sélectionner plusieurs fichiers
-              onChange={handleFileChange}
+              multiple
+              onChange={(e) => setSelectedFiles(e.target.files)}
               p={1}
             />
           </FormControl>
-
-          {selectedFiles && selectedFiles.length > 0 && (
-            <Box w="100%">
-              <Text fontSize="sm" mb={2}>Fichiers sélectionnés :</Text>
-              <List spacing={1}>
-                {Array.from(selectedFiles).map((file, index) => (
-                  <ListItem key={index} fontSize="sm">
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    {file.name}
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-          )}
-
           <Button
             type="submit"
             colorScheme="blue"
             isLoading={isLoading}
             loadingText="Upload..."
-            isDisabled={!selectedFiles || selectedFiles.length === 0}
+            isDisabled={!selectedFiles}
           >
             Uploader les photos
           </Button>

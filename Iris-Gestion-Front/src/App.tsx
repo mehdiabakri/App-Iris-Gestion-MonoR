@@ -11,7 +11,7 @@ import AllCommandesPage from "./pages/AllCommandesPage";
 import AllProduitsPage from "./pages/AllProduitsPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
-
+import GalleryPage from "./pages/GalleryPage"; // ON LAISSE EN COMMENTAIRE POUR L'INSTANT
 import { Spinner } from "@chakra-ui/react/spinner";
 
 const ProtectedRoutes = () => {
@@ -45,6 +45,7 @@ export default function App() {
           <Route path="/retouches" element={<RetouchesPage />} />
           <Route path="/commandes" element={<AllCommandesPage />} />
           <Route path="/produits" element={<AllProduitsPage />} />
+          <Route path="/galerie/:tag" element={<GalleryPage />} />
         </Route>
       </Route>
     </Routes>

@@ -31,4 +31,6 @@ security:
     access_control:
         
         # Tout le reste de l'API est protégé
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/galerie, roles: PUBLIC_ACCESS }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

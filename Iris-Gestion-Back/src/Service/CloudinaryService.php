@@ -29,10 +29,10 @@ class CloudinaryService
     public function uploadPhoto(string $photoPath, string $tag): ?ApiResponse
     {
         $this->logger->info(sprintf('Tentative d\'upload sur Cloudinary avec le tag "%s"', $tag));
-        
+
         try {
-            $uploader = new UploadApi();
-            
+            $uploader = $this->cloudinary->uploadApi();
+
             $result = $uploader->upload($photoPath, [
                 'tags' => [$tag], // On assigne le tag
                 'folder' => 'galeries_clients', // On organise tout dans un dossier
@@ -40,7 +40,6 @@ class CloudinaryService
             ]);
 
             return $result;
-
         } catch (\Exception $e) {
             $this->logger->error('Erreur lors de l\'upload sur Cloudinary: ' . $e->getMessage());
             return null;

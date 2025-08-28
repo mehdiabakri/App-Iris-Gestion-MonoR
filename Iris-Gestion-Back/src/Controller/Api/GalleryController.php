@@ -21,39 +21,46 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use DateTimeImmutable;
 
 #[Route('/api/commandes')] // On met la route de base ici
 class GalleryController extends AbstractController
 {
-    // === 1. ROUTE POUR "CRÉER" LA GALERIE ===
+// === 1. ROUTE POUR "CRÉER" LA GALERIE (version corrigée) ===
     #[Route('/{id}/create-gallery', name: 'api_order_create_gallery', methods: ['POST'])]
     public function createGallery(Commande $commande, EntityManagerInterface $em): JsonResponse
     {
-        // Si une galerie existe déjà, on ne fait rien
+        // Si une galerie existe déjà, on renvoie simplement son URL
         if ($commande->getPiwigoAlbumUrl()) {
             return $this->json(['galleryUrl' => $commande->getPiwigoAlbumUrl()]);
         }
 
-        // Le "tag" est la seule chose dont on a besoin. Il servira d'identifiant pour l'album.
+        // Le "tag" servira d'identifiant unique pour la galerie virtuelle
         $galleryTag = 'commande_' . $commande->getId();
         
-        $cloudName = $this->getParameter('env(CLOUDINARY_CLOUD_NAME)');
+        // On récupère l'URL de base du frontend depuis les variables d'environnement.
+        // Cela permet au lien d'être correct en dev (localhost) et en prod (app.m2-core.fr).
+        $frontendUrl = $this->getParameter('env(FRONTEND_URL)');
         
-        // On construit l'URL de la "galerie virtuelle" sur Cloudinary
+        // On construit l'URL complète qui pointe vers notre page React
         $galleryUrl = sprintf(
-            'https://cloudinary.com/console/c-1f592070008518931165/media_library/search?q=tags:%s',
+            '%s/galerie/%s',
+            $frontendUrl,
             $galleryTag
         );
         
-        // On sauvegarde cette URL dans la commande
+        // On sauvegarde la nouvelle URL et la date de création dans la commande
         $commande->setPiwigoAlbumUrl($galleryUrl);
+        $commande->setGalleryCreatedAt(new DateTimeImmutable());
         $em->flush();
 
+        // On renvoie une réponse de succès au frontend
         return $this->json([
             'message' => 'Galerie initialisée avec succès. Vous pouvez maintenant uploader des photos.',
             'galleryUrl' => $galleryUrl
         ]);
     }
+
 
 
     // === 2. LA ROUTE POUR UPLOADER LES PHOTOS ===

@@ -12,27 +12,27 @@ import {
   Link,
   IconButton,
   Tooltip,
-  Button, 
+  Button,
   Spinner,
   Alert,
   AlertIcon,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 
 import type { Commande } from "../../types/Types";
 import SuiviColis from "../emailSender/SuiviColis";
 import { FiCamera, FiExternalLink, FiMail, FiSearch } from "react-icons/fi";
+import GalleryUploader from "./GalleryUploader";
 
 interface OrderDetailProps {
   order: Commande | null;
-  onUpdate: () => void; 
+  onUpdate: () => void;
 }
 
-const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
-
+const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const toast = useToast(); // Pour afficher de jolies notifications
+  const toast = useToast();
 
   if (!order) {
     return (
@@ -44,30 +44,35 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
     );
   }
 
-  const token = localStorage.getItem('jwt_token');
+  const token = localStorage.getItem("jwt_token");
 
-    const handleCreateGallery = async () => {
+  const handleCreateGallery = async () => {
     if (!order) return;
 
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      const response = await fetch(`/api/commandes/${order.id}/create-gallery`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-  
+      const response = await fetch(
+        `/api/commandes/${order.id}/create-gallery`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'La création de la galerie a échoué.');
+        throw new Error(
+          errorData.message || "La création de la galerie a échoué."
+        );
       }
-  
+
       const data = await response.json();
-      
+
       toast({
         title: "Succès",
         description: data.message || "La galerie a été créée avec succès.",
@@ -77,7 +82,6 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
       });
 
       onUpdate();
-      
     } catch (err) {
       let errorMessage = "Une erreur inattendue est survenue.";
       if (err instanceof Error) {
@@ -103,13 +107,16 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
     setError(null);
 
     try {
-      const response = await fetch(`/api/commandes/${order.id}/send-gallery-link`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `/api/commandes/${order.id}/send-gallery-link`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -125,7 +132,6 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
         duration: 5000,
         isClosable: true,
       });
-
     } catch (err) {
       let errorMessage = "Une erreur inattendue est survenue.";
       if (err instanceof Error) {
@@ -278,10 +284,10 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
         </>
       )}
 
-            <Divider />
-      
+      <Divider mt={6} />
+
       <Heading size="sm" mt={6} mb={4} color="brand.700">
-        Galerie Photo Piwigo
+        Galerie Photo
       </Heading>
 
       {/* On affiche un message d'erreur s'il y en a un */}
@@ -292,24 +298,36 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
         </Alert>
       )}
 
-      <HStack spacing={4}>
-        {/* CAS 1 : La galerie n'a pas encore été créée */}
-        {!order.piwigoAlbumUrl && (
+      {/* CAS 1 : La galerie n'a pas encore été créée (pas d'URL) */}
+      {!order.piwigoAlbumUrl && (
+        <VStack align="stretch" spacing={4}>
           <Button
             leftIcon={<FiCamera />}
             colorScheme="yellow"
             onClick={handleCreateGallery}
             isLoading={isLoading}
             loadingText="Création..."
+            alignSelf="flex-start" // Pour que le bouton ne prenne pas toute la largeur
           >
-            Créer la galerie client
+            Étape 1 : Créer la galerie client
           </Button>
-        )}
+          <Text fontSize="sm" color="gray.500">
+            Créez d'abord la galerie sur le serveur. L'interface d'upload
+            apparaîtra ensuite.
+          </Text>
+        </VStack>
+      )}
 
-        {/* CAS 2 : La galerie existe */}
-        {order.piwigoAlbumUrl && (
-          <>
-            <Tooltip label="Ouvrir la galerie dans un nouvel onglet" placement="top" hasArrow>
+      {/* CAS 2 : La galerie existe déjà */}
+      {order.piwigoAlbumUrl && (
+        <VStack align="stretch" spacing={6}>
+          {/* Sous-section 1 : Actions sur la galerie */}
+          <HStack spacing={4}>
+            <Tooltip
+              label="Ouvrir la galerie dans un nouvel onglet"
+              placement="top"
+              hasArrow
+            >
               <Button
                 as={Link}
                 href={order.piwigoAlbumUrl}
@@ -320,8 +338,11 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
                 Voir la galerie
               </Button>
             </Tooltip>
-
-            <Tooltip label="Envoyer le lien par email au client" placement="top" hasArrow>
+            <Tooltip
+              label="Envoyer le lien par email au client"
+              placement="top"
+              hasArrow
+            >
               <Button
                 leftIcon={<FiMail />}
                 colorScheme="teal"
@@ -332,12 +353,12 @@ const OrderDetail = ({ order, onUpdate  }: OrderDetailProps) => {
                 Envoyer le lien
               </Button>
             </Tooltip>
-          </>
-        )}
-      </HStack>
-      
-      <Divider mt={6} />
+          </HStack>
 
+          {/* Sous-section 2 : L'outil d'upload */}
+          <GalleryUploader order={order} onUpdate={onUpdate} />
+        </VStack>
+      )}
     </Box>
   );
 };

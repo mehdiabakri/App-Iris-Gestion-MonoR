@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -55,10 +57,9 @@ class PiwigoService
                     return true;
                 }
             }
-            
+
             $this->logger->error('Login Piwigo OK, mais aucun cookie de session (pwg_id) n\'a été trouvé.');
             return false;
-
         } catch (\Exception $e) {
             $this->logger->error('Exception lors de la connexion à Piwigo: ' . $e->getMessage());
             return false;
@@ -82,7 +83,7 @@ class PiwigoService
                 'body' => [
                     'method' => 'pwg.categories.add',
                     'name' => $albumName,
-                    'status' => 'public' 
+                    'status' => 'public'
                 ]
             ]);
 
@@ -95,10 +96,64 @@ class PiwigoService
 
             $this->logger->info('Album créé avec succès.', $content['result']);
             return $content['result']['id'];
-
         } catch (\Exception $e) {
             $this->logger->error('Exception lors de la création de l\'album Piwigo: ' . $e->getMessage());
             return null;
+        }
+    }
+
+    public function uploadPhoto(int $albumId, string $photoPath): bool
+    {
+        if (!$this->sessionCookie) {
+            if (!$this->login()) {
+                $this->logger->error('Impossible d\'uploader la photo car la connexion a échoué.');
+                return false;
+            }
+        }
+        
+        $fileName = basename($photoPath);
+        $this->logger->info('Tentative d\'upload de la photo ' . $fileName . ' dans l\'album ' . $albumId);
+
+        try {
+            // 1. On prépare les champs du formulaire
+            $formFields = [
+                'method' => 'pwg.images.addSimple',
+                'category' => (string) $albumId,
+                'level' => '0', // Toujours en string pour les formulaires
+                'name' => $fileName,
+            ];
+
+            // 2. On prépare le champ "fichier"
+            $formFields['file'] = DataPart::fromPath($photoPath);
+
+            // 3. On assemble le tout dans un FormDataPart
+            $formData = new FormDataPart($formFields);
+
+            // 4. On récupère les en-têtes préparés (comme Content-Type: multipart/form-data; boundary=...)
+            $headers = $formData->getPreparedHeaders()->toArray();
+            // On ajoute notre cookie de session
+            $headers[] = 'Cookie: ' . $this->sessionCookie;
+
+            // 5. On lance la requête
+            $response = $this->client->request('POST', $this->piwigoUrl . '/ws.php?format=json', [
+                'headers' => $headers,
+                'body' => $formData->bodyToIterable(),
+            ]);
+
+            $content = $response->toArray();
+            $this->logger->info('Réponse de pwg.images.addSimple (multipart):', $content);
+
+            if ($response->getStatusCode() !== 200 || $content['stat'] !== 'ok') {
+                $errorMessage = $content['err']['msg'] ?? 'Erreur inconnue';
+                $this->logger->error('Échec de l\'upload de la photo. Message : ' . $errorMessage);
+                return false;
+            }
+
+            return true;
+
+        } catch (\Exception $e) {
+            $this->logger->error('Exception lors de l\'upload de la photo : ' . $e->getMessage());
+            return false;
         }
     }
 }

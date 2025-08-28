@@ -4,6 +4,8 @@ parameters:
     env(JWT_PASSPHRASE): ''
     app.sender_email: 'honfleur@youandeyephoto.com'
     app.sender_name: 'You & Eye Photo - Honfleur'
+    env(CLOUDINARY_CLOUD_NAME): 'dyjhgjwir'
+    env(CLOUDINARY_URL): 'cloudinary://353942736124422:k2__UsJbE09dR1JyvIYj5VQOWA0@dyjhgjwir'
 
 services:
     _defaults:
@@ -11,9 +13,7 @@ services:
         autoconfigure: true
 
         bind:
-            $piwigoUrl: 'https://www.galeries.mehdiabakri.fr'
-            $piwigoUser: '3qg4b'
-            $piwigoPassword: 's%4#FbOc$F'
+            $cloudinaryUrl: '%env(CLOUDINARY_URL)%'
 
     App\:
         resource: '../src/'

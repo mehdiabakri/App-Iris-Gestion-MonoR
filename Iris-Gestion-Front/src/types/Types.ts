@@ -67,6 +67,7 @@ export type Commande = {
   trackingEmailSentAt?: string;
   produitBase: ProduitBase;
   optionsChoisies: Option[];
+  galleryEmailSentAt?: string;
   piwigoAlbumUrl?: string;
   client: {
     "@id": string;
@@ -136,42 +137,41 @@ export type ClientFormData = {
     taille?: string;
     finition?: string;
     prix?: string;
-    
     categorie?: string;
     produitBase?: string;
     [key: `options_${string}`]: string | boolean | string[] | undefined;
   };
 };
 
-    // --- Type pour le payload de CRÉATION de Client ---
-    export type CreateClientPayload = {
-      prenom?: string;
-      nom?: string;
-      email?: string;
-      telephone?: string;
-      adresse?: string;
-      complementAdresse?: string;
-      codePostal?: string;
-      ville?: string;
-      pays?: string;
-      commandes: Array<{
-        statut?: string;
-        nbIris?: string;
-        nbIrisAnimaux?: string;
-        photographe?: string;
-        provenance?: string;
-        numPhoto?: string;
-        effet?: string;
-        couleur?: string;
-        livraison?: string;
-        rdv?: string;
-        carteCadeau?: string;
-        codeCarteCadeau?: string;
-        remarque?: string;
-        produitBase?: string;
-        optionsChoisies: string[];
-      }>;
-    };
+// --- Type pour le payload de CRÉATION de Client ---
+export type CreateClientPayload = {
+  prenom?: string;
+  nom?: string;
+  email?: string;
+  telephone?: string;
+  adresse?: string;
+  complementAdresse?: string;
+  codePostal?: string;
+  ville?: string;
+  pays?: string;
+  commandes: Array<{
+    statut?: string;
+    nbIris?: string;
+    nbIrisAnimaux?: string;
+    photographe?: string;
+    provenance?: string;
+    numPhoto?: string;
+    effet?: string;
+    couleur?: string;
+    livraison?: string;
+    rdv?: string;
+    carteCadeau?: string;
+    codeCarteCadeau?: string;
+    remarque?: string;
+    produitBase?: string;
+    optionsChoisies: string[];
+  }>;
+};
 
 // --- Type pour le formulaire de MODIFICATION de Commande ---
 export type EditCommandFormData = {

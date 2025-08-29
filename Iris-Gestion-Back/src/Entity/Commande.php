@@ -115,7 +115,11 @@ class Commande
     private ?string $piwigoAlbumUrl = null;
 
     #[ORM\Column(type: "datetime_immutable", nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'client:read'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:read', 'client:detail'])]
+    private ?\DateTimeImmutable $galleryEmailSentAt = null;
+
+    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    #[Groups(['commande:read', 'commande:detail', 'client:read', 'client:detail'])]
     private ?\DateTimeImmutable $galleryCreatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
@@ -366,6 +370,18 @@ class Commande
     {
         $this->piwigoAlbumUrl = $piwigoAlbumUrl;
 
+        return $this;
+    }
+
+    #[Groups(['commande:read', 'commande:detail', 'client:read', 'client:detail'])]
+    public function getGalleryEmailSentAt(): ?\DateTimeImmutable
+    {
+        return $this->galleryEmailSentAt;
+    }
+
+    public function setGalleryEmailSentAt(?\DateTimeImmutable $galleryEmailSentAt): static
+    {
+        $this->galleryEmailSentAt = $galleryEmailSentAt;
         return $this;
     }
 

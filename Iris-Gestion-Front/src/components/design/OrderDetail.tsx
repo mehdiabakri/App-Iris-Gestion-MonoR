@@ -20,9 +20,11 @@ import {
 } from "@chakra-ui/react";
 
 import type { Commande } from "../../types/Types";
+import SaveTrackingUrlForm from "./SaveTrackingUrlForm";
 import SuiviColis from "../emailSender/SuiviColis";
 import { FiCamera, FiExternalLink, FiMail, FiSearch } from "react-icons/fi";
-import GalleryUploader from "./GalleryUploader";
+import EnvoiLienGalerie from "../emailSender/EnvoiLienGalerie";
+import SaveGalleryUrlForm from "./SaveGalleryUrlForm";
 
 interface OrderDetailProps {
   order: Commande | null;
@@ -45,110 +47,6 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
   }
 
   const token = localStorage.getItem("jwt_token");
-
-  const handleCreateGallery = async () => {
-    if (!order) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch(
-        `/api/commandes/${order.id}/create-gallery`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || "La création de la galerie a échoué."
-        );
-      }
-
-      const data = await response.json();
-
-      toast({
-        title: "Succès",
-        description: data.message || "La galerie a été créée avec succès.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-
-      onUpdate();
-    } catch (err) {
-      let errorMessage = "Une erreur inattendue est survenue.";
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      }
-      setError(errorMessage);
-      toast({
-        title: "Erreur",
-        description: errorMessage,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSendGalleryLink = async () => {
-    if (!order) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch(
-        `/api/commandes/${order.id}/send-gallery-link`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "L'envoi de l'email a échoué.");
-      }
-
-      const data = await response.json();
-
-      toast({
-        title: "Succès",
-        description: data.message || "L'email a bien été envoyé au client.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    } catch (err) {
-      let errorMessage = "Une erreur inattendue est survenue.";
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      }
-      setError(errorMessage);
-      toast({
-        title: "Erreur",
-        description: errorMessage,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Box
@@ -206,32 +104,21 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
       <Heading size="sm" mt={6} mb={4} color="brand.700">
         Informations de livraison :
       </Heading>
-      <SimpleGrid columns={{ base: 1 }} spacing={2}>
+
+      <VStack align="stretch" spacing={4}>
         <HStack justify="space-between" p={2} bg="brand.100" borderRadius="md">
           <Text>
             <strong>Mode de livraison :</strong> {order.livraison}
           </Text>
-          <Text>
-            {order.lienSuiviColis ? (
-              <Tooltip label="Suivre le colis" placement="top" hasArrow>
-                <IconButton
-                  as={Link}
-                  href={order.lienSuiviColis}
-                  fontSize="xl"
-                  isExternal
-                  aria-label="Suivre le colis"
-                  icon={<FiSearch />}
-                  colorScheme="black"
-                  variant="ghost"
-                />
-              </Tooltip>
-            ) : (
-              ""
-            )}
-          </Text>
         </HStack>
-        <SuiviColis order={order} />
-      </SimpleGrid>
+
+        {/* Le nouveau formulaire pour gérer l'URL */}
+        <SaveTrackingUrlForm order={order} onSuccess={onUpdate} />
+
+        {/* Le bouton d'envoi d'email, qui n'apparaît que si le lien existe */}
+        {/* On peut utiliser l'ancien SuiviColis ici, car il fait bien le job d'envoi */}
+        {order.lienSuiviColis && <SuiviColis order={order} />}
+      </VStack>
 
       <Divider />
 
@@ -284,80 +171,18 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
         </>
       )}
 
-      <Divider mt={6} />
-
       <Heading size="sm" mt={6} mb={4} color="brand.700">
         Galerie Photo
       </Heading>
 
-      {/* On affiche un message d'erreur s'il y en a un */}
-      {error && (
-        <Alert status="error" mb={4} borderRadius="md">
-          <AlertIcon />
-          {error}
-        </Alert>
-      )}
+      {/* On affiche le formulaire qui gère lui-même son état */}
+      <SaveGalleryUrlForm order={order} onSuccess={onUpdate} />
 
-      {/* CAS 1 : La galerie n'a pas encore été créée (pas d'URL) */}
-      {!order.piwigoAlbumUrl && (
-        <VStack align="stretch" spacing={4}>
-          <Button
-            leftIcon={<FiCamera />}
-            colorScheme="yellow"
-            onClick={handleCreateGallery}
-            isLoading={isLoading}
-            loadingText="Création..."
-            alignSelf="flex-start" // Pour que le bouton ne prenne pas toute la largeur
-          >
-            Étape 1 : Créer la galerie client
-          </Button>
-          <Text fontSize="sm" color="gray.500">
-            Créez d'abord la galerie sur le serveur. L'interface d'upload
-            apparaîtra ensuite.
-          </Text>
-        </VStack>
-      )}
-
-      {/* CAS 2 : La galerie existe déjà */}
+      {/* On affiche le bouton d'envoi d'email SEULEMENT si l'URL existe */}
       {order.piwigoAlbumUrl && (
-        <VStack align="stretch" spacing={6}>
-          {/* Sous-section 1 : Actions sur la galerie */}
-          <HStack spacing={4}>
-            <Tooltip
-              label="Ouvrir la galerie dans un nouvel onglet"
-              placement="top"
-              hasArrow
-            >
-              <Button
-                as={Link}
-                href={order.piwigoAlbumUrl}
-                isExternal
-                leftIcon={<FiExternalLink />}
-                variant="outline"
-              >
-                Voir la galerie
-              </Button>
-            </Tooltip>
-            <Tooltip
-              label="Envoyer le lien par email au client"
-              placement="top"
-              hasArrow
-            >
-              <Button
-                leftIcon={<FiMail />}
-                colorScheme="teal"
-                onClick={handleSendGalleryLink}
-                isLoading={isLoading}
-                loadingText="Envoi..."
-              >
-                Envoyer le lien
-              </Button>
-            </Tooltip>
-          </HStack>
-
-          {/* Sous-section 2 : L'outil d'upload */}
-          <GalleryUploader order={order} onUpdate={onUpdate} />
-        </VStack>
+        <Box mt={4}>
+          <EnvoiLienGalerie order={order} />
+        </Box>
       )}
     </Box>
   );

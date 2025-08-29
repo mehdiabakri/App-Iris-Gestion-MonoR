@@ -4,15 +4,11 @@ parameters:
     env(JWT_PASSPHRASE): ''
     app.sender_email: 'honfleur@youandeyephoto.com'
     app.sender_name: 'You & Eye Photo - Honfleur'
-    env(CLOUDINARY_API_SECRET): 'k2__UsJbE09dR1JyvIYj5VQOWA0'
-    env(FRONTEND_URL): 'http://localhost:5173'
 
 services:
     _defaults:
         autowire: true
         autoconfigure: true
-        bind:
-            $cloudinaryUrl: 'cloudinary://353942736124422:k2__UsJbE09dR1JyvIYj5VQOWA0@dyjhgjwir'
 
     App\:
         resource: '../src/'

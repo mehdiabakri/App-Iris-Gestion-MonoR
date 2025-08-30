@@ -139,7 +139,9 @@ class Commande
     #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write'])]
     private Collection $optionsChoisies;
 
-
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    private string $commandeYae;
 
 
 
@@ -394,6 +396,16 @@ class Commande
     public function setGalleryCreatedAt(?\DateTimeImmutable $galleryCreatedAt): static
     {
         $this->galleryCreatedAt = $galleryCreatedAt;
+        return $this;
+    }
+
+        public function getCommandeYae(): string
+    {
+        return $this->commandeYae;
+    }
+    public function setCommandeYae(string $commandeYae): self
+    {
+        $this->commandeYae = $commandeYae;
         return $this;
     }
 }

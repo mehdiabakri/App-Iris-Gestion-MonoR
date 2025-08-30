@@ -69,6 +69,7 @@ export type Commande = {
   optionsChoisies: Option[];
   galleryEmailSentAt?: string;
   piwigoAlbumUrl?: string;
+  commandeYae?: string;
   client: {
     "@id": string;
     id: string;
@@ -132,6 +133,7 @@ export type ClientFormData = {
     carteCadeau?: string;
     codeCarteCadeau?: string;
     remarque?: string;
+    commandeYae?: string;
     lienSuiviColis?: string;
     support?: string;
     taille?: string;
@@ -193,6 +195,7 @@ export type EditCommandFormData = {
   finition?: string;
   prix?: string;
   lienSuiviColis?: string;
+  commandeYae?: string;
   commande?: {
     categorie?: string;
     produitBase?: string;

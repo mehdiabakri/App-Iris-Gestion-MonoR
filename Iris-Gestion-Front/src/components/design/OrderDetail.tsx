@@ -25,6 +25,7 @@ import SuiviColis from "../emailSender/SuiviColis";
 import { FiCamera, FiExternalLink, FiMail, FiSearch } from "react-icons/fi";
 import EnvoiLienGalerie from "../emailSender/EnvoiLienGalerie";
 import SaveGalleryUrlForm from "./SaveGalleryUrlForm";
+import SaveCommandeYae from "./SaveCommandeYae";
 
 interface OrderDetailProps {
   order: Commande | null;
@@ -59,7 +60,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
     >
       <HStack justify="space-between" mb={4}>
         <Heading size="md" color="brand.700">
-          Détails de la Commande : {order.id.substring(0, 8)}
+          Détails de la Commande
         </Heading>
         <Tag
           colorScheme={order.statut === "Terminé" ? "green" : "orange"}
@@ -111,6 +112,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
             <strong>Mode de livraison :</strong> {order.livraison}
           </Text>
         </HStack>
+          <SaveCommandeYae order={order} onSuccess={onUpdate} />
 
         {/* Le nouveau formulaire pour gérer l'URL */}
         <SaveTrackingUrlForm order={order} onSuccess={onUpdate} />
@@ -171,7 +173,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
         </>
       )}
 
-      <Heading size="sm" mt={6} mb={4} color="brand.700">
+      <Heading size="md" mt={6} mb={4} color="brand.700">
         Galerie Photo
       </Heading>
 

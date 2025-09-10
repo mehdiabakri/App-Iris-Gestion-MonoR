@@ -30,7 +30,7 @@ use ApiPlatform\Metadata\Delete;
     ],
 
     // On peut définir un tri par défaut pour les listes
-    order: ['nom' => 'ASC', 'prenom' => 'ASC']
+    order: ['createdAt' => 'DESC']
 )]
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client

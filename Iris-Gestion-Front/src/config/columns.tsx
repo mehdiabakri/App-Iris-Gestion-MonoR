@@ -15,6 +15,7 @@ export type ColumnDefinition<T> = {
 
 // La vue détaillée pour la page de tous les clients
 export const clientColumns: ColumnDefinition<Client>[] = [
+  { key: "date", label: "Date", render: (Commande) => Commande.createdAt ? new Date(Commande.createdAt).toLocaleDateString("fr-FR") : "-" },
   { key: "prenom", label: "Prénom", render: (client) => client.prenom || "-" },
   { key: "nom", label: "Nom", render: (client) => client.nom || "-" },
   { key: "email", label: "Email", render: (client) => client.email || "-" },
@@ -30,6 +31,7 @@ export const clientColumns: ColumnDefinition<Client>[] = [
 // ===================================================================
 
 export const retouchesColumns: ColumnDefinition<Commande>[] = [
+  
   { key: "numPhoto", label: "N° Photo", render: (cmd) => cmd.numPhoto },
   {
     key: "client",
@@ -59,6 +61,16 @@ export const retouchesColumns: ColumnDefinition<Commande>[] = [
 
 export const allOrderColumns: ColumnDefinition<Commande>[] = [
   {
+    key: "createdAt",
+    label: "Date Commande",
+    render: (cmd) => new Date(cmd.createdAt).toLocaleDateString("fr-FR"),
+  },
+    {
+    key: "commandedYae",
+    label: "N° Commande YAE",
+    render: (cmd) => `${cmd.commandeYae || "-"}`,
+  },
+  {
     key: "clientName",
     label: "Client",
     render: (cmd) => `${cmd.client?.prenom} ${cmd.client?.nom}`,
@@ -80,11 +92,6 @@ export const allOrderColumns: ColumnDefinition<Commande>[] = [
     render: (cmd) => `${cmd.client?.telephone}`,
   },
   { key: "statut", label: "Statut", render: (cmd) => cmd.statut },
-  {
-    key: "createdAt",
-    label: "Date Commande",
-    render: (cmd) => new Date(cmd.createdAt).toLocaleDateString("fr-FR"),
-  },
   {
     key: "actions",
     label: "Actions",

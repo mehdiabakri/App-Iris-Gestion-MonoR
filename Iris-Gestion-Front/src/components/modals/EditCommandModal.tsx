@@ -63,7 +63,7 @@ const EditCommandModal = ({
 
   useEffect(() => {
     if (commandeData) {
-      // On "aplatit" les données de l'API pour le formulaire
+      // On "aplatit" les données de l'API pour les champs de base du formulaire
       const flatData: Partial<EditCommandFormData> = {
         statut: commandeData.statut,
         photographe: commandeData.photographe,
@@ -81,23 +81,31 @@ const EditCommandModal = ({
         lienSuiviColis: commandeData.lienSuiviColis,
       };
 
+      // On prépare l'objet imbriqué 'commande' pour le ProductConfigurationField
       const commandeProductData: EditCommandFormData["commande"] = {
         categorie: commandeData.produitBase?.categorie?.["@id"],
         produitBase: commandeData.produitBase?.["@id"],
       };
 
-      const extras: string[] = [];
+      // On prépare le tableau qui contiendra les IRI des extras
+      const extrasIRIs: string[] = [];
+
+      // On boucle sur les options existantes pour remplir les champs du formulaire
       commandeData.optionsChoisies?.forEach((option) => {
         if (option.type === "Extra") {
-          extras.push(option["@id"]);
+          // Si c'est un extra, on l'ajoute au tableau des extras
+          extrasIRIs.push(option["@id"]);
         } else {
-          commandeProductData[`options_${option.type.toLowerCase()}`] =
-            option["@id"];
+          // Pour les autres (Taille, Finition), on construit le nom du champ AVEC la bonne casse
+          // Ex: `options_Taille`, `options_Finition`
+          commandeProductData[`options_${option.type}`] = option["@id"];
         }
       });
-      commandeProductData.options_extra = extras;
 
-      // On combine tout et on appelle reset
+      // On assigne le tableau d'extras au bon champ, AVEC la bonne casse
+      commandeProductData.options_Extra = extrasIRIs;
+
+      // On combine les données "plates" et les données du produit, puis on met à jour le formulaire
       reset({ ...flatData, commande: commandeProductData });
     }
   }, [commandeData, reset]);
@@ -135,7 +143,7 @@ const EditCommandModal = ({
       if (key.startsWith("options_")) {
         const value = commandeProductData[key];
 
-        if (key === "options_extra" && Array.isArray(value)) {
+        if (key === "options_Extra" && Array.isArray(value)) {
           // Cas des checkboxes : on ajoute tous les éléments du tableau
           optionsChoisiesIRIs.push(...value);
         } else if (typeof value === "string" && value) {
@@ -283,6 +291,7 @@ const EditCommandModal = ({
                           <option value="Infini">Infini</option>
                           <option value="Reflet">Reflet</option>
                           <option value="Fleur">Fleur</option>
+                          <option value="Passion">Passion</option>
                         </Select>
                       </FormControl>
                       <FormControl>

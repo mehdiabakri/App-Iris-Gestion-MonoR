@@ -70,7 +70,6 @@ const CreateClientPage = () => {
   });
 
   const onSubmit = (data) => {
-    
     // 1. On valide que le produit de base a bien été sélectionné
     if (!data.commande?.produitBase) {
       toast({
@@ -81,27 +80,27 @@ const CreateClientPage = () => {
       });
       return; // On arrête la soumission
     }
-    
+
     // 2. On collecte TOUTES les options choisies (Select + Checkbox) en une seule fois
     const optionsChoisiesIRIs: string[] = [];
-    
+
     // On s'assure que `data.commande` existe avant de le parcourir
     if (data.commande) {
       Object.keys(data.commande).forEach((key) => {
         const value = data.commande[key];
-        
+
         // Si la clé commence par "options_"
-              // On collecte les Selects
-      if (key.startsWith('options_') && typeof value === 'string' && value) {
-        optionsChoisiesIRIs.push(value);
-      }
-      // On collecte les Checkboxes
-      if (key === 'options_extra' && Array.isArray(value)) {
-        optionsChoisiesIRIs.push(...value);
-      }
+        // On collecte les Selects
+        if (key.startsWith("options_") && typeof value === "string" && value) {
+          optionsChoisiesIRIs.push(value);
+        }
+        // On collecte les Checkboxes
+        if (key === "options_Extra" && Array.isArray(value)) {
+          optionsChoisiesIRIs.push(...value);
+        }
       });
     }
-    
+
     const payload: CreateClientPayload = {
       prenom: data.prenom,
       nom: data.nom,
@@ -133,6 +132,9 @@ const CreateClientPage = () => {
         },
       ],
     };
+
+    console.log("Payload final envoyé à l'API :", payload);
+
     mutation.mutate(payload);
   };
 
@@ -227,12 +229,15 @@ const CreateClientPage = () => {
                     <option value="A retoucher">A retoucher</option>
                     <option value="A imprimer">A imprimer</option>
                     <option value="A envoyer client">A envoyer client</option>
-                    <option value="Attente retour client">Attente retour client</option>
+                    <option value="Attente retour client">
+                      Attente retour client
+                    </option>
                     <option value="A commander">A commander</option>
                     <option value="Commande OK">Commande OK</option>
-                    <option value="Livraison en cours">Livraison en cours</option>
+                    <option value="Livraison en cours">
+                      Livraison en cours
+                    </option>
                     <option value="Terminé">Terminé</option>
-                    
                   </Select>
                   <FormErrorMessage>
                     {errors.commande?.statut?.message}
@@ -375,6 +380,7 @@ const CreateClientPage = () => {
                     <option value="Infini">Infini</option>
                     <option value="Reflet">Reflet</option>
                     <option value="Fleur">Fleur</option>
+                    <option value="Passion">Passion</option>
                   </Select>
                 </FormControl>
                 <FormControl>

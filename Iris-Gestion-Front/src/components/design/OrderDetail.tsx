@@ -49,6 +49,9 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
 
   const token = localStorage.getItem("jwt_token");
 
+  console.log("Données complètes de la commande reçue :", order);
+  console.log("Détail des optionsChoisies reçues :", order.optionsChoisies);
+
   return (
     <Box
       p={6}
@@ -71,6 +74,10 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
       </HStack>
 
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} mb={6}>
+        <Text>
+          <strong>Date :</strong>{" "}
+          {new Date(order.createdAt).toLocaleDateString("fr-FR")}
+        </Text>
         <Text>
           <strong>N° Photo :</strong> {order.numPhoto}
         </Text>
@@ -103,28 +110,6 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
       <Divider />
 
       <Heading size="sm" mt={6} mb={4} color="brand.700">
-        Informations de livraison :
-      </Heading>
-
-      <VStack align="stretch" spacing={4}>
-        <HStack justify="space-between" p={2} bg="brand.100" borderRadius="md">
-          <Text>
-            <strong>Mode de livraison :</strong> {order.livraison}
-          </Text>
-        </HStack>
-          <SaveCommandeYae order={order} onSuccess={onUpdate} />
-
-        {/* Le nouveau formulaire pour gérer l'URL */}
-        <SaveTrackingUrlForm order={order} onSuccess={onUpdate} />
-
-        {/* Le bouton d'envoi d'email, qui n'apparaît que si le lien existe */}
-        {/* On peut utiliser l'ancien SuiviColis ici, car il fait bien le job d'envoi */}
-        {order.lienSuiviColis && <SuiviColis order={order} />}
-      </VStack>
-
-      <Divider />
-
-      <Heading size="sm" mt={6} mb={4} color="brand.700">
         Produit & Options
       </Heading>
       <VStack align="stretch" spacing={3} mb={6}>
@@ -133,15 +118,16 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
           <Text fontWeight="bold">Catégorie :</Text>
           <Text>{order.produitBase?.categorie?.nom || "N/A"}</Text>
         </HStack>
-        {/* On affiche le produit de base */}
         <HStack justify="space-between" p={2} bg="brand.600" borderRadius="md">
           <Text fontWeight="bold">Produit :</Text>
           <Text>{order.produitBase?.nom || "N/A"}</Text>
         </HStack>
 
-        {/* On fait une boucle sur les options choisies */}
-        {order.optionsChoisies && order.optionsChoisies.length > 0 ? (
-          order.optionsChoisies.map((option) => (
+        {/* --- SECTION TAILLE --- */}
+        {/* On filtre pour ne garder que les options de type "Taille" */}
+        {order.optionsChoisies
+          ?.filter((option) => option.type === "Taille")
+          .map((option) => (
             <HStack
               key={option.id}
               justify="space-between"
@@ -149,13 +135,53 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
               bg="brand.600"
               borderRadius="md"
             >
-              <Text color="gray.600">{option.type} :</Text>
+              <Text color="gray.600">Taille :</Text>
               <Text fontWeight="bold">{option.nom}</Text>
             </HStack>
-          ))
+          ))}
+
+        {/* --- SECTION FINITION --- */}
+        {/* On filtre pour ne garder que les options de type "Finition" */}
+        {order.optionsChoisies
+          ?.filter((option) => option.type === "Finition")
+          .map((option) => (
+            <HStack
+              key={option.id}
+              justify="space-between"
+              p={2}
+              bg="brand.600"
+              borderRadius="md"
+            >
+              <Text color="gray.600">Finition :</Text>
+              <Text fontWeight="bold">{option.nom}</Text>
+            </HStack>
+          ))}
+
+        {/* --- SECTION EXTRAS --- */}
+        <Divider my={2} />
+        <Heading size="sm" color="brand.700">
+          Extras
+        </Heading>
+
+        {/* On filtre pour ne garder que les options de type "Extra" */}
+        {order.optionsChoisies?.filter((option) => option.type === "Extra")
+          .length > 0 ? (
+          order.optionsChoisies
+            ?.filter((option) => option.type === "Extra")
+            .map((option) => (
+              <HStack
+                key={option.id}
+                justify="space-between"
+                p={2}
+                bg="gray.100" // Couleur un peu différente pour les distinguer
+                borderRadius="md"
+              >
+                <Text color="gray.600">{option.nom}</Text>
+              </HStack>
+            ))
         ) : (
-          <Text fontStyle="italic" fontSize="sm">
-            Aucune option spécifique.
+          <Text fontStyle="italic" fontSize="sm" color="gray.500">
+            Aucun extra sélectionné.
           </Text>
         )}
       </VStack>
@@ -172,6 +198,30 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
           </Box>
         </>
       )}
+
+      <Divider />
+
+      <Heading size="sm" mt={6} mb={4} color="brand.700">
+        Informations de livraison :
+      </Heading>
+
+      <VStack align="stretch" spacing={4}>
+        <HStack justify="space-between" p={2} bg="brand.100" borderRadius="md">
+          <Text>
+            <strong>Mode de livraison :</strong> {order.livraison}
+          </Text>
+        </HStack>
+        <SaveCommandeYae order={order} onSuccess={onUpdate} />
+
+        {/* Le nouveau formulaire pour gérer l'URL */}
+        <SaveTrackingUrlForm order={order} onSuccess={onUpdate} />
+
+        {/* Le bouton d'envoi d'email, qui n'apparaît que si le lien existe */}
+        {/* On peut utiliser l'ancien SuiviColis ici, car il fait bien le job d'envoi */}
+        {order.lienSuiviColis && <SuiviColis order={order} />}
+      </VStack>
+
+      <Divider />
 
       <Heading size="md" mt={6} mb={4} color="brand.700">
         Galerie Photo

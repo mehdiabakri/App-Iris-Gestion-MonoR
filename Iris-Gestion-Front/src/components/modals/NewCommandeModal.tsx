@@ -91,7 +91,7 @@ const NewCommandeModal = ({
     Object.keys(commandeProductData).forEach((key) => {
       if (key.startsWith("options_")) {
         const value = commandeProductData[key];
-        if (key === "options_extra" && Array.isArray(value)) {
+        if (key === "options_Extra" && Array.isArray(value)) {
           optionsChoisiesIRIs.push(...value);
         } else if (typeof value === "string" && value) {
           optionsChoisiesIRIs.push(value);
@@ -152,14 +152,20 @@ const NewCommandeModal = ({
                     <FormControl isInvalid={!!errors.statut}>
                       <FormLabel>Statut</FormLabel>
                       <Select {...register("statut")}>
-                    <option value="A retoucher">A retoucher</option>
-                    <option value="A imprimer">A imprimer</option>
-                    <option value="A envoyer client">A envoyer client</option>
-                    <option value="Attente retour client">Attente retour client</option>
-                    <option value="A commander">A commander</option>
-                    <option value="Commande OK">Commande OK</option>
-                    <option value="Livraison en cours">Livraison en cours</option>
-                    <option value="Terminé">Terminé</option>
+                        <option value="A retoucher">A retoucher</option>
+                        <option value="A imprimer">A imprimer</option>
+                        <option value="A envoyer client">
+                          A envoyer client
+                        </option>
+                        <option value="Attente retour client">
+                          Attente retour client
+                        </option>
+                        <option value="A commander">A commander</option>
+                        <option value="Commande OK">Commande OK</option>
+                        <option value="Livraison en cours">
+                          Livraison en cours
+                        </option>
+                        <option value="Terminé">Terminé</option>
                       </Select>
                     </FormControl>
                     <FormControl>
@@ -310,6 +316,7 @@ const NewCommandeModal = ({
                         <option value="Infini">Infini</option>
                         <option value="Reflet">Reflet</option>
                         <option value="Fleur">Fleur</option>
+                        <option value="Passion">Passion</option>
                       </Select>
                     </FormControl>
                     <FormControl>

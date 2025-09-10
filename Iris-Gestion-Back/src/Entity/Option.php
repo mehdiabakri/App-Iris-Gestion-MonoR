@@ -139,4 +139,23 @@ class Option
 
         return $this;
     }
+
+    public function addProduitBasis(ProduitBase $produitBasis): static
+    {
+        if (!$this->produitBases->contains($produitBasis)) {
+            $this->produitBases->add($produitBasis);
+            $produitBasis->addOptionsDisponible($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduitBasis(ProduitBase $produitBasis): static
+    {
+        if ($this->produitBases->removeElement($produitBasis)) {
+            $produitBasis->removeOptionsDisponible($this);
+        }
+
+        return $this;
+    }
 }

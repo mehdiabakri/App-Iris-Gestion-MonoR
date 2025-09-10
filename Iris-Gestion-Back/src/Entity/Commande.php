@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -107,7 +108,7 @@ class Commande
     private ?string $remarque = null;
 
     #[ORM\Column(type: "datetime_immutable")]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'client:read'])]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -336,32 +337,6 @@ class Commande
         return $this;
     }
 
-    /**
-     * @return Collection<int, Option>
-     */
-    public function getOptionsChoisies(): Collection
-    {
-        return $this->optionsChoisies;
-    }
-
-    public function addOptionsChoisy(Option $option): static
-    {
-        if (!$this->optionsChoisies->contains($option)) {
-            $this->optionsChoisies->add($option);
-            $option->addCommande($this); // Celle-ci est optionnelle mais ne fait pas de mal
-        }
-
-        return $this;
-    }
-
-    public function removeOptionsChoisy(Option $option): static
-    {
-        if ($this->optionsChoisies->removeElement($option)) {
-            $option->removeCommande($this); // Celle-ci est optionnelle
-        }
-        return $this;
-    }
-
     #[Groups(['commande:read', 'commande:detail', 'client:read', 'client:detail'])]
     public function getPiwigoAlbumUrl(): ?string
     {
@@ -406,6 +381,30 @@ class Commande
     public function setCommandeYae(string $commandeYae): self
     {
         $this->commandeYae = $commandeYae;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Option>
+     */
+    public function getOptionsChoisies(): Collection
+    {
+        return $this->optionsChoisies;
+    }
+
+    public function addOptionsChoisy(Option $optionsChoisy): static
+    {
+        if (!$this->optionsChoisies->contains($optionsChoisy)) {
+            $this->optionsChoisies->add($optionsChoisy);
+        }
+
+        return $this;
+    }
+
+    public function removeOptionsChoisy(Option $optionsChoisy): static
+    {
+        $this->optionsChoisies->removeElement($optionsChoisy);
+
         return $this;
     }
 }

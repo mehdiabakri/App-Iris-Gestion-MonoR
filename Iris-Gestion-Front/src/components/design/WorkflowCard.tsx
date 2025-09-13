@@ -8,11 +8,25 @@ import {
   Flex,
   Tooltip,
   Icon,
+  Select, // Import du composant Select
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import type { Commande } from "../../types/Types";
 import CopyButton from "../design/CopyButton";
 import { MdOutlineSearch } from "react-icons/md";
+import { useUpdateCommande } from "../../hooks/useCommandes"; // Import du hook de mise à jour
+
+// Liste des statuts possibles pour le menu déroulant
+const STATUTS = [
+  "A retoucher",
+  "A imprimer",
+  "A envoyer client",
+  "Attente retour client",
+  "A commander",
+  "Commande OK",
+  "Terminé",
+  "Livraison en cours",
+];
 
 type WorkflowCardProps = {
   commande: Commande;
@@ -21,15 +35,25 @@ type WorkflowCardProps = {
 const WorkflowCard = ({ commande }: WorkflowCardProps) => {
   const navigate = useNavigate();
 
+  // On utilise notre hook de mutation
+const { mutate: updateStatut, isPending: isUpdating } = useUpdateCommande();
+
   const handleCardClick = () => {
     if (commande.client?.id) {
       navigate(`/clients/${commande.client.id}`);
     }
   };
 
+  // Fonction pour gérer le changement de statut
+  const handleStatutChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newStatut = event.target.value;
+    // On ne lance la mise à jour que si le statut a réellement changé
+    if (newStatut && newStatut !== commande.statut) {
+      updateStatut({ id: commande.id, statut: newStatut });
+    }
+  };
+
   return (
-    // 1. On transforme le Box en Flex et on le met en colonne.
-    //    On supprime la hauteur fixe `h={425}`.
     <Flex
       flexDirection="column"
       justifyContent="space-between"
@@ -44,9 +68,9 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
         boxShadow: "xl",
       }}
       w="100%"
-      h="100%" // Important: dire à la carte de prendre toute la hauteur de sa cellule de grille
+      h="100%"
     >
-      {/* 2. On garde un VStack pour tout le contenu SAUF le bouton final */}
+      {/* --- Section principale avec les informations --- */}
       <VStack spacing={3} align="stretch" w="100%">
         <Flex justify="space-between" gap={6} align="center">
           <Tooltip label={commande.client?.email || ""} placement="top">
@@ -61,7 +85,6 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
 
         <Divider />
 
-        {/* Corps de la carte (inchangé) */}
         <VStack spacing={2} align="stretch" py={2}>
           <HStack justify="space-between">
             <Text fontSize="sm" color="gray.500">
@@ -71,7 +94,6 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
               {commande.client?.prenom} {commande.client?.nom}
             </Text>
           </HStack>
-          {/* ... autres HStack ... */}
           <HStack justify="space-between">
             <Text fontSize="sm" color="gray.500">
               Date :
@@ -96,7 +118,7 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
 
         <Divider />
 
-        {/* Section Livrable (inchangée) */}
+        {/* Section Livrable */}
         <Box>
           <VStack spacing={2} align="stretch">
             {commande.produitBase ? (
@@ -134,7 +156,31 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
           </VStack>
         </Box>
       </VStack>
-      <Divider my={5} />
+
+      {/* --- SECTION MISE À JOUR DU STATUT (AJOUTÉE) --- */}
+      <Divider my={4} />
+      <VStack align="stretch" w="100%">
+        <Text fontSize="sm" fontWeight="bold" color="gray.600" mb={1}>
+          Statut
+        </Text>
+        <Select
+          size="sm"
+          borderRadius="md"
+          value={commande.statut || ""}
+          onChange={handleStatutChange}
+          isDisabled={isUpdating}
+          opacity={isUpdating ? 0.6 : 1}
+        >
+          {STATUTS.map((statut) => (
+            <option key={statut} value={statut}>
+              {statut}
+            </option>
+          ))}
+        </Select>
+      </VStack>
+      
+      {/* --- Bouton de navigation en bas --- */}
+      <Divider my={4} />
       <Box
         as="button"
         onClick={handleCardClick}

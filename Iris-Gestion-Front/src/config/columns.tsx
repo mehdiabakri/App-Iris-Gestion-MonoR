@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "@chakra-ui/react";
+import { Button, Badge } from "@chakra-ui/react";
 import type { Client, Commande } from "../types/Types";
 
 // 1. On rend le type ColumnDefinition générique
@@ -59,6 +59,18 @@ export const retouchesColumns: ColumnDefinition<Commande>[] = [
   },
 ];
 
+// Objet pour mapper les statuts à des couleurs Chakra UI
+const statutColors: { [key: string]: string } = {
+  "A retoucher": "orange",
+  "A imprimer": "orange",
+  "A envoyer client": "blue",
+  "Attente retour client": "purple",
+  "A commander": "cyan",
+  "Commande OK": "teal",
+  "Terminé": "green",
+  "Livraison en cours": "pink",
+};
+
 export const allOrderColumns: ColumnDefinition<Commande>[] = [
   {
     key: "createdAt",
@@ -91,7 +103,24 @@ export const allOrderColumns: ColumnDefinition<Commande>[] = [
     label: "Téléphone",
     render: (cmd) => `${cmd.client?.telephone}`,
   },
-  { key: "statut", label: "Statut", render: (cmd) => cmd.statut },
+{
+  key: "statut",
+  label: "Statut",
+  render: (cmd: Commande) => {
+    const statut = cmd.statut;
+
+    // On vérifie d'abord si le statut existe
+    return statut ? (
+      // Si OUI (le statut est une chaîne de caractères) : on affiche le badge coloré
+      <Badge colorScheme={statutColors[statut] || 'gray'} variant="solid">
+        {statut}
+      </Badge>
+    ) : (
+      // Si NON (le statut est undefined ou null) : on affiche un badge par défaut
+      <Badge colorScheme="gray">Non défini</Badge>
+    );
+  },
+},
   {
     key: "actions",
     label: "Actions",

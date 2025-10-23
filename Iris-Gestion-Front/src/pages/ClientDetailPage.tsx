@@ -216,6 +216,20 @@ const ClientDetailPage = () => {
         <HStack spacing={3} mt={{ base: 4, md: 0 }}>
           <Button
             as={RouterLink}
+            to={`/clients/list`}
+            colorScheme="green"
+          >
+            Liste
+          </Button>
+                    <Button
+            as={RouterLink}
+            to={`/commandes`}
+            colorScheme="green"
+          >
+            Commandes
+          </Button>
+          <Button
+            as={RouterLink}
             to={`/clients/${client?.id}/edit`}
             colorScheme="yellow"
           >

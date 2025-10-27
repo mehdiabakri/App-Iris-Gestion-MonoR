@@ -2,7 +2,7 @@ parameters:
     # On déclare ici les variables d'environnement que notre application utilise
     # pour que le conteneur de services de Symfony en soit conscient.
     env(JWT_PASSPHRASE): ''
-    app.sender_email: 'honfleur@youandeyephoto.com'
+    app.sender_email: 'contact@m2-photographie.fr'
     app.sender_name: 'You & Eye Photo - Honfleur'
 
 services:

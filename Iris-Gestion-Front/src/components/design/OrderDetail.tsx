@@ -26,6 +26,7 @@ import { FiCamera, FiExternalLink, FiMail, FiSearch } from "react-icons/fi";
 import EnvoiLienGalerie from "../emailSender/EnvoiLienGalerie";
 import SaveGalleryUrlForm from "./SaveGalleryUrlForm";
 import SaveCommandeYae from "./SaveCommandeYae";
+import EnvoiAvisClient from "../emailSender/EnvoiAvisClient";
 
 interface OrderDetailProps {
   order: Commande | null;
@@ -53,7 +54,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
   console.log("Détail des optionsChoisies reçues :", order.optionsChoisies);
 
   return (
-    <Box
+    <><Box
       p={6}
       borderWidth="1px"
       borderColor="gray.200"
@@ -236,7 +237,10 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
           <EnvoiLienGalerie order={order} />
         </Box>
       )}
-    </Box>
+    </Box><Box mt={4}>
+        <EnvoiAvisClient order={order} onUpdate={onUpdate} />
+      </Box></>
+
   );
 };
 

@@ -68,6 +68,7 @@ export type Commande = {
   produitBase: ProduitBase;
   optionsChoisies: Option[];
   galleryEmailSentAt?: string;
+  reviewEmailSentAt?: string;
   piwigoAlbumUrl?: string;
   commandeYae?: string;
   client: {

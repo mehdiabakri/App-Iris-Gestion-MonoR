@@ -106,4 +106,34 @@ class EmailController extends AbstractController
             'trackingUrl' => $commande->getLienSuiviColis()
         ]);
     }
+
+    // === ENDPOINT POUR ENVOYER LA DEMANDE D'AVIS ===
+    #[Route('/{id}/send-review-request', name: 'api_order_send_review_request', methods: ['POST'])]
+    public function sendReviewRequest(Commande $commande): JsonResponse
+    {
+        // Sécurité : On vérifie si l'email n'a pas déjà été envoyé
+        if ($commande->getReviewEmailSentAt() !== null) {
+            return $this->json(['error' => 'L\'email de demande d\'avis a déjà été envoyé.'], 409);
+        }
+
+        try {
+            // On utilise le service pour envoyer l'email
+            $this->emailSender->sendReviewRequestEmail($commande->getClient()->getEmail(), [
+                'clientPrenom' => $commande->getClient()->getPrenom(),
+            ]);
+
+            // On met à jour la date d'envoi dans l'entité Commande
+            $commande->setReviewEmailSentAt(new DateTimeImmutable());
+            $this->em->flush();
+
+            return $this->json([
+                'message' => 'Email de demande d\'avis envoyé avec succès.',
+                'sentAt' => $commande->getReviewEmailSentAt()
+            ]);
+        } catch (\Exception $e) {
+            $this->logger->error('Erreur lors de l\'envoi de l\'email de demande d\'avis : ' . $e->getMessage());
+            return $this->json(['error' => 'Impossible d\'envoyer l\'email.'], 500);
+        }
+    }
+
 }

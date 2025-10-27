@@ -77,4 +77,16 @@ class EmailSender
             'Votre galerie photo est prête !'
         );
     }
+
+    public function sendReviewRequestEmail(string $recipientEmail, array $data): void
+    {
+        $this->sendWithTemplate(
+            $recipientEmail,
+            3,
+            [
+                'clientPrenom' => $data['clientPrenom'],
+            ],
+            'Votre avis nous intéresse !'
+        );
+    }
 }

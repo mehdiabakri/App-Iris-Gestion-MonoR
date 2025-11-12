@@ -65,6 +65,6 @@ class AddFichierHdOptionToImpressionProduct extends Fixture implements FixtureGr
     public static function getGroups(): array
     {
         // On garde cette fixture dans un groupe dédié aux mises à jour.
-        return ['updates'];
+        return ['updates-1'];
     }
 }

@@ -16,7 +16,6 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/DataFixtures/DevFixtures.php'
 
         tags: ['controller.service_arguments']
 

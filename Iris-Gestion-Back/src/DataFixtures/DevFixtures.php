@@ -33,7 +33,7 @@ class DevFixtures extends Fixture implements DependentFixtureInterface, FixtureG
         // ===================================================================
 
         // --- CLIENTS ---
-        $nombreDeClients = 10;
+        $nombreDeClients = 100;
         for ($i = 0; $i < $nombreDeClients; $i++) {
             $client = new Client();
             $client->setNom($faker->lastName());

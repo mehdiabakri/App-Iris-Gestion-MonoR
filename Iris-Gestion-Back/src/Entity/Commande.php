@@ -24,7 +24,9 @@ use ApiPlatform\Metadata\Patch;
     // On définit explicitement les opérations et les groupes à utiliser pour chacune
     operations: [
 
-        new GetCollection(normalizationContext: ['groups' => 'commande:read']),
+        new GetCollection(normalizationContext: ['groups' => 'commande:read'],
+            paginationEnabled: false
+        ),
         new Get(normalizationContext: ['groups' => 'commande:detail']),
         new Post(denormalizationContext: ['groups' => 'commande:write']),
         new Patch(denormalizationContext: ['groups' => 'commande:write'], normalizationContext: ['groups' => 'commande:detail'])

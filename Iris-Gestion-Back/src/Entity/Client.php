@@ -19,10 +19,13 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 
 #[ApiResource(
-    
+
     // On définit explicitement les opérations et les groupes à utiliser pour chacune
     operations: [
-        new GetCollection(normalizationContext: ['groups' => 'client:read']),
+        new GetCollection(
+            normalizationContext: ['groups' => 'client:read'],
+            paginationEnabled: false
+        ),
         new Get(normalizationContext: ['groups' => 'client:detail']),
         new Post(denormalizationContext: ['groups' => 'client:write']),
         new Patch(denormalizationContext: ['groups' => 'client:write']),
@@ -53,27 +56,27 @@ class Client
     private ?string $email = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['client:read', 'client:detail','commande:read', 'client:write'])]
+    #[Groups(['client:read', 'client:detail', 'commande:read', 'client:write'])]
     private ?string $telephone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['client:detail', 'client:write','commande:read'])]
+    #[Groups(['client:detail', 'client:write', 'commande:read'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['client:detail', 'client:write','commande:read'])]
+    #[Groups(['client:detail', 'client:write', 'commande:read'])]
     private ?string $complementAdresse = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    #[Groups(['client:detail', 'client:write','commande:read'])]
+    #[Groups(['client:detail', 'client:write', 'commande:read'])]
     private ?string $codePostal = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['client:detail', 'client:write','commande:read'])]
+    #[Groups(['client:detail', 'client:write', 'commande:read'])]
     private ?string $ville = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['client:detail', 'client:write','commande:read'])]
+    #[Groups(['client:detail', 'client:write', 'commande:read'])]
     private ?string $pays = null;
 
     #[ORM\Column(type: "datetime_immutable")]

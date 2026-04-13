@@ -73,7 +73,9 @@ class CommandeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('cmd')
             ->select('count(cmd.id)')
             ->where('YEAR(cmd.createdAt) = :year')
+            ->andWhere('MONTH(cmd.createdAt) = :month')
             ->setParameter('year', (new \DateTime())->format('Y'))
+            ->setParameter('month', (new \DateTime())->format('m'))
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -113,9 +115,11 @@ class CommandeRepository extends ServiceEntityRepository
             // On ajoute la condition : le nom de la catégorie doit être égal à notre paramètre
             ->where('cat.nom = :categoryName')
             ->andWhere('YEAR(cmd.createdAt) = :year') // On filtre aussi par année
+            ->andWhere('MONTH(cmd.createdAt) = :month') // On filtre aussi par mois
             // On lie la variable :categoryName à la valeur passée à la fonction
             ->setParameter('categoryName', $categoryName)
             ->setParameter('year', (new \DateTime())->format('Y'))
+            ->setParameter('month', (new \DateTime())->format('m'))
 
             // On exécute la requête
             ->getQuery()

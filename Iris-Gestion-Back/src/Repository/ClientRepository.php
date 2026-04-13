@@ -21,4 +21,18 @@ class ClientRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function countNouveauxClientsDuMois(): int
+{
+    $now = new \DateTime();
+    
+    return (int) $this->createQueryBuilder('c')
+        ->select('count(c.id)')
+        ->where('YEAR(c.createdAt) = :year')
+        ->andWhere('MONTH(c.createdAt) = :month')
+        ->setParameter('year', $now->format('Y'))
+        ->setParameter('month', $now->format('m'))
+        ->getQuery()
+        ->getSingleScalarResult();
+}
 }

@@ -42,7 +42,7 @@ const DashboardPage = () => {
 
   return (
     <ListPageLayout
-      title="Tableau de bord"
+      title="Stats du mois"
       isLoading={isLoading}
       isError={isError}
       error={error}
@@ -51,7 +51,7 @@ const DashboardPage = () => {
       <Box p={{ base: 4, md: 8 }}>
         <Box mt={50} mb={10}>
           <Heading color="white" mb={5}>
-            Mois en cours
+            Croissance portefeuille clients et commandes
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
             <StatCard

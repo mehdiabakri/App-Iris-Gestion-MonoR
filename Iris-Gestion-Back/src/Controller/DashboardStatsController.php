@@ -17,7 +17,7 @@ class DashboardStatsController extends AbstractController
     #[Route('/api/stats', name: 'app_dashboard_stats', methods: ['GET'])]
     public function __invoke(): JsonResponse
     {
-        $totalClients = $this->clientRepository->countClients();
+        $totalClients = $this->clientRepository->countNouveauxClientsDuMois();
         $totalCommandes = $this->commandeRepository->countCommandes();
         $inProgressCommandes = $this->commandeRepository->countInProgressCommandes();
         $commandesTableaux = $this->commandeRepository->countCommandesByCategory('Tableaux');

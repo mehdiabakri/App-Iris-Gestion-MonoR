@@ -26,7 +26,7 @@ import {
 import ListPageLayout from "../components/design/ListPageLayout";
 
 const DashboardPage = () => {
-  const { data: stats, isLoading, isError, error } = useDashboardStats();
+  const { data: monthlySales,isLoading, isError, error } = useDashboardStats();
 
   if (isLoading) {
     return (
@@ -51,24 +51,24 @@ const DashboardPage = () => {
       <Box p={{ base: 4, md: 8 }}>
         <Box mt={50} mb={10}>
           <Heading color="white" mb={5}>
-            Vue globale
+            Mois en cours
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
             <StatCard
               title="Total clients"
-              value={stats?.totalClients ?? 0}
+              value={monthlySales?.totalClients ?? 0}
               icon={FiUsers}
               color="purple"
             />
             <StatCard
               title="Commandes"
-              value={stats?.totalCommandes ?? 0}
+              value={monthlySales?.totalCommandes ?? 0}
               icon={FiShoppingBag}
               color="blue"
             />
             <StatCard
               title="En cours"
-              value={stats?.inProgressCommandes ?? 0}
+              value={monthlySales?.inProgressCommandes ?? 0}
               icon={FiClock}
               color="orange"
             />
@@ -83,43 +83,43 @@ const DashboardPage = () => {
           <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={6} mb={8}>
             <StatCard
               title="Tableaux"
-              value={stats?.commandesTableaux ?? 0}
+              value={monthlySales?.commandesTableaux ?? 0}
               icon={FiImage}
               color="teal"
             />
             <StatCard
               title="Impressions"
-              value={stats?.commandesImpressions ?? 0}
+              value={monthlySales?.commandesImpressions ?? 0}
               icon={FiPrinter}
               color="teal"
             />
             <StatCard
               title="Caissons"
-              value={stats?.commandesCaisson ?? 0}
+              value={monthlySales?.commandesCaisson ?? 0}
               icon={FiBox}
               color="teal"
             />
             <StatCard
               title="Fichiers"
-              value={stats?.commandesFichiers ?? 0}
+              value={monthlySales?.commandesFichiers ?? 0}
               icon={FiFile}
               color="teal"
             />
             <StatCard
               title="Blocs"
-              value={stats?.commandesBlocs ?? 0}
+              value={monthlySales?.commandesBlocs ?? 0}
               icon={FiCodepen}
               color="teal"
             />
             <StatCard
               title="Ronds"
-              value={stats?.commandesRonds ?? 0}
+              value={monthlySales?.commandesRonds ?? 0}
               icon={FiCircle}
               color="teal"
             />
             <StatCard
               title="Bijoux"
-              value={stats?.commandesBijoux ?? 0}
+              value={monthlySales?.commandesBijoux ?? 0}
               icon={FiLoader}
               color="teal"
             />

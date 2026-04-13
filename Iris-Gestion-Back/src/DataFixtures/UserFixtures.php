@@ -12,7 +12,6 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
 
-    // Le constructeur est simple, il ne demande que le service pour hasher.
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
@@ -20,12 +19,9 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager): void
     {
-        // LA BONNE FAÇON de lire une variable d'environnement : directement depuis la superglobale $_ENV.
-        // C'est simple, direct, et ça ne dépend d'aucune configuration de service complexe.
         $adminPassword = $_ENV['ADMIN_PASSWORD'] ?? null;
 
         if (!$adminPassword) {
-            // Si la variable ADMIN_PASSWORD n'est pas définie dans votre .env, on ne fait rien.
             return;
         }
 

@@ -26,6 +26,7 @@ class DashboardStatsController extends AbstractController
         $commandesBlocs = $this->commandeRepository->countCommandesByCategory('Blocs');
         $commandesImpressions = $this->commandeRepository->countCommandesByCategory('Impressions');
         $commandesRonds = $this->commandeRepository->countCommandesByCategory('Format Rond');
+        $commandesBijoux = $this->commandeRepository->countCommandesByCategory('Bijoux');
 
 
         $data = [
@@ -38,6 +39,7 @@ class DashboardStatsController extends AbstractController
             'commandesBlocs' => $commandesBlocs,
             'commandesImpressions' => $commandesImpressions,
             'commandesRonds' => $commandesRonds,
+            'commandesBijoux' => $commandesBijoux,
         ];
 
         return $this->json($data);

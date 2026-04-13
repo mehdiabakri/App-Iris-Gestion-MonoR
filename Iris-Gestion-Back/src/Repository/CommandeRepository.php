@@ -13,7 +13,7 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
-        /**
+    /**
      * Récupère les commandes pour l'export, potentiellement filtrées par une plage de dates.
      * Si les dates sont nulles, elle retourne toutes les commandes.
      *
@@ -35,13 +35,13 @@ class CommandeRepository extends ServiceEntityRepository
         // On ajoute la condition pour la date de début, SI elle est fournie
         if ($startDate) {
             $qb->andWhere('c.createdAt >= :startDate')
-               ->setParameter('startDate', $startDate->format('Y-m-d 00:00:00'));
+                ->setParameter('startDate', $startDate->format('Y-m-d 00:00:00'));
         }
 
         // On ajoute la condition pour la date de fin, SI elle est fournie
         if ($endDate) {
             $qb->andWhere('c.createdAt <= :endDate')
-               ->setParameter('endDate', $endDate->format('Y-m-d 23:59:59'));
+                ->setParameter('endDate', $endDate->format('Y-m-d 23:59:59'));
         }
 
         // On trie les résultats et on les exécute
@@ -72,6 +72,8 @@ class CommandeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('cmd')
             ->select('count(cmd.id)')
+            ->where('YEAR(cmd.createdAt) = :year')
+            ->setParameter('year', (new \DateTime())->format('Y'))
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -81,7 +83,9 @@ class CommandeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('cmd')
             ->select('count(cmd.id)')
             ->where('cmd.statut != :status') // On filtre par statut
+            ->andWhere('YEAR(cmd.createdAt) = :year') // On filtre aussi par année
             ->setParameter('status', 'Terminé') // On définit la valeur du paramètre
+            ->setParameter('year', (new \DateTime())->format('Y')) // On définit la valeur du paramètre pour l'année
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -108,9 +112,10 @@ class CommandeRepository extends ServiceEntityRepository
 
             // On ajoute la condition : le nom de la catégorie doit être égal à notre paramètre
             ->where('cat.nom = :categoryName')
-
+            ->andWhere('YEAR(cmd.createdAt) = :year') // On filtre aussi par année
             // On lie la variable :categoryName à la valeur passée à la fonction
             ->setParameter('categoryName', $categoryName)
+            ->setParameter('year', (new \DateTime())->format('Y'))
 
             // On exécute la requête
             ->getQuery()
@@ -122,22 +127,19 @@ class CommandeRepository extends ServiceEntityRepository
      * @return array
      */
     public function getMonthlySales(): array
-{
-    return $this->createQueryBuilder('c')
-        ->select('
+    {
+        return $this->createQueryBuilder('c')
+            ->select('
             YEAR(c.createdAt) as year, 
             MONTH(c.createdAt) as month, 
             COUNT(c.id) as totalCommandes
         ')
-        ->where('c.createdAt > :one_year_ago')
-        ->setParameter('one_year_ago', new \DateTime('-1 year'))
-        ->groupBy('year', 'month')
-        ->orderBy('year', 'ASC')
-        ->addOrderBy('month', 'ASC')
-        ->getQuery()
-        ->getResult();
-}
-
-
-
+            ->where('c.createdAt > :one_year_ago')
+            ->setParameter('one_year_ago', new \DateTime('-1 year'))
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'ASC')
+            ->addOrderBy('month', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

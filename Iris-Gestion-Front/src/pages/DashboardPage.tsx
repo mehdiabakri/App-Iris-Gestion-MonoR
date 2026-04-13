@@ -38,7 +38,9 @@ const DashboardPage = () => {
     >
       <Box p={{ base: 4, md: 8 }}>
         <Box mt={50} mb={110}>
-          <Heading color="white" mb={5}>Ventes annuelles</Heading>
+          <Heading color="white" mb={5}>
+            Ventes annuelles
+          </Heading>
           {/* Section des KPIs */}
           <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={6} mb={8}>
             <StatCard
@@ -71,12 +73,26 @@ const DashboardPage = () => {
               icon={FiCodepen}
               color="teal"
             />
+            <StatCard
+              title="Ronds"
+              value={stats?.commandesRonds ?? 0}
+              icon={FiCodepen}
+              color="teal"
+            />
+            <StatCard
+              title="Bijoux"
+              value={stats?.commandesBijoux ?? 0}
+              icon={FiCodepen}
+              color="teal"
+            />
           </SimpleGrid>
         </Box>
 
         {/* Section du Graphique */}
         <Box>
-          <Heading color="white" mb={5}>Ventes mensuelles</Heading>
+          <Heading color="white" mb={5}>
+            Ventes mensuelles
+          </Heading>
           <SalesChart />
         </Box>
       </Box>

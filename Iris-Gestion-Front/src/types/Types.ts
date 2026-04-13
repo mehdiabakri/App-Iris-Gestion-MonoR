@@ -224,4 +224,6 @@ export type DashboardStats = {
   commandesImpressions: number;
   commandesFichiers: number;
   commandesBlocs: number;
+  commandesRonds: number;
+  commandesBijoux: number;
 };

@@ -11,7 +11,18 @@ import {
 import StatCard from "../components/dashboard/StatCard";
 import SalesChart from "../components/dashboard/SalesChart";
 
-import { FiImage, FiPrinter, FiBox, FiFile, FiCodepen } from "react-icons/fi";
+import {
+  FiImage,
+  FiPrinter,
+  FiBox,
+  FiFile,
+  FiCodepen,
+  FiLoader,
+  FiCircle,
+  FiClock,
+  FiShoppingBag,
+  FiUsers,
+} from "react-icons/fi";
 import ListPageLayout from "../components/design/ListPageLayout";
 
 const DashboardPage = () => {
@@ -36,12 +47,39 @@ const DashboardPage = () => {
       isError={isError}
       error={error}
     >
+        {/* Section des stats globales */}
       <Box p={{ base: 4, md: 8 }}>
+        <Box mt={50} mb={10}>
+          <Heading color="white" mb={5}>
+            Vue globale
+          </Heading>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
+            <StatCard
+              title="Total clients"
+              value={stats?.totalClients ?? 0}
+              icon={FiUsers}
+              color="purple"
+            />
+            <StatCard
+              title="Commandes"
+              value={stats?.totalCommandes ?? 0}
+              icon={FiShoppingBag}
+              color="blue"
+            />
+            <StatCard
+              title="En cours"
+              value={stats?.inProgressCommandes ?? 0}
+              icon={FiClock}
+              color="orange"
+            />
+          </SimpleGrid>
+        </Box>
+
+        {/* Section des commandes par produit */}
         <Box mt={50} mb={110}>
           <Heading color="white" mb={5}>
-            Ventes annuelles
+            Ventes par catégories
           </Heading>
-          {/* Section des KPIs */}
           <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={6} mb={8}>
             <StatCard
               title="Tableaux"
@@ -76,13 +114,13 @@ const DashboardPage = () => {
             <StatCard
               title="Ronds"
               value={stats?.commandesRonds ?? 0}
-              icon={FiCodepen}
+              icon={FiCircle}
               color="teal"
             />
             <StatCard
               title="Bijoux"
               value={stats?.commandesBijoux ?? 0}
-              icon={FiCodepen}
+              icon={FiLoader}
               color="teal"
             />
           </SimpleGrid>
@@ -91,7 +129,7 @@ const DashboardPage = () => {
         {/* Section du Graphique */}
         <Box>
           <Heading color="white" mb={5}>
-            Ventes mensuelles
+            Comparatif des ventes Vs N-1
           </Heading>
           <SalesChart />
         </Box>

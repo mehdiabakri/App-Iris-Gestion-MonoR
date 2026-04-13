@@ -142,4 +142,20 @@ class CommandeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Récupère le total des ventes sur deux ans.
+     * @return array
+     */
+    public function getSalesForTwoYears(int $currentYear, int $previousYear): array
+{
+    // On suppose que ta date est dans un champ 'createdAt'
+    return $this->createQueryBuilder('c')
+        ->select('YEAR(c.createdAt) as year, MONTH(c.createdAt) as month, COUNT(c.id) as total')
+        ->where('YEAR(c.createdAt) IN (:years)')
+        ->setParameter('years', [$currentYear, $previousYear])
+        ->groupBy('year', 'month')
+        ->getQuery()
+        ->getArrayResult();
+}
 }

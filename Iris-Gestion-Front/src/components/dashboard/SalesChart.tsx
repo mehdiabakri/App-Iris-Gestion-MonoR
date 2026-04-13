@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -9,34 +9,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
-import { useMonthlySales } from "../../hooks/useDashboardStats";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
+import { useMonthlySales } from "../../hooks/useDashboardStats"; // Vérifie ton chemin d'import
 
 const SalesChart = () => {
   const { data: salesData, isLoading, isError } = useMonthlySales();
 
-const formattedData = useMemo(() => {
-    if (!Array.isArray(salesData)) return [];
-
-    return salesData.map((item) => {
-      // 1. On sépare l'année et le mois à partir de la chaîne "YYYY-MM"
-      const [year, month] = item.month.split('-').map(Number);
-
-      // ATTENTION : les mois en JS sont indexés à partir de 0 (0=Janvier, 11=Décembre)
-      // C'est pourquoi je fais "month - 1".
-      const date = new Date(year, month - 1, 2); 
-
-      // On formate la date en "Mois Année"
-      const monthName = new Intl.DateTimeFormat("fr-FR", {
-        month: "long",
-      }).format(date);
-
-      return {
-        ...item,
-        monthName: monthName.charAt(0).toUpperCase() + monthName.slice(1),
-      };
-    });
-  }, [salesData]);
+  // On récupère les années pour nommer les éléments de la légende
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
 
   if (isLoading) {
     return (
@@ -59,23 +40,48 @@ const formattedData = useMemo(() => {
       bg="white"
       h="400px"
     >
-      <Heading color="brand.200" size="md" mb={4}>
-        Ventes Mensuelles
-      </Heading>
+
+      
       <ResponsiveContainer width="100%" height="90%">
         <BarChart
-          data={formattedData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          data={salesData}
+          margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="monthName" />
-          <YAxis />
-          <Tooltip formatter={(value: number) => `${value.toFixed(0)}`} />
-          <Legend />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />          
+          <XAxis 
+            dataKey="name" 
+            axisLine={false} 
+            tickLine={false} 
+            tick={{ fill: '#718096', fontSize: 14 }} 
+          />
+          
+          <YAxis 
+            axisLine={false} 
+            tickLine={false} 
+            tick={{ fill: '#718096' }} 
+          />
+          
+          <Tooltip 
+            cursor={{ fill: 'transparent' }} // Enlève le fond gris moche au survol
+            formatter={(value: number) => [`${value} commande${value > 1 ? 's' : ''}`]} 
+          />
+          
+          <Legend verticalAlign="bottom" height={36} iconType="circle" />
+
+          {/* BARRE 1 : L'année précédente */}
           <Bar
-            dataKey="totalCommandes"
-            name="Nombre de commandes"
+            dataKey="anneePrecedente"
+            name={previousYear.toString()}
+            fill="#E2E8F0"
+            radius={[4, 4, 0, 0]}
+          />
+
+          {/* BARRE 2 : L'année en cours */}
+          <Bar
+            dataKey="anneeEnCours"
+            name={currentYear.toString()}
             fill="#f8de29"
+            radius={[4, 4, 0, 0]}
           />
         </BarChart>
       </ResponsiveContainer>

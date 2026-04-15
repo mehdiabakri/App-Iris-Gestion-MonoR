@@ -46,3 +46,35 @@ export const createCommande = async (
     body: JSON.stringify(formData),
   });
 };
+
+// ===================================================================
+//              FONCTIONS SPÉCIFIQUES POUR LE KANBAN
+// ===================================================================
+
+// Récupére les commandes avec le groupe "kanban:read"
+export const fetchKanbanCommandes = async (
+  filters: Record<string, string> = {}
+): Promise<Commande[]> => {
+  const params = new URLSearchParams(filters);
+  const url = `/api/commandes/kanban?${params.toString()}`;
+  const data = await customFetch(url);
+  return data?.['hydra:member'] || data?.member ||[];
+};
+
+// Définit explicitement les paramètres attendus
+export type TransitionCommandeParams = {
+  commandId: string;
+  transitionName: string;
+};
+
+export const transitionCommande = async ({
+  commandId,
+  transitionName,
+}: TransitionCommandeParams): Promise<Commande> => {
+  return customFetch(`/api/commandes/${commandId}/transition/${transitionName}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

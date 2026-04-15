@@ -32,11 +32,11 @@ class Option
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produitBase:read', 'options:read', 'commande:detail', 'client:detail', 'commande:read'])]
+    #[Groups(['produitBase:read', 'options:read', 'commande:detail', 'client:detail', 'commande:read', 'kanban:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produitBase:read', 'options:read', 'commande:detail', 'client:detail', 'commande:read'])]
+    #[Groups(['produitBase:read', 'options:read', 'commande:detail', 'client:detail', 'commande:read', 'kanban:read'])]
     private ?string $type = null;
 
     /**

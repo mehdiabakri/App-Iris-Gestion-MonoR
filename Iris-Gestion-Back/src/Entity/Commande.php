@@ -27,7 +27,13 @@ use ApiPlatform\Metadata\Patch;
         new GetCollection(normalizationContext: ['groups' => 'commande:read'],
             paginationEnabled: false
         ),
-        new Get(normalizationContext: ['groups' => 'commande:detail']),
+        new GetCollection(
+            uriTemplate: '/commandes/kanban', // URL personnalisée pour gestion du kanban
+            normalizationContext: ['groups' => 'kanban:read'],
+            paginationEnabled: false,
+            name: 'api_commandes_kanban'
+        ),
+        new Get(normalizationContext: ['groups' => 'commande:detail'], ),
         new Post(denormalizationContext: ['groups' => 'commande:write']),
         new Patch(denormalizationContext: ['groups' => 'commande:write'], normalizationContext: ['groups' => 'commande:detail'])
     ],
@@ -42,27 +48,27 @@ class Commande
 {
     #[ORM\Id]
     #[ORM\Column(type: "string", length: 36)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private string $id;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private string $statut;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private string $numPhoto;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private string $effet;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private string $nbIris;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private string $nbIrisAnimaux;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -106,7 +112,7 @@ class Commande
     private ?\DateTimeImmutable $googleReviewEmailSentAt = null;
 
     #[ORM\Column(type: "text", nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private ?string $remarque = null;
 
     #[ORM\Column(type: "datetime_immutable")]
@@ -131,19 +137,19 @@ class Commande
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private ?Client $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write', 'kanban:read'])]
     private ?ProduitBase $produitBase = null;
 
     /**
      * @var Collection<int, Option>
      */
     #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'commandes', cascade: ['persist'])]
-    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'commande:write', 'client:detail', 'client:write', 'kanban:read'])]
     private Collection $optionsChoisies;
 
     #[ORM\Column(length: 50, nullable: true)]

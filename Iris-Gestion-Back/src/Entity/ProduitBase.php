@@ -37,12 +37,12 @@ class ProduitBase
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read', 'commande:detail'])]
+    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read', 'commande:detail', 'kanban:read'])]
     private ?string $nom = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read','commande:detail'])]
+    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read','commande:detail', 'kanban:read'])]
     private ?Categorie $categorie = null;
 
     /**

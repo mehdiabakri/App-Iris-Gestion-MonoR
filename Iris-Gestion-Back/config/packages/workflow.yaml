@@ -1,0 +1,61 @@
+framework:
+    workflows:
+        order_process:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'statut'
+            supports:
+                - App\Entity\Commande
+            initial_marking: a_retoucher
+
+            # Tes 6 vraies colonnes Kanban (Places)
+            places:
+                - a_retoucher
+                - attente_retour_client
+                - a_commander
+                - commande_ok
+                - livraison_en_cours
+                - termine
+
+            # Les actions (Transitions)
+            transitions:
+                # --- PROCESS COURT (Numérique ou Impression Directe) ---
+                # On saute directement à "Terminé" !
+                terminer_directement:
+                    from: a_retoucher
+                    to: termine
+
+                # --- PROCESS LONG (tableaux,blocs,bijoux ect.) ---
+
+                # On envoie le BAT et on attend
+                demander_validation:
+                    from: a_retoucher
+                    to: attente_retour_client
+
+                # Le client refuse (on le renvoie en retouche)
+                client_refuse:
+                    from: attente_retour_client
+                    to: a_retoucher
+
+                # Le client valide (on passe à la commande)
+                client_valide:
+                    from: attente_retour_client
+                    to: a_commander
+
+                # commande faite sur centrale achat
+                passer_commande_fournisseur:
+                    from: a_commander
+                    to: commande_ok
+
+                # Colis expédié au client
+                expedier_colis:
+                    from: commande_ok
+                    to: livraison_en_cours
+
+                # Le client a bien reçu son colis
+                livraison_recue:
+                    from: livraison_en_cours
+                    to: termine

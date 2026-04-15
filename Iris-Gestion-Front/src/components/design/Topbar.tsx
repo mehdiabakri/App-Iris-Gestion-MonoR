@@ -273,6 +273,8 @@ export default function Topbar() {
 
             <NavItem icon={FiEdit} label="Retouches" to="/retouches" />
 
+            <NavItem icon={FiEdit} label="Suivi" to="/kanban" />
+
             <NavItem icon={FiPackage} label="Commandes" to="/commandes" />
           </HStack>
 

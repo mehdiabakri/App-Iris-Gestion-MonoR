@@ -3,11 +3,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   fetchCommandes,
   fetchCommandeById,
-  updateCommande, // On utilise votre fonction existante
+  updateCommande,
+  fetchKanbanCommandes,
+  transitionCommande
 } from '../api/commandes';
 
 // On définit un type pour les filtres pour plus de clarté
 type CommandeFilters = Record<string, string>;
+
+
 
 // Hook pour la LISTE des commandes (avec filtres)
 export const useCommandes = (filters?: CommandeFilters) => {
@@ -47,12 +51,10 @@ export const useUpdateCommande = () => {
 
     // Lorsque la mise à jour réussit...
     onSuccess: (updatedCommande) => {
-      console.log('Mise à jour réussie !', updatedCommande);
-
       // 1. On invalide la liste des commandes pour forcer un rafraîchissement global.
       queryClient.invalidateQueries({ queryKey: ['commandes'] });
 
-      // 2. (Optionnel mais recommandé) On met aussi à jour directement le cache pour
+      // 2. On met aussi à jour directement le cache pour
       // la query de cette commande spécifique, pour une mise à jour instantanée si
       // un autre composant l'affiche.
       queryClient.setQueryData(['commande', updatedCommande.id], updatedCommande);
@@ -62,6 +64,40 @@ export const useUpdateCommande = () => {
     onError: (error) => {
       console.error("Échec de la mise à jour de la commande", error);
       // Pensez à afficher un message d'erreur à l'utilisateur ici (avec un toast par exemple)
+    },
+  });
+};
+
+// ===================================================================
+//   HOOKS SPÉCIFIQUES POUR LE KANBAN
+// ===================================================================
+
+// Hook pour charger les données du Kanban
+export const useKanbanCommandes = (filters?: Record<string, string>) => {
+  return useQuery({
+    queryKey: ['commandes-kanban', filters || {}],
+    queryFn: () => fetchKanbanCommandes(filters),
+    select: (data) => (Array.isArray(data) ? data :[]),
+  });
+};
+
+// Hook pour le Drag & Drop (déclenche la transition Symfony)
+export const useTransitionCommande = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: transitionCommande,
+    
+    onSuccess: () => {
+      console.log('Transition réussie !');
+      // Rafraîchit les listes pour être sûr que tout est synchro
+      queryClient.invalidateQueries({ queryKey: ['commandes-kanban'] });
+      queryClient.invalidateQueries({ queryKey: ['commandes'] });
+    },
+    
+    onError: (error) => {
+      console.error("Échec de la transition de la commande", error);
+      // L'alerte ou le toast d'erreur sera géré dans le composant KanbanBoard
     },
   });
 };

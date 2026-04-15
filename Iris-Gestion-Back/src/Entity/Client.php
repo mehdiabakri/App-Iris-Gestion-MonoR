@@ -40,19 +40,19 @@ class Client
 {
     #[ORM\Id]
     #[ORM\Column(type: "string", length: 36)]
-    #[Groups(['client:read', 'client:detail', 'commande:read', 'commande:retouche:read'])] // L'ID est visible dans les listes, les détails, et quand le client est dans une commande
+    #[Groups(['client:read', 'client:detail', 'commande:read', 'commande:retouche:read', 'kanban:read'])] // L'ID est visible dans les listes, les détails, et quand le client est dans une commande
     private string $id;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['client:read', 'client:detail', 'commande:read', 'commande:detail', 'client:write', 'commande:retouche:read'])]
+    #[Groups(['client:read', 'client:detail', 'commande:read', 'commande:detail', 'client:write', 'commande:retouche:read', 'kanban:read'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['client:read', 'client:detail', 'commande:read', 'commande:detail', 'client:write', 'commande:retouche:read'])]
+    #[Groups(['client:read', 'client:detail', 'commande:read', 'commande:detail', 'client:write', 'commande:retouche:read', 'kanban:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 150, nullable: true)]
-    #[Groups(['client:read', 'client:detail', 'client:write', 'commande:read'])]
+    #[Groups(['client:read', 'client:detail', 'client:write', 'commande:read', 'kanban:read'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 50, nullable: true)]

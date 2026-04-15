@@ -36,7 +36,7 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
   const navigate = useNavigate();
 
   // On utilise notre hook de mutation
-const { mutate: updateStatut, isPending: isUpdating } = useUpdateCommande();
+  const { mutate: updateStatut, isPending: isUpdating } = useUpdateCommande();
 
   const handleCardClick = () => {
     if (commande.client?.id) {
@@ -157,7 +157,7 @@ const { mutate: updateStatut, isPending: isUpdating } = useUpdateCommande();
         </Box>
       </VStack>
 
-      {/* --- SECTION MISE À JOUR DU STATUT (AJOUTÉE) --- */}
+      {/* --- SECTION MISE À JOUR DU STATUT --- */}
       <Divider my={4} />
       <VStack align="stretch" w="100%">
         <Text fontSize="sm" fontWeight="bold" color="gray.600" mb={1}>
@@ -178,7 +178,7 @@ const { mutate: updateStatut, isPending: isUpdating } = useUpdateCommande();
           ))}
         </Select>
       </VStack>
-      
+
       {/* --- Bouton de navigation en bas --- */}
       <Divider my={4} />
       <Box

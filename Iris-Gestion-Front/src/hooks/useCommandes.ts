@@ -53,6 +53,7 @@ export const useUpdateCommande = () => {
     onSuccess: (updatedCommande) => {
       // 1. On invalide la liste des commandes pour forcer un rafraîchissement global.
       queryClient.invalidateQueries({ queryKey: ['commandes'] });
+      queryClient.invalidateQueries({ queryKey: ['commandes-kanban'] });
 
       // 2. On met aussi à jour directement le cache pour
       // la query de cette commande spécifique, pour une mise à jour instantanée si

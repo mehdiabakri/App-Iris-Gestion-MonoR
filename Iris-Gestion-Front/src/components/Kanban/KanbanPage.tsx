@@ -10,6 +10,7 @@ import {
   Tooltip,
   VStack,
   HStack,
+  Button,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineSearch } from "react-icons/md";
@@ -216,7 +217,7 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
                                       >
                                         {commande.optionsChoisies
                                           .map((opt: Option) => opt.nom)
-                                          .join(" ")}{" "}
+                                          .join(" | ")}
                                       </Text>
                                     )}
                                 </Box>
@@ -227,6 +228,31 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
                       </Draggable>
                     ))}
                     {provided.placeholder}
+                    {/* --- BOUTON VOIR PLUS (Uniquement pour la colonne Terminé) --- */}
+                    {columnId === "Terminé" && (
+                      <Box p={2} mt="auto">
+                        {" "}
+                        {/* mt="auto" pousse le bouton vers le bas */}
+                        <Button
+                          size="xs"
+                          w="100%"
+                          colorScheme="yellow"
+                          variant="outline"
+                          onClick={() => navigate("/commandes")}
+                          leftIcon={<MdOutlineSearch />}
+                        >
+                          Voir l'historique
+                        </Button>
+                        <Text
+                          fontSize="9px"
+                          color="gray.500"
+                          textAlign="center"
+                          mt={1}
+                        >
+                          Affichage limité aux 4 derniers
+                        </Text>
+                      </Box>
+                    )}
                   </Box>
                 )}
               </Droppable>

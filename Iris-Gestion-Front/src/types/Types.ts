@@ -83,6 +83,7 @@ export type Commande = {
     codePostal: string;
     ville: string;
     pays: string;
+    rgpdConsent: boolean;
   };
 };
 
@@ -98,6 +99,7 @@ export type Client = {
   codePostal?: string;
   ville?: string;
   pays?: string;
+  rgpdConsent?: boolean;
   remarque?: string;
   commandes: Commande[];
 };
@@ -118,6 +120,7 @@ export type ClientFormData = {
   codePostal?: string;
   ville?: string;
   pays?: string;
+  rgpdConsent?: boolean;
 
   // Champs de la commande
   commande: {
@@ -157,6 +160,7 @@ export type CreateClientPayload = {
   codePostal?: string;
   ville?: string;
   pays?: string;
+  rgpdConsent?: boolean;
   commandes: Array<{
     statut?: string;
     nbIris?: string;

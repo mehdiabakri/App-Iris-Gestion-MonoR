@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { createClientWithOrder } from "../api/client"; // Assurez-vous que le chemin est correct
 import ProductConfigurationField from "../components/forms/ProductConfigurationField";
 
-// On importe le type de formulaire depuis le fichier central de types
 import type { ClientFormData, CreateClientPayload } from "../types/Types";
 
 import {
@@ -23,6 +22,7 @@ import {
   FormErrorMessage,
   VStack,
   useToast,
+  Checkbox,
 } from "@chakra-ui/react";
 
 const CreateClientPage = () => {
@@ -40,7 +40,7 @@ const CreateClientPage = () => {
   });
 
   const {
-    register, // On peut le déstructurer ici pour un accès plus simple dans ce fichier
+    register,
     handleSubmit,
     formState: { errors },
   } = methods;
@@ -111,6 +111,7 @@ const CreateClientPage = () => {
       codePostal: data.codePostal,
       ville: data.ville,
       pays: data.pays,
+      rgpdConsent: data.rgpdConsent,
       commandes: [
         {
           statut: data.commande.statut,
@@ -202,6 +203,26 @@ const CreateClientPage = () => {
                 <FormControl>
                   <FormLabel>Pays</FormLabel>
                   <Input {...register("pays")} />
+                </FormControl>
+                <FormControl
+                  isInvalid={!!errors.rgpdConsent}
+                  gridColumn={{ md: "span 2" }}
+                >
+                  <Checkbox
+                    colorScheme="blackAlpha"
+                    {...register("rgpdConsent", {
+                      required:
+                        "Vous devez accepter les conditions pour continuer",
+                    })}
+                  >
+                    Je confirme avoir pris connaissance de la législation en
+                    vigueur concernant mon Droit à l'image et l'utilisation de
+                    mes données personnelles.By clicking the Summit button, I
+                    accept the terms and conidtions.
+                  </Checkbox>
+                  <FormErrorMessage>
+                    {errors.rgpdConsent && errors.rgpdConsent.message}
+                  </FormErrorMessage>
                 </FormControl>
               </SimpleGrid>
             </Box>

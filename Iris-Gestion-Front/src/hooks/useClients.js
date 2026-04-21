@@ -15,12 +15,11 @@ export const useClients = () => {
 // Le hook prend l'ID du client en argument pour afficher un client spécifique
 export const useClient = (clientId) => {
   return useQuery({
-    // La clé de query est maintenant un tableau qui inclut l'ID.
-    // C'est crucial pour que TanStack Query mette en cache chaque client séparément.
+    // La clé de query est un tableau qui inclut l'ID.
     queryKey: ['client', clientId],
     queryFn: () => fetchClientById(clientId),
     
-    // Optionnel mais recommandé : on désactive le hook s'il n'y a pas d'ID.
+    // On désactive le hook s'il n'y a pas d'ID.
     enabled: !!clientId, 
   });
 };

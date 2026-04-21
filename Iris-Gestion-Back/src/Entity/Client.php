@@ -79,6 +79,14 @@ class Client
     #[Groups(['client:detail', 'client:write', 'commande:read'])]
     private ?string $pays = null;
 
+    #[ORM\Column]
+    #[Groups(['client:detail', 'client:write'])]
+    private bool $rgpdConsent = false;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['client:detail'])]
+    private ?\DateTimeImmutable $rgpdConsentAt = null;
+
     #[ORM\Column(type: "datetime_immutable")]
     #[Groups(['client:read', 'client:detail', 'client:write'])]
     private \DateTimeImmutable $createdAt;
@@ -174,6 +182,11 @@ class Client
         $this->pays = $pays;
     }
 
+    public function isRgpdConsent(): bool
+    {
+        return $this->rgpdConsent;
+    }
+
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
@@ -194,18 +207,14 @@ class Client
 
     public function addCommande(Commande $commande): self
     {
-        // On vérifie si la commande n'est pas déjà dans la collection
         if (!$this->commandes->contains($commande)) {
-            // On l'ajoute à la collection du client
             $this->commandes->add($commande);
-            // ET LE PLUS IMPORTANT : on met à jour le côté inverse de la relation
             $commande->setClient($this);
         }
 
         return $this;
     }
 
-    // Optionnel mais recommandé : ajoutez aussi la méthode `remove`
     public function removeCommande(Commande $commande): self
     {
         if ($this->commandes->removeElement($commande)) {
@@ -217,4 +226,23 @@ class Client
 
         return $this;
     }
+
+    public function setRgpdConsent(bool $rgpdConsent): self
+    {
+        $this->rgpdConsent = $rgpdConsent;
+        
+        // Si l'utilisateur coche la case (true), on enregistre l'heure exacte
+        if ($rgpdConsent === true) {
+            $this->rgpdConsentAt = new \DateTimeImmutable();
+        }
+        
+        return $this;
+    }
+
+    public function getRgpdConsentAt(): ?\DateTimeImmutable
+    {
+        return $this->rgpdConsentAt;
+    }
+
+
 }

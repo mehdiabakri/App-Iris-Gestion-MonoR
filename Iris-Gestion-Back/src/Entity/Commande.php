@@ -153,7 +153,7 @@ class Commande
     private Collection $optionsChoisies;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write'])]
+    #[Groups(['commande:read', 'commande:detail', 'client:detail', 'commande:write', 'client:write', 'kanban:read'])]
     private string $commandeYae;
 
 

@@ -17,7 +17,6 @@ import { MdOutlineSearch } from "react-icons/md";
 import CopyButton from "../design/CopyButton";
 import { Commande, Option } from "../../types/Types";
 
-// On importe notre hook "Cerveau" !
 import { useKanbanLogic } from "../../hooks/useKanbanLogic";
 
 interface KanbanPageProps {
@@ -27,11 +26,9 @@ interface KanbanPageProps {
 export default function KanbanPage({ commandes }: KanbanPageProps) {
   const navigate = useNavigate();
 
-  // Toute la logique complexe de classement et drag&drop est gérée en 1 ligne ici :
   const { data, onDragEnd } = useKanbanLogic(commandes);
 
   if (!data.columnOrder.length) return null;
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Flex gap="16px" overflowX="auto" pb="20px" px="10px">
@@ -91,7 +88,7 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
                               borderRadius="lg"
                               boxShadow={snapshot.isDragging ? "2xl" : "sm"}
                               borderLeft="5px solid"
-                              borderColor="brand.500" // Ton jaune
+                              borderColor="brand.500"
                               position="relative"
                               transition="all 0.2s"
                               _hover={{ boxShadow: "md" }}
@@ -193,6 +190,16 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
                                       {commande.numPhoto || "-"}
                                     </Text>
                                   </HStack>
+                                  {commande.commandeYae && (
+                                    <HStack justify="space-between">
+                                      <Text fontSize="xs" color="gray.500">
+                                        Commande # :
+                                      </Text>
+                                      <Text fontSize="xs" fontWeight="medium">
+                                        {commande.commandeYae || "-"}
+                                      </Text>
+                                    </HStack>
+                                  )}
                                 </VStack>
 
                                 <Divider borderColor="gray.50" />

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-// 1. On DÉFINIT le type du contexte ici
+// On DÉFINIT le type du contexte ici
 export interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
@@ -9,7 +9,7 @@ export interface AuthContextType {
   isLoading: boolean;
 }
 
-// 2. On CRÉE le contexte ici et on l'exporte pour le Provider
+// On CRÉE le contexte ici et on l'exporte pour le Provider
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 

@@ -12,6 +12,7 @@ import AllProduitsPage from "./pages/AllProduitsPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import Kanban from "./pages/Kanban";
+import ProductForm from "./components/products/ProductForm";
 import { Spinner } from "@chakra-ui/react/spinner";
 
 const ProtectedRoutes = () => {
@@ -45,6 +46,8 @@ export default function App() {
           <Route path="/retouches" element={<RetouchesPage />} />
           <Route path="/commandes" element={<AllCommandesPage />} />
           <Route path="/produits" element={<AllProduitsPage />} />
+          <Route path="/produits/ajouter" element={<ProductForm />} />
+          <Route path="/produits/modifier/:id" element={<ProductForm />} />
           <Route path="/kanban" element={<Kanban />} />
         </Route>
       </Route>

@@ -30,9 +30,11 @@ import {
   FiList,
   FiLogOut,
   FiPlusSquare,
+  FiPlusCircle,
   FiChevronDown,
   FiShare,
   FiImage,
+  FiTrello,
 } from "react-icons/fi";
 import { useRef, useEffect } from "react";
 import { FaUserPlus } from "react-icons/fa6";
@@ -43,8 +45,10 @@ import logoSrc from "../../../public/logo-Iris-Gestion.png";
 
 export default function Topbar() {
   const clients = useDisclosure();
+  const produits = useDisclosure();
   const commandes = useDisclosure();
   const ventes = useDisclosure();
+
   const { logout } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -52,6 +56,7 @@ export default function Topbar() {
   const clientsRef = useRef<HTMLDivElement>(null);
   const commandesRef = useRef<HTMLDivElement>(null);
   const ventesRef = useRef<HTMLDivElement>(null);
+  const produitsRef = useRef<HTMLDivElement>(null);
 
   const {
     isOpen: isExportModalOpen,
@@ -78,6 +83,21 @@ export default function Topbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [clients.isOpen, clients.onClose]);
 
+  // effect pour fermer produits si clic en dehors
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        produits.isOpen &&
+        produitsRef.current &&
+        !produitsRef.current.contains(event.target as Node)
+      ) {
+        produits.onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [produits.isOpen, produits.onClose]);
+
   // effect pour fermer clients si clic en dehors
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -92,6 +112,21 @@ export default function Topbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [ventes.isOpen, ventes.onClose]);
+
+  // effect pour fermer produits si clic en dehors
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        produits.isOpen &&
+        produitsRef.current &&
+        !produitsRef.current.contains(event.target as Node)
+      ) {
+        produits.onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [produits.isOpen, produits.onClose]);
 
   // effect pour fermer commandes si clic en dehors
   useEffect(() => {
@@ -254,16 +289,16 @@ export default function Topbar() {
                   boxShadow="md"
                 >
                   <NavItem
-                    icon={FaUserPlus}
-                    label="Nouveau client"
-                    to="/clients/new"
+                    icon={FiList}
+                    label="Listing clients"
+                    to="/clients/list"
                     isSub
                     onClick={() => clients.onClose()}
                   />
                   <NavItem
-                    icon={FiList}
-                    label="Listing clients"
-                    to="/clients/list"
+                    icon={FaUserPlus}
+                    label="Nouveau client"
+                    to="/clients/new"
                     isSub
                     onClick={() => clients.onClose()}
                   />
@@ -273,22 +308,63 @@ export default function Topbar() {
 
             <NavItem icon={FiEdit} label="Retouches" to="/retouches" />
 
-            <NavItem icon={FiEdit} label="Suivi" to="/kanban" />
+            <NavItem icon={FiTrello} label="Suivi clients" to="/kanban" />
 
             <NavItem icon={FiPackage} label="Commandes" to="/commandes" />
+
+            {/* Produits menu collapsible */}
+            <Box position="relative" ref={produitsRef}>
+              <NavItem
+                icon={FiPackage}
+                label="Produits"
+                hasSub
+                isOpen={produits.isOpen}
+                onClick={produits.onToggle}
+              />
+              <Collapse in={produits.isOpen} unmountOnExit>
+                <VStack
+                  minW="200px"
+                  bg="brand.500"
+                  mt={1}
+                  borderRadius="md"
+                  align="start"
+                  px={2}
+                  py={1}
+                  spacing={1}
+                  position="absolute"
+                  zIndex={1500}
+                  boxShadow="md"
+                >
+                  <NavItem
+                    icon={FiList}
+                    label="Listing produits"
+                    to="/produits"
+                    isSub
+                    onClick={() => produits.onClose()}
+                  />
+                  <NavItem
+                    icon={FiPlusCircle}
+                    label="Nouveau produit"
+                    to="/produits/ajouter"
+                    isSub
+                    onClick={() => produits.onClose()}
+                  />
+                </VStack>
+              </Collapse>
+            </Box>
           </HStack>
 
           <HStack spacing={1} display={{ base: "none", tablet: "flex" }}>
             <Tooltip label="Ajouter un client" placement="bottom">
-            <Button
-              aria-label="Ajouter un client"
-              as={RouterLink}
-              to="/clients/new"
-              leftIcon={<FiPlusSquare fontSize="28px" />}
-              variant="ghost"
-              color="brand.700"
-              _hover={{ bg: "whiteAlpha.200" }}
-            ></Button>
+              <Button
+                aria-label="Ajouter un client"
+                as={RouterLink}
+                to="/clients/new"
+                leftIcon={<FiPlusSquare fontSize="28px" />}
+                variant="ghost"
+                color="brand.700"
+                _hover={{ bg: "whiteAlpha.200" }}
+              ></Button>
             </Tooltip>
             <Tooltip label="Voir les galeries" placement="bottom">
               <Button

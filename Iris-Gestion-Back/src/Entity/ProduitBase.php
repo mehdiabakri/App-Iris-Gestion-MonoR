@@ -11,17 +11,23 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiResource(
-    // On définit explicitement les opérations et les groupes à utiliser pour chacune
+    // On définit explicitement les opérations et les groupes à utiliser pour chacune des routes
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'produitBase:read'],
             forceEager: false
         ),
         new Get(normalizationContext: ['groups' => 'produitBase:detail']),
+        new Post(denormalizationContext:['groups' => 'produitBase:write']),
+        new Put(denormalizationContext:['groups' => 'produitBase:write']),
+        new Delete(),
     ],
     order: ['nom' => 'ASC']
 )]
@@ -37,19 +43,19 @@ class ProduitBase
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read', 'commande:detail', 'kanban:read'])]
+    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read', 'commande:detail', 'kanban:read', 'produitBase:write'])]
     private ?string $nom = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read','commande:detail', 'kanban:read'])]
+    #[Groups(['produitBase:read', 'produitBase:detail', 'client:detail', 'commande:read','commande:detail', 'kanban:read', 'produitBase:write'])]
     private ?Categorie $categorie = null;
 
     /**
      * @var Collection<int, Option>
      */
     #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'produitBases')]
-    #[Groups(['produitBase:read', 'produitBase:detail'])]
+    #[Groups(['produitBase:read', 'produitBase:detail', 'produitBase:write'])]
     private Collection $optionsDisponibles;
 
     /**

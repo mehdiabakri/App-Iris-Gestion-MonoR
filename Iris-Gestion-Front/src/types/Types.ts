@@ -231,3 +231,11 @@ export type DashboardStats = {
   commandesRonds: number;
   commandesBijoux: number;
 };
+
+// --- Type pour le formulaire de gestion des produits (Ajout/Modif) ---
+export type ProduitBaseFormData = {
+  id?: number;
+  nom: string;
+  categorie: string;         // On envoie l'IRI
+  optionsDisponibles: string[]; // On envoie un tableau d'IRIs
+};

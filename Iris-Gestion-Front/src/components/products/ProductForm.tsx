@@ -20,7 +20,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-// Imports de tes types
 import type {
   ProduitBase,
   Categorie,
@@ -73,16 +72,23 @@ export default function ProductForm() {
     if (produitExistant && isEditMode) {
       reset({
         nom: produitExistant.nom,
-        categorie: produitExistant.categorie["@id"], // Type safe grâce à ton interface
+        categorie:
+          typeof produitExistant.categorie === "object"
+            ? produitExistant.categorie["@id"]
+            : produitExistant.categorie,
+
         optionsDisponibles: produitExistant.optionsDisponibles.map(
-          (opt: Option) => opt["@id"],
+          (opt: Option | string) => {
+            if (typeof opt === "object" && "@id" in opt) {
+              return opt["@id"];
+            }
+            return opt as string;
+          },
         ),
       });
     }
   }, [produitExistant, isEditMode, reset]);
 
-  // On définit un type pour les variables de notre mutation
-  // L'id est optionnel car il n'existe pas en création
   const mutation = useMutation({
     mutationFn: (variables: {
       id?: string | number;
@@ -109,16 +115,26 @@ export default function ProductForm() {
     },
   });
 
-const onSubmit = (data: ProduitBaseFormData) => {
-        // On passe toujours le même format d'objet à mutate
-        // id provient de useParams() tout en haut du composant
-        mutation.mutate({ id: id, data: data });
-    };
+  const onSubmit = (data: ProduitBaseFormData) => {
+    mutation.mutate({ id: id, data: data });
+  };
 
   if (isEditMode && isLoadingProduit) return <Spinner />;
 
+  const groupedOptions = optionsData?.reduce(
+    (acc, opt) => {
+      const type = opt.type || "Autre";
+      if (!acc[type]) {
+        acc[type] = [];
+      }
+      acc[type].push(opt);
+      return acc;
+    },
+    {} as Record<string, Option[]>,
+  );
+
   return (
-    <Box p={6} bg="white" borderRadius="lg" maxW="3xl" mx="auto" mt={8}>
+    <Box p={6} bg="white" w="100%" borderRadius="lg" mx="auto" mt={8}>
       <Heading size="md" mb={6} color="brand.700">
         {isEditMode
           ? `Modifier : ${produitExistant?.nom}`
@@ -154,16 +170,37 @@ const onSubmit = (data: ProduitBaseFormData) => {
                 control={control}
                 render={({ field }) => (
                   <CheckboxGroup value={field.value} onChange={field.onChange}>
-                    <Stack spacing={2}>
-                      {optionsData?.map((opt: Option) => (
-                        <Checkbox key={opt["@id"]} value={opt["@id"]}>
-                          {opt.nom}{" "}
-                          <Text as="span" color="gray.400" fontSize="xs">
-                            ({opt.type})
-                          </Text>
-                        </Checkbox>
-                      ))}
-                    </Stack>
+                    <VStack spacing={6} align="stretch">
+                      {groupedOptions &&
+                        Object.entries(groupedOptions).map(
+                          ([type, options]) => (
+                            <Box key={type}>
+                              {/* Titre du groupe (ex: Taille, Finition...) */}
+                              <Text
+                                fontWeight="bold"
+                                fontSize="sm"
+                                textTransform="uppercase"
+                                color="brand.500"
+                                mb={3}
+                                borderBottom="1px solid"
+                                borderColor="gray.100"
+                                pb={1}
+                              >
+                                {type}
+                              </Text>
+
+                              {/* Liste des checkboxes pour ce type */}
+                              <Stack spacing={2} pl={2}>
+                                {options.map((opt: Option) => (
+                                  <Checkbox key={opt["@id"]} value={opt["@id"]}>
+                                    <Text fontSize="sm">{opt.nom}</Text>
+                                  </Checkbox>
+                                ))}
+                              </Stack>
+                            </Box>
+                          ),
+                        )}
+                    </VStack>
                   </CheckboxGroup>
                 )}
               />

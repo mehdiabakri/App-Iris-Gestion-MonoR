@@ -78,7 +78,7 @@ const CreateClientPage = () => {
         status: "warning",
         isClosable: true,
       });
-      return; // On arrête la soumission
+      return;
     }
 
     // 2. On collecte TOUTES les options choisies (Select + Checkbox) en une seule fois
@@ -133,9 +133,6 @@ const CreateClientPage = () => {
         },
       ],
     };
-
-    console.log("Payload final envoyé à l'API :", payload);
-
     mutation.mutate(payload);
   };
 

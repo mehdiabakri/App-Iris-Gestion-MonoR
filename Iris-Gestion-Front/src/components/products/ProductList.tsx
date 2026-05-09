@@ -116,7 +116,6 @@ const produitsArray = useMemo(() => {
           </Heading>
 
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3, xl: 4 }} spacing={6}>
-            {/* --- CORRECTION DE L'ERREUR "ANY" : On précise : ProduitBase --- */}
             {produitsGroupes[categorieNom].map((produit: ProduitBase) => (
               <ProductCard
                 key={produit.id}

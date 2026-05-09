@@ -49,10 +49,6 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
   }
 
   const token = localStorage.getItem("jwt_token");
-
-  console.log("Données complètes de la commande reçue :", order);
-  console.log("Détail des optionsChoisies reçues :", order.optionsChoisies);
-
   return (
     <><Box
       p={6}

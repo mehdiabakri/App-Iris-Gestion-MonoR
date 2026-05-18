@@ -42,6 +42,7 @@ class ExportController extends AbstractController
             'Client Nom',
             'Client Prenom',
             'Client Email',
+            'Code Postal',
             'Ville',
             'Pays',
             'Produit',
@@ -59,7 +60,7 @@ class ExportController extends AbstractController
 
         ];
         $sheet->fromArray($headers, null, 'A1');
-        $sheet->getStyle('A1:V1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:U1')->getFont()->setBold(true);
 
         $rowIndex = 2;
 
@@ -91,20 +92,21 @@ class ExportController extends AbstractController
             $sheet->setCellValue('D' . $rowIndex, $commande->getClient()?->getNom());
             $sheet->setCellValue('E' . $rowIndex, $commande->getClient()?->getPrenom());
             $sheet->setCellValue('F' . $rowIndex, $commande->getClient()?->getEmail());
-            $sheet->setCellValue('G' . $rowIndex, $commande->getClient()?->getVille());
-            $sheet->setCellValue('H' . $rowIndex, $commande->getClient()?->getPays());
-            $sheet->setCellValue('I' . $rowIndex, $commande->getProduitBase()?->getNom());
-            $sheet->setCellValue('J' . $rowIndex, $commande->getProduitBase()?->getCategorie()?->getNom());
-            $sheet->setCellValue('K' . $rowIndex, $optionsByType['Finition']);
-            $sheet->setCellValue('L' . $rowIndex, $optionsByType['Taille']);
-            $sheet->setCellValue('M' . $rowIndex, $extrasString);
-            $sheet->setCellValue('N' . $rowIndex, $commande->getEffet());
-            $sheet->setCellValue('O' . $rowIndex, $commande->getNbIris());
-            $sheet->setCellValue('P' . $rowIndex, $commande->getNbIrisAnimaux());
-            $sheet->setCellValue('Q' . $rowIndex, $commande->getLivraison());
-            $sheet->setCellValue('R' . $rowIndex, $commande->getRdv());
-            $sheet->setCellValue('S' . $rowIndex, $commande->getCarteCadeau());
-            $sheet->setCellValue('T' . $rowIndex, $commande->getProvenance());
+            $sheet->setCellValue('G' . $rowIndex, $commande->getClient()?->getCodePostal());
+            $sheet->setCellValue('H' . $rowIndex, $commande->getClient()?->getVille());
+            $sheet->setCellValue('I' . $rowIndex, $commande->getClient()?->getPays());
+            $sheet->setCellValue('J' . $rowIndex, $commande->getProduitBase()?->getNom());
+            $sheet->setCellValue('K' . $rowIndex, $commande->getProduitBase()?->getCategorie()?->getNom());
+            $sheet->setCellValue('L' . $rowIndex, $optionsByType['Finition']);
+            $sheet->setCellValue('M' . $rowIndex, $optionsByType['Taille']);
+            $sheet->setCellValue('N' . $rowIndex, $extrasString);
+            $sheet->setCellValue('O' . $rowIndex, $commande->getEffet());
+            $sheet->setCellValue('P' . $rowIndex, $commande->getNbIris());
+            $sheet->setCellValue('Q' . $rowIndex, $commande->getNbIrisAnimaux());
+            $sheet->setCellValue('R' . $rowIndex, $commande->getLivraison());
+            $sheet->setCellValue('S' . $rowIndex, $commande->getRdv());
+            $sheet->setCellValue('T' . $rowIndex, $commande->getCarteCadeau());
+            $sheet->setCellValue('U' . $rowIndex, $commande->getProvenance());
 
             $rowIndex++;
         }

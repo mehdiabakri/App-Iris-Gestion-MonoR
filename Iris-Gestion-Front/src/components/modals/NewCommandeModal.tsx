@@ -71,8 +71,8 @@ const NewCommandeModal = ({
       });
       // Invalider les requêtes liées aux clients pour que la page se mette à jour
       queryClient.invalidateQueries({ queryKey: ["clients", clientId] });
-      onSuccess(); // Appelle la fonction de rafraîchissement passée en prop
-      onClose(); // Ferme la modale
+      onSuccess();
+      onClose();
     },
     onError: (error: Error) => {
       toast({
@@ -118,7 +118,6 @@ const NewCommandeModal = ({
       produitBase: commandeProductData.produitBase,
       optionsChoisies: optionsChoisiesIRIs.filter(Boolean),
 
-      // LA LIGNE LA PLUS IMPORTANTE : On lie la commande au client existant
       client: `/api/clients/${clientId}`,
     };
 

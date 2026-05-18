@@ -53,7 +53,7 @@ class EmailSender
     {
         $this->sendWithTemplate(
             $recipientEmail,
-            1, // ID 1 pour le suivi de colis
+            1,
             [
                 'lienSuiviColis' => $data['lienSuiviColis'],
                 'clientPrenom'   => $data['clientPrenom'],

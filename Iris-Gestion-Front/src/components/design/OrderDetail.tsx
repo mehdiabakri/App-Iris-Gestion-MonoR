@@ -160,7 +160,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
           Extras
         </Heading>
 
-        {/* On filtre pour ne garder que les options de type "Extra" */}
+        {/* que les options de type "Extra" */}
         {order.optionsChoisies?.filter((option) => option.type === "Extra")
           .length > 0 ? (
           order.optionsChoisies
@@ -170,7 +170,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
                 key={option.id}
                 justify="space-between"
                 p={2}
-                bg="gray.100" // Couleur un peu différente pour les distinguer
+                bg="gray.100"
                 borderRadius="md"
               >
                 <Text color="gray.600">{option.nom}</Text>
@@ -213,8 +213,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
         {/* Le nouveau formulaire pour gérer l'URL */}
         <SaveTrackingUrlForm order={order} onSuccess={onUpdate} />
 
-        {/* Le bouton d'envoi d'email, qui n'apparaît que si le lien existe */}
-        {/* On peut utiliser l'ancien SuiviColis ici, car il fait bien le job d'envoi */}
+        {/* Le bouton d'envoi d'email, n'apparaît que si le lien existe */}
         {order.lienSuiviColis && <SuiviColis order={order} />}
       </VStack>
 
@@ -224,10 +223,9 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
         Galerie Photo
       </Heading>
 
-      {/* On affiche le formulaire qui gère lui-même son état */}
       <SaveGalleryUrlForm order={order} onSuccess={onUpdate} />
 
-      {/* On affiche le bouton d'envoi d'email SEULEMENT si l'URL existe */}
+      {/* affiche bouton d'envoi d'email si l'URL existe */}
       {order.piwigoAlbumUrl && (
         <Box mt={4}>
           <EnvoiLienGalerie order={order} />

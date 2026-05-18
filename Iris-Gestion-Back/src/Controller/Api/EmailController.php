@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Commande;
-use App\Service\EmailSender; // Votre service existant, parfait !
+use App\Service\EmailSender;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,6 +15,14 @@ use DateTimeImmutable;
 #[Route('/api/commandes')]
 class EmailController extends AbstractController
 {
+    /**
+     * Ce controller gère tous les endpoints liés à l'envoi d'emails pour les commandes :
+     * - Envoi du suivi de colis
+     * - Envoi du lien de la galerie
+     * - Envoi de la demande d'avis
+     * Il utilise un service EmailSender pour centraliser la logique d'envoi d'emails, et il gère les erreurs avec des try/catch et du logging.
+     * Chaque endpoint vérifie aussi si l'email a déjà été envoyé pour éviter les doublons, et renvoie des réponses JSON adaptées pour que React puisse afficher des messages à l'utilisateur.
+     */
     private EmailSender $emailSender;
     private EntityManagerInterface $em;
     private LoggerInterface $logger;
@@ -33,13 +41,13 @@ class EmailController extends AbstractController
     #[Route('/{id}/send-tracking', name: 'api_order_send_tracking', methods: ['POST'])]
     public function sendTracking(Commande $commande): JsonResponse
     {
-        // Sécurité : On vérifie si l'email n'a pas déjà été envoyé
+        // On vérifie si l'email n'a pas déjà été envoyé
         if ($commande->getTrackingEmailSentAt() !== null) {
             return $this->json(['error' => 'L\'email de suivi a déjà été envoyé.'], 409);
         }
 
         try {
-            // On utilise le service injecté via le constructeur
+            // On utilise le service via le constructeur
             $this->emailSender->sendPackageTrackingEmail($commande->getClient()->getEmail(), [
                 'lienSuiviColis' => $commande->getLienSuiviColis(),
                 'clientPrenom' => $commande->getClient()->getPrenom(),

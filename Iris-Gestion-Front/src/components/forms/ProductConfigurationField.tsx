@@ -12,7 +12,6 @@ import { fetchCategories, fetchProductsByCategory } from "../../api/categorie";
 const ProductConfigurationField = () => {
   const { register, control, watch, setValue } = useFormContext();
 
-  // Surveille les valeurs sélectionnées dans le formulaire
   const selectedCategoryIri = watch("commande.categorie");
   const selectedProduitBaseIri = watch("commande.produitBase");
 
@@ -39,7 +38,7 @@ const ProductConfigurationField = () => {
     return produits.find(p => p["@id"] === selectedProduitBaseIri);
   }, [selectedProduitBaseIri, produits]);
 
-  // Prépare les options DU produit sélectionné pour l'affichage
+  // Prépare les options du produit sélectionné pour l'affichage
   const optionsDisponiblesByType = useMemo(() => {
     if (!selectedProduit) return {};
     return selectedProduit.optionsDisponibles.reduce((acc, option) => {

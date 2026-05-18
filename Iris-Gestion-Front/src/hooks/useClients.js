@@ -3,12 +3,11 @@ import { fetchClients } from '../api/client'; // Adresse du fichier API
 import { fetchClientById } from '../api/client';
 
 // Hook personnalisé pour récupérer les clients
-// Utilise React Query pour la gestion des requêtes asynchrones
 
 export const useClients = () => {
   return useQuery({
-    queryKey: ['clients'], // La clé de cache pour les clients
-    queryFn: fetchClients, // La fonction qui récupère les données
+    queryKey: ['clients'],
+    queryFn: fetchClients,
   });
 };
 

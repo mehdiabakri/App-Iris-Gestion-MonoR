@@ -4,7 +4,7 @@ import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { createClientWithOrder } from "../api/client"; // Assurez-vous que le chemin est correct
+import { createClientWithOrder } from "../api/client";
 import ProductConfigurationField from "../components/forms/ProductConfigurationField";
 
 import type { ClientFormData, CreateClientPayload } from "../types/Types";
@@ -32,7 +32,6 @@ const CreateClientPage = () => {
 
   const methods = useForm<ClientFormData>({
     defaultValues: {
-      // On préfixe les champs de la commande
       commande: {
         statut: "A retoucher",
       },
@@ -81,7 +80,7 @@ const CreateClientPage = () => {
       return;
     }
 
-    // 2. On collecte TOUTES les options choisies (Select + Checkbox) en une seule fois
+    // 2. On collecte TOUTES les options choisies (Select + Checkbox)
     const optionsChoisiesIRIs: string[] = [];
 
     // On s'assure que `data.commande` existe avant de le parcourir

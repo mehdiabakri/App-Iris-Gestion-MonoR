@@ -6,13 +6,13 @@ export async function sendTrackingEmail(orderId: string) {
     throw new Error("Utilisateur non authentifié.");
   }
 
-  // 2. Créer les en-têtes (headers) avec le token
+  // Crée les en-têtes (headers) avec le token
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
 
-  // 3. Ajouter les en-têtes à la requête fetch
+  // Ajoute les en-têtes à la requête fetch
   const response = await fetch(`/api/commandes/${orderId}/send-tracking`, {
     method: "POST",
     headers: headers,

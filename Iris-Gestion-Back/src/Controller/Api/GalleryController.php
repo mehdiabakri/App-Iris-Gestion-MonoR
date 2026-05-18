@@ -16,6 +16,9 @@ class GalleryController extends AbstractController
     /**
      * Reçoit une URL de galerie envoyée par le frontend et la sauvegarde
      * pour une commande spécifique.
+     * URL : POST /api/commandes/{id}/save-gallery-url
+     * Corps de la requête : JSON contenant l'URL de la galerie (ex: { "galleryUrl": "http://example.com/galerie" })
+     * Validation : Vérifier que l'URL est bien formée et non vide.
      */
     #[Route('/{id}/save-gallery-url', name: 'api_order_save_gallery_url', methods: ['POST'])]
     public function saveGalleryUrl(Commande $commande, Request $request, EntityManagerInterface $em): JsonResponse

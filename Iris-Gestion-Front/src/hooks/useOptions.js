@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { customFetch } from '../api/customFetch';
 
-// La fonction qui fait l'appel API
 const fetchOptions = async () => {
   const response = await customFetch('/api/options');
   if (!response.ok) {

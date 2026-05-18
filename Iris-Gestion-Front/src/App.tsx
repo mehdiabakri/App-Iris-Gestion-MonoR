@@ -18,9 +18,8 @@ import { Spinner } from "@chakra-ui/react/spinner";
 const ProtectedRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
-  // Si on est en train de vérifier le token, on attend
   if (isLoading) {
-    return <Spinner />; // Ou un écran de chargement
+    return <Spinner />; 
   }
 
   // Si on n'est pas authentifié, on redirige vers le login

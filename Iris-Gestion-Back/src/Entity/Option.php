@@ -13,7 +13,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ApiResource(
-    // On définit explicitement les opérations et les groupes à utiliser pour chacune
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'options:read']),
         new Get(normalizationContext: ['groups' => 'options:detail']),

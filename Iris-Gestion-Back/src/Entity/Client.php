@@ -9,8 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
-
-// Imports nécessaires pour la configuration d'API Platform
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -19,8 +17,6 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 
 #[ApiResource(
-
-    // On définit explicitement les opérations et les groupes à utiliser pour chacune
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'client:read'],
@@ -32,7 +28,7 @@ use ApiPlatform\Metadata\Delete;
         new Delete(),
     ],
 
-    // On peut définir un tri par défaut pour les listes
+    // tri par défaut pour les listes
     order: ['createdAt' => 'DESC']
 )]
 #[ORM\Entity(repositoryClass: ClientRepository::class)]

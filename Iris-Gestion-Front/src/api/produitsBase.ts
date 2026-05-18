@@ -7,7 +7,7 @@ export const fetchProduitsBase = async (): Promise<ProduitBase[]> => {
   return data?.['hydra:member'] || data?.member || [];
 };
 
-// --- Fonction pour récupérer UN seul produit par son ID ---
+// --- Fonction pour récupérer un seul produit par son ID ---
 export const fetchProduitById = async (
   produitId: string | number
 ): Promise<ProduitBase> => {
@@ -21,7 +21,7 @@ export const deleteProduit = async (produitId: string | number): Promise<void> =
   });
 };
 
-// --- Fonction pour créer un produit par son ID ---
+// --- Fonction pour créer un produit ---
 export const createProduit = async (produitData: ProduitBaseFormData): Promise<ProduitBase> => {
   return customFetch("/api/produit_bases", {
     method: "POST",

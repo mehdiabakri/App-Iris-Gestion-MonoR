@@ -33,7 +33,6 @@ const Kanban = () => {
       isError={isError}
       error={error}
     >
-      {/* On affiche la barre de recherche en haut à droite */}
       <Flex justify="flex-end" mb={4} px={2}>
         <GlobalSearchBar 
           searchQuery={searchQuery} 

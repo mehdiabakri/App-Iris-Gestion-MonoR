@@ -10,6 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/clients', name: 'api_clients_')]
 class ClientController extends AbstractController
 {
+    /**
+     * Récupère la liste de tous les clients.
+     * URL : GET /api/clients
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(ClientRepository $clientRepository): JsonResponse
     {

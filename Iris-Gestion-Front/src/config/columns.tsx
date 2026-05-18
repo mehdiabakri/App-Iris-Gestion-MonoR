@@ -2,7 +2,6 @@
 import { Button, Badge } from "@chakra-ui/react";
 import type { Client, Commande } from "../types/Types";
 
-// 1. On rend le type ColumnDefinition générique
 export type ColumnDefinition<T> = {
   key: string;
   label: string;

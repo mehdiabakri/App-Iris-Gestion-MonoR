@@ -9,8 +9,6 @@ services:
     restart: unless-stopped
 
     environment:
-      # On passe l'URL pour se connecter à la BDD Docker locale
-      # Le mot de passe vient du service 'db' ci-dessous
       DATABASE_URL: ${DATABASE_URL}
       APP_SECRET: ${APP_SECRET}
 
@@ -21,22 +19,18 @@ services:
     networks:
       - iris-network
 
-  # Le service pour Nginx (notre porte d'entrée)
+  # Le service pour Nginx
   nginx:
     build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
     restart: unless-stopped
     ports:
-      # On expose le port 80 pour y accéder depuis notre navigateur
       - "80:80"
       - "443:443"
     volumes:
-      # Monte notre fichier de configuration Nginx dans le conteneur
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      # Monte les certificats Let's Encrypt en lecture seule (sécurité)
       - /etc/letsencrypt:/etc/letsencrypt:ro
-      # ---- Renou. ssl ----
       - ./data/certbot/www:/var/www/certbot
 
     depends_on:
@@ -45,7 +39,6 @@ services:
       - iris-network
 
   # --- Base de données pour le test local ---
-  # Ce service ne sera pas déployé sur votre VPS si la BDD est déjà gérée là-bas
   db:
   
     image: mysql:8.0

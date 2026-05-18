@@ -9,7 +9,13 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ProdFixtures extends Fixture implements FixtureGroupInterface{
+class ProdFixtures extends Fixture implements FixtureGroupInterface
+{
+    /**
+     * Summary of load
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     { {
 
@@ -164,5 +170,4 @@ class ProdFixtures extends Fixture implements FixtureGroupInterface{
     {
         return ['prod'];
     }
-
 }

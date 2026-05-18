@@ -17,8 +17,8 @@ class CommandeRepository extends ServiceEntityRepository
      * Récupère les commandes pour l'export, potentiellement filtrées par une plage de dates.
      * Si les dates sont nulles, elle retourne toutes les commandes.
      *
-     * @param \DateTime|null $startDate Date de début (inclusive)
-     * @param \DateTime|null $endDate Date de fin (inclusive)
+     * @param \DateTime|null $startDate Date de début
+     * @param \DateTime|null $endDate Date de fin
      * @return Commande[]
      */
     public function findForExport(?\DateTimeInterface $startDate, ?\DateTimeInterface $endDate): array

@@ -11,6 +11,15 @@ use Symfony\Component\Workflow\Registry;
 
 class CommandeWorkflowController extends AbstractController
 {
+    /**
+     * Applique une transition au workflow d'une commande.
+     * URL : POST /api/commandes/{id}/transition/{transitionName}
+     * Exemple : POST /api/commandes/5/transition/payer
+     * Body : (vide)
+     * Réponse :
+     * - Si succès : { "success": true, "nouveau_statut": "payée" }
+     * - Si échec : { "error": "Mouvement impossible selon le process métier", "statut_actuel": "en cours" }
+     */
     #[Route('/api/commandes/{id}/transition/{transitionName}', name: 'api_commande_transition', methods: ['POST'])]
     public function applyTransition(
         Commande $commande,
@@ -30,7 +39,7 @@ class CommandeWorkflowController extends AbstractController
             ], 400); // 400 = Bad Request
         }
 
-        // 3. On applique la transition (ça change le statut de l'entité)
+        // 3. On applique la transition = change le statut de la commande
         $workflow->apply($commande, $transitionName);
 
         // 4. On sauvegarde en base de données

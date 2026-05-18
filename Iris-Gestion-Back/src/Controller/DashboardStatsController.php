@@ -9,6 +9,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardStatsController extends AbstractController
 {
+    /**
+     * DashboardStatsController constructor.
+     * @param ClientRepository $clientRepository
+     * @param CommandeRepository $commandeRepository
+     */
     public function __construct(
         private readonly ClientRepository $clientRepository,
         private readonly CommandeRepository $commandeRepository

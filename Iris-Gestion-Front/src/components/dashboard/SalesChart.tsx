@@ -10,12 +10,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
-import { useMonthlySales } from "../../hooks/useDashboardStats"; // Vérifie ton chemin d'import
+import { useMonthlySales } from "../../hooks/useDashboardStats";
 
 const SalesChart = () => {
   const { data: salesData, isLoading, isError } = useMonthlySales();
-
-  // On récupère les années pour nommer les éléments de la légende
   const currentYear = new Date().getFullYear();
   const previousYear = currentYear - 1;
 
@@ -62,13 +60,13 @@ const SalesChart = () => {
           />
           
           <Tooltip 
-            cursor={{ fill: 'transparent' }} // Enlève le fond gris moche au survol
+            cursor={{ fill: 'transparent' }}
             formatter={(value: number) => [`${value} commande${value > 1 ? 's' : ''}`]} 
           />
           
           <Legend verticalAlign="bottom" height={36} iconType="circle" />
 
-          {/* BARRE 1 : L'année précédente */}
+          {/* BARRE 1 : année précédente */}
           <Bar
             dataKey="anneePrecedente"
             name={previousYear.toString()}
@@ -76,7 +74,7 @@ const SalesChart = () => {
             radius={[4, 4, 0, 0]}
           />
 
-          {/* BARRE 2 : L'année en cours */}
+          {/* BARRE 2 : année en cours */}
           <Bar
             dataKey="anneeEnCours"
             name={currentYear.toString()}

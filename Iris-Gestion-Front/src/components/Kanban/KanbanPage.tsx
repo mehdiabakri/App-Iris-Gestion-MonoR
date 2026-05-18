@@ -235,11 +235,10 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
                       </Draggable>
                     ))}
                     {provided.placeholder}
-                    {/* --- BOUTON VOIR PLUS (Uniquement pour la colonne Terminé) --- */}
+                    {/* --- BOUTON VOIR PLUS --- */}
                     {columnId === "Terminé" && (
                       <Box p={2} mt="auto">
                         {" "}
-                        {/* mt="auto" pousse le bouton vers le bas */}
                         <Button
                           size="xs"
                           w="100%"

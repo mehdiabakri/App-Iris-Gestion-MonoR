@@ -5,6 +5,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class SecurityController extends AbstractController
 {
+    /**
+     * Summary of login
+     * @throws \LogicException
+     * @return never
+     */ 
     public function login(): void
     {
         // Cette méthode peut être vide : le firewall de sécurité intercepte

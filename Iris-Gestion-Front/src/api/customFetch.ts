@@ -5,20 +5,16 @@ interface FetchOptions extends RequestInit {
 export const customFetch = async (url: string, options: FetchOptions = {}) => {
   const token = localStorage.getItem("jwt_token");
 
-  // On part des headers existants ou d'un objet vide
   const headers = { ...options.headers };
 
-  // On s'assure que Content-Type est bien défini pour les requêtes avec un body
   if (options.body) {
     headers["Content-Type"] = "application/ld+json";
   }
 
-  // On ajoute le token s'il existe
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  // On appelle le vrai fetch
   const response = await fetch(url, {
     ...options,
     headers,

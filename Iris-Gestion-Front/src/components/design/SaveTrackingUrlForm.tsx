@@ -38,7 +38,7 @@ const SaveTrackingUrlForm = ({
     try {
       await customFetch(`/api/commandes/${order.id}/save-tracking-url`, {
         method: "POST",
-        body: JSON.stringify({ trackingUrl: url }), // On envoie la bonne variable
+        body: JSON.stringify({ trackingUrl: url }),
       });
       toast({
         title: "Succès !",

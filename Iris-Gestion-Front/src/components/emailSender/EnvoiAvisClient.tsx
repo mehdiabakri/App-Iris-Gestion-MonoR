@@ -43,8 +43,6 @@ const EnvoiAvisClient = ({ order, onUpdate }: EnvoiAvisClientProps) => {
         isClosable: true,
       });
 
-      // On appelle onUpdate pour rafraîchir les détails de la commande
-      // et mettre à jour l'état du bouton
       onUpdate();
 
     } catch (error) {

@@ -14,8 +14,10 @@ use DateTimeImmutable;
 class OrderController extends AbstractController
 {
     /**
-     * Reçoit une URL de galerie envoyée par le frontend et la sauvegarde
-     * pour une commande spécifique.
+     * Reçoit une URL de galerie envoyée par le frontend et la sauvegarde pour une commande spécifique.
+     * URL : POST /api/commandes/{id}/save-commande-yae
+     * Corps de la requête : JSON contenant le numéro de commande YAE (ex: { "commandeYae": "YAE123456" })
+     * Validation : Vérifier que le numéro de commande est une chaîne de caractères non vide.
      */
     #[Route('/{id}/save-commande-yae', name: 'api_order_add_order_number', methods: ['POST'])]
     public function saveOrderNumber(Commande $commande, Request $request, EntityManagerInterface $em): JsonResponse

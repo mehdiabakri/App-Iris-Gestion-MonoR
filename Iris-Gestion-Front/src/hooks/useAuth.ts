@@ -1,6 +1,5 @@
 import { createContext, useContext } from 'react';
 
-// On DÉFINIT le type du contexte ici
 export interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
@@ -9,11 +8,9 @@ export interface AuthContextType {
   isLoading: boolean;
 }
 
-// On CRÉE le contexte ici et on l'exporte pour le Provider
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
-// 3. On CRÉE et on exporte le hook pour les composants
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

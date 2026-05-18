@@ -10,7 +10,6 @@ interface EnvoiLienGalerieProps {
 }
 
 const EnvoiLienGalerie: React.FC<EnvoiLienGalerieProps> = ({ order }) => {
-  // On se base sur le nouveau champ de l'entité
   const [sentAt, setSentAt] = useState<string | null>(order.galleryEmailSentAt || null);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +23,6 @@ const EnvoiLienGalerie: React.FC<EnvoiLienGalerieProps> = ({ order }) => {
     setIsSending(true);
     setError(null);
     try {
-      // On appelle la nouvelle fonction API
       const result = await sendGalleryLinkEmail(order.id);
       setSentAt(result.sentAt);
     } catch (err) {

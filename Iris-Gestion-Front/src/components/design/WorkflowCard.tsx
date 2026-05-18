@@ -8,7 +8,7 @@ import {
   Flex,
   Tooltip,
   Icon,
-  Select, // Import du composant Select
+  Select,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import type { Commande } from "../../types/Types";
@@ -35,7 +35,6 @@ type WorkflowCardProps = {
 const WorkflowCard = ({ commande }: WorkflowCardProps) => {
   const navigate = useNavigate();
 
-  // On utilise notre hook de mutation
   const { mutate: updateStatut, isPending: isUpdating } = useUpdateCommande();
 
   const handleCardClick = () => {
@@ -47,7 +46,6 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
   // Fonction pour gérer le changement de statut
   const handleStatutChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatut = event.target.value;
-    // On ne lance la mise à jour que si le statut a réellement changé
     if (newStatut && newStatut !== commande.statut) {
       updateStatut({ id: commande.id, statut: newStatut });
     }

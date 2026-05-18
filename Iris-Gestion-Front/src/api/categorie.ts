@@ -13,7 +13,7 @@ export const fetchCategories = async (filters = {}) => {
 
 // Fonction pour récupérer les produits filtrés par catégorie
 export const fetchProductsByCategory = async (categoryIri: string): Promise<ProduitBase[]> => {
-  // Construit une URL comme /api/produit_bases?categorie=/api/categories/1
+  // Construit une URL ex: /api/produit_bases?categorie=/api/categories/1
   const url = `/api/produit_bases?categorie=${encodeURIComponent(categoryIri)}`;
   const data = await customFetch(url);
   return data?.['hydra:member'] || data?.member || [];

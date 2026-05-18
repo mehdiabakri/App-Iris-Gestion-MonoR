@@ -168,9 +168,8 @@ const ClientDetailPage = () => {
     // On met à jour la commande sélectionnée.
     // On utilise la forme fonctionnelle pour éviter d'avoir `selectedOrder` en dépendance.
     setSelectedOrder((prevSelectedOrder) => {
-      // Si une commande était déjà sélectionnée (état précédent)...
+      // Si une commande était déjà sélectionnée on cherche sa nouvelle version dans les données fraîches du client.
       if (prevSelectedOrder) {
-        // ...on cherche sa nouvelle version dans les données fraîches du client.
         const updatedOrder = client.commandes.find(
           (c) => c.id === prevSelectedOrder.id
         );
@@ -178,8 +177,7 @@ const ClientDetailPage = () => {
         return updatedOrder || null;
       }
 
-      // Si aucune commande n'était sélectionnée (premier chargement),
-      // on applique la logique par défaut.
+      // Si aucune commande n'était sélectionnée, on applique la logique par défaut.
       const currentOrder = client.commandes.find((c) => c.statut !== "Terminé");
       return currentOrder || client.commandes[0] || null;
     });

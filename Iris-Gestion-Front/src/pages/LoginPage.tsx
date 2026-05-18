@@ -17,7 +17,7 @@ import {
 import type { LoginFormInputs } from '../types/Types';
 
 const LoginPage = () => {
-  const { login } = useAuth(); // On récupère la fonction de connexion du contexte
+  const { login } = useAuth(); 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormInputs>();
   const toast = useToast();
 

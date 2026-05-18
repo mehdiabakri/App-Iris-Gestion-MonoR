@@ -18,7 +18,6 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiResource(
-    // On définit explicitement les opérations et les groupes à utiliser pour chacune des routes
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'produitBase:read'],

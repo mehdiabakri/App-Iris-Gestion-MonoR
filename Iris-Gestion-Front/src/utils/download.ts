@@ -11,7 +11,7 @@ export const downloadFromApi = (apiUrl: string, filename: string) => {
     if (!response.ok) {
       throw new Error('Erreur réseau lors du téléchargement');
     }
-    return response.blob(); // blob = Binary Large Object, la représentation brute du fichier
+    return response.blob(); // représentation brute du fichier
   })
   .then(blob => {
     // On crée une URL temporaire pour ce blob
@@ -21,11 +21,10 @@ export const downloadFromApi = (apiUrl: string, filename: string) => {
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
-    a.download = filename; // Le nom du fichier proposé à l'utilisateur
+    a.download = filename;
     
-    // On l'ajoute au corps de la page
     document.body.appendChild(a);
-    // On simule un clic dessus
+    // simule un clic dessus
     a.click();
     
     // On nettoie l'URL et supp le lien

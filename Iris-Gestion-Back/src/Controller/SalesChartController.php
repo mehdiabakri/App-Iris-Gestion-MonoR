@@ -8,6 +8,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SalesChartController extends AbstractController
 {
+    /**
+     * Summary of __construct
+     * @param CommandeRepository $commandeRepository
+     */
     public function __construct(
         private readonly CommandeRepository $commandeRepository
     ) {}

@@ -13,6 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ExportController extends AbstractController
 {
+    /**
+     * Permet d'exporter les commandes au format Excel, avec possibilité de filtrer par date de création.
+     */
     #[Route('/api/export/commandes-excel', name: 'app_export_commandes_excel', methods: ['GET'])]
     public function exportCommandesExcel(Request $request, CommandeRepository $commandeRepository): StreamedResponse
     {
@@ -26,12 +29,12 @@ class ExportController extends AbstractController
 
         // On appelle la nouvelle méthode du repository avec les dates
         $commandes = $commandeRepository->findForExport($startDate, $endDate);
-        // 1. On crée une nouvelle feuille de calcul
+        // On crée une nouvelle feuille de calcul
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Commandes');
 
-        // 2. On définit les en-têtes
+        // les en-têtes
         $headers = [
             'ID Commande',
             'Date',
@@ -39,6 +42,8 @@ class ExportController extends AbstractController
             'Client Nom',
             'Client Prenom',
             'Client Email',
+            'Ville',
+            'Pays',
             'Produit',
             'Catégorie',
             'Finition',
@@ -54,7 +59,7 @@ class ExportController extends AbstractController
 
         ];
         $sheet->fromArray($headers, null, 'A1');
-        $sheet->getStyle('A1:R1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:V1')->getFont()->setBold(true);
 
         $rowIndex = 2;
 
@@ -86,28 +91,30 @@ class ExportController extends AbstractController
             $sheet->setCellValue('D' . $rowIndex, $commande->getClient()?->getNom());
             $sheet->setCellValue('E' . $rowIndex, $commande->getClient()?->getPrenom());
             $sheet->setCellValue('F' . $rowIndex, $commande->getClient()?->getEmail());
-            $sheet->setCellValue('G' . $rowIndex, $commande->getProduitBase()?->getNom());
-            $sheet->setCellValue('H' . $rowIndex, $commande->getProduitBase()?->getCategorie()?->getNom());
-            $sheet->setCellValue('I' . $rowIndex, $optionsByType['Finition']);
-            $sheet->setCellValue('J' . $rowIndex, $optionsByType['Taille']);
-            $sheet->setCellValue('K' . $rowIndex, $extrasString);
-            $sheet->setCellValue('L' . $rowIndex, $commande->getEffet());
-            $sheet->setCellValue('M' . $rowIndex, $commande->getNbIris());
-            $sheet->setCellValue('N' . $rowIndex, $commande->getNbIrisAnimaux());
-            $sheet->setCellValue('O' . $rowIndex, $commande->getLivraison());
-            $sheet->setCellValue('P' . $rowIndex, $commande->getRdv());
-            $sheet->setCellValue('Q' . $rowIndex, $commande->getCarteCadeau());
-            $sheet->setCellValue('R' . $rowIndex, $commande->getProvenance());
+            $sheet->setCellValue('G' . $rowIndex, $commande->getClient()?->getVille());
+            $sheet->setCellValue('H' . $rowIndex, $commande->getClient()?->getPays());
+            $sheet->setCellValue('I' . $rowIndex, $commande->getProduitBase()?->getNom());
+            $sheet->setCellValue('J' . $rowIndex, $commande->getProduitBase()?->getCategorie()?->getNom());
+            $sheet->setCellValue('K' . $rowIndex, $optionsByType['Finition']);
+            $sheet->setCellValue('L' . $rowIndex, $optionsByType['Taille']);
+            $sheet->setCellValue('M' . $rowIndex, $extrasString);
+            $sheet->setCellValue('N' . $rowIndex, $commande->getEffet());
+            $sheet->setCellValue('O' . $rowIndex, $commande->getNbIris());
+            $sheet->setCellValue('P' . $rowIndex, $commande->getNbIrisAnimaux());
+            $sheet->setCellValue('Q' . $rowIndex, $commande->getLivraison());
+            $sheet->setCellValue('R' . $rowIndex, $commande->getRdv());
+            $sheet->setCellValue('S' . $rowIndex, $commande->getCarteCadeau());
+            $sheet->setCellValue('T' . $rowIndex, $commande->getProvenance());
 
             $rowIndex++;
         }
 
-        // Ajuster la largeur des colonnes automatiquement (maintenant jusqu'à la colonne I)
-        foreach (range('A', 'R') as $columnID) {
+        // Ajuster la largeur des colonnes automatiquement
+        foreach (range('A', 'T') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
 
-        // 5. On prépare la réponse pour le téléchargement
+        // réponse pour le téléchargement
         $response = new StreamedResponse(function () use ($spreadsheet) {
             $writer = new Xlsx($spreadsheet);
             $writer->save('php://output');

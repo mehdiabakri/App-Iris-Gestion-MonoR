@@ -96,7 +96,7 @@ const EditCommandModal = ({
           // Si c'est un extra, on l'ajoute au tableau des extras
           extrasIRIs.push(option["@id"]);
         } else {
-          // Pour les autres (Taille, Finition), on construit le nom du champ AVEC la bonne casse
+          // Pour les autres (Taille, Finition), on construit le nom du champ dynamiquement avec la bonne casse
           // Ex: `options_Taille`, `options_Finition`
           commandeProductData[`options_${option.type}`] = option["@id"];
         }
@@ -105,7 +105,7 @@ const EditCommandModal = ({
       // On assigne le tableau d'extras au bon champ, AVEC la bonne casse
       commandeProductData.options_Extra = extrasIRIs;
 
-      // On combine les données "plates" et les données du produit, puis on met à jour le formulaire
+      // On combine les données, puis on met à jour le formulaire
       reset({ ...flatData, commande: commandeProductData });
     }
   }, [commandeData, reset]);
@@ -132,10 +132,10 @@ const EditCommandModal = ({
   });
 
   const onSubmit = (data: EditCommandFormData) => {
-    // 1. On récupère l'objet "commande" qui contient les données du produit.
+    // récupère l'objet "commande" qui contient les données du produit.
     const commandeProductData = data.commande || {};
 
-    // 2. On collecte TOUTES les options en une seule boucle propre.
+    // collecte TOUTES les options en une seule boucle propre.
     const optionsChoisiesIRIs: string[] = [];
 
     Object.keys(commandeProductData).forEach((key) => {
@@ -144,10 +144,10 @@ const EditCommandModal = ({
         const value = commandeProductData[key];
 
         if (key === "options_Extra" && Array.isArray(value)) {
-          // Cas des checkboxes : on ajoute tous les éléments du tableau
+          // checkboxes : on ajoute tous les éléments du tableau
           optionsChoisiesIRIs.push(...value);
         } else if (typeof value === "string" && value) {
-          // Cas des selects : on ajoute la chaîne si elle n'est pas vide
+          // selects : on ajoute la chaîne si elle n'est pas vide
           optionsChoisiesIRIs.push(value);
         }
       }

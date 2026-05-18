@@ -16,7 +16,6 @@ const AllClients = () => {
   const { data: clients, isLoading, isError, error } = useClients();
   const navigate = useNavigate();
 
-  // --- Pagination State ---
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -24,7 +23,6 @@ const AllClients = () => {
     navigate(`/clients/${client.id}`);
   };
 
-  // --- Logic ---
   const allClients: Client[] = (clients as Client[]) || [];
   const totalPages = Math.ceil(allClients.length / itemsPerPage);
   

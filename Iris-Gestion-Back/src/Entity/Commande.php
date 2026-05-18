@@ -21,7 +21,10 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 
 #[ApiResource(
-    // On définit explicitement les opérations et les groupes à utiliser pour chacune
+    /**
+     *  On définit explicitement les opérations et les groupes à utiliser pour chacune
+     * Cela nous permet de contrôler précisément ce qui est exposé dans l'API pour chaque endpoint, et d'avoir des représentations différentes selon le contexte (liste, détail, écriture, etc.)
+     */ 
     operations: [
 
         new GetCollection(normalizationContext: ['groups' => 'commande:read'],
@@ -38,7 +41,7 @@ use ApiPlatform\Metadata\Patch;
         new Patch(denormalizationContext: ['groups' => 'commande:write'], normalizationContext: ['groups' => 'commande:detail'])
     ],
 
-    // On trie par défaut les commandes de la plus récente à la plus ancienne
+    // trie par défaut les commandes
     order: ['createdAt' => 'DESC'],
 
 )]

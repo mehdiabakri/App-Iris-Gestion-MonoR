@@ -21,13 +21,12 @@ interface SaveGalleryUrlFormProps {
 }
 
 const SaveGalleryUrlForm = ({ order, onSuccess }: SaveGalleryUrlFormProps) => {
-  // On gère 2 états : l'URL actuelle, et si on est en mode édition
   const [isEditing, setIsEditing] = useState(false);
   const [url, setUrl] = useState(order.piwigoAlbumUrl || "");
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  // Si l'objet `order` change (après un refetch), on met à jour notre état local
+  // Si objet `order` change après un refetch, on met à jour état local
   useEffect(() => {
     setUrl(order.piwigoAlbumUrl || "");
   }, [order.piwigoAlbumUrl]);
@@ -47,7 +46,7 @@ const SaveGalleryUrlForm = ({ order, onSuccess }: SaveGalleryUrlFormProps) => {
         isClosable: true,
       });
       onSuccess();
-      setIsEditing(false); // On quitte le mode édition
+      setIsEditing(false);
     } catch (err) {
       if (err instanceof Error) {
         toast({ title: "Erreur", description: err.message, status: "error" });
@@ -58,14 +57,13 @@ const SaveGalleryUrlForm = ({ order, onSuccess }: SaveGalleryUrlFormProps) => {
   };
 
   const handleCancel = () => {
-    // On restaure l'URL d'origine et on quitte le mode édition
     setUrl(order.piwigoAlbumUrl || "");
     setIsEditing(false);
   };
 
   // --- AFFICHAGE CONDITIONNEL ---
 
-  // CAS 1 : On est en train d'éditer (ou il n'y a pas encore d'URL)
+  // CAS 1 : il n'y a pas encore d'URL
   if (isEditing || !order.piwigoAlbumUrl) {
     return (
       <Box
@@ -107,7 +105,7 @@ const SaveGalleryUrlForm = ({ order, onSuccess }: SaveGalleryUrlFormProps) => {
     );
   }
 
-  // CAS 2 : Une URL est déjà enregistrée, on l'affiche
+  // CAS 2 : Une URL est enregistrée
   return (
     <Box
       mt={4}

@@ -6,7 +6,7 @@ import { fetchCategories } from '../api/categorie'; // Adresse du fichier API
 
 export const useCategories = () => {
   return useQuery({
-    queryKey: ['categories'], // La clé de cache
-    queryFn: fetchCategories, // La fonction qui récupère les données
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
   });
 };

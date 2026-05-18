@@ -13,7 +13,7 @@ export interface KanbanData {
   columnOrder: string[];
 }
 
-// --- FONCTION DE FORMATAGE (NETTOYÉE) ---
+// --- FONCTION DE FORMATAGE ---
 const formatterDonnees = (commandesBrutes: Commande[]): KanbanData => {
   const structure: KanbanData = {
     columns: {
@@ -44,7 +44,7 @@ const formatterDonnees = (commandesBrutes: Commande[]): KanbanData => {
     }
   });
 
-  // 2. ENSUITE on nettoie la colonne "Terminé"
+  // 2. on nettoie la colonne "Terminé", évite de charger trop de commandes terminées dans le DOM
   const doneColumn = structure.columns["Terminé"];
   if (doneColumn.items.length > 4) {
     // Tri par date décroissante
@@ -73,7 +73,7 @@ export const useKanbanLogic = (commandes: Commande[]) => {
 
     const previousData = { ...data };
     
-    // --- MISE À JOUR OPTIMISTE ---
+
     const sourceCol = data.columns[source.droppableId];
     const destCol = data.columns[destination.droppableId];
     const sourceItems = Array.from(sourceCol.items);
@@ -83,11 +83,9 @@ export const useKanbanLogic = (commandes: Commande[]) => {
     movedItem.statut = destination.droppableId;
     destItems.splice(destination.index, 0, movedItem);
 
-    // --- LOGIQUE "REACT" : On applique la limite de 4 même pendant le drag ! ---
     let finalDestItems = destItems;
     if (destination.droppableId === "Terminé" && destItems.length > 4) {
-        // On trie et on coupe immédiatement pour que l'utilisateur 
-        // voie la carte "disparaître" (s'archiver) s'il y en a trop
+        // On trie et on masque immédiatement pour que l'utilisateur voie la carte s'archiver s'il y en a trop
         finalDestItems = destItems
             .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             .slice(0, 4);

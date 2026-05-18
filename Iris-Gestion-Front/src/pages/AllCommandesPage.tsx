@@ -15,7 +15,6 @@ import { allOrderColumns } from '../config/columns';
 import ListPageLayout from '../components/design/ListPageLayout';
 import ResourceTable from '../components/design/ResourceTable';
 
-// Importez votre type Commande (adaptez le chemin selon votre projet)
 import { Commande } from '../types/Types';
 
 type CommandeFilters = {
@@ -53,7 +52,7 @@ const AllCommandesPage = () => {
   
   const handleResetFilters = () => {
     setFilters({});
-    setCurrentPage(1); // Reset page aussi ici
+    setCurrentPage(1);
   };
 
   // --- 3. Logique de Pagination ---
@@ -85,10 +84,8 @@ const AllCommandesPage = () => {
             onChange={handleStatutChange}
             value={filters.statut || ''} 
             maxWidth="300px"
-            
-            // Styles pour le thème sombre/jaune
-            bg="brand.700"          // Fond noir
-            color="white"           // Texte blanc
+            bg="brand.700"
+            color="white" 
             borderColor="whiteAlpha.400"
             _hover={{ borderColor: "brand.500" }}
             _focus={{ 
@@ -99,7 +96,6 @@ const AllCommandesPage = () => {
           >
             {STATUTS.map(statut => (
               <option key={statut} value={statut} style={{ backgroundColor: '#000' }}>
-                {/* Note: le style inline bg: #000 est nécessaire pour les options sur certains navigateurs */}
                 {statut}
               </option>
             ))}
@@ -121,12 +117,10 @@ const AllCommandesPage = () => {
           data={currentCommandes}
           columns={allOrderColumns}
           onRowClick={(commande) => {
-            // TypeScript sait que 'commande' est de type Commande grâce au typage plus haut
             navigate(`/clients/${commande.client.id}`);
           }}
         />
 
-        {/* --- Pagination Zone (Identique à Clients) --- */}
         {allCommandes.length > itemsPerPage && (
           <Flex
             justify="space-between"

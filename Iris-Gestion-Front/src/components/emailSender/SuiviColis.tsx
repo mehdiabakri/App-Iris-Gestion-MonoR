@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { sendTrackingEmail } from '../../api/EmailSender';
 import type { Commande } from '../../types/Types';
 
-// 1. === AJOUT DE L'IMPORT POUR L'ICÔNE ===
 import { FiSend } from 'react-icons/fi';
 import { Box, Button, Alert, AlertIcon, Text } from '@chakra-ui/react';
 
@@ -59,7 +58,7 @@ const SuiviColis: React.FC<SuiviColisProps> = ({ order }) => {
           onClick={handleSendEmail}
           isLoading={isSending}
           loadingText="Envoi en cours..."
-          leftIcon={<FiSend />} // On passe simplement l'icône ici
+          leftIcon={<FiSend />} 
         >
           Envoyer l'email de suivi
         </Button>

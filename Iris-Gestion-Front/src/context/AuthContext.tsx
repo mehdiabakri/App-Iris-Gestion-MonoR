@@ -2,14 +2,12 @@ import React, { useState, ReactNode } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-// 1. On IMPORTE le contexte depuis le hook. On inverse la dépendance.
 import { AuthContext } from "../hooks/useAuth";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-// Ce fichier n'exporte QUE le composant.
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("jwt_token")

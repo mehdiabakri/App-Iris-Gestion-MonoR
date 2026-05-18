@@ -83,7 +83,6 @@ export default function Topbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [clients.isOpen, clients.onClose]);
 
-  // effect pour fermer produits si clic en dehors
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -98,7 +97,6 @@ export default function Topbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [produits.isOpen, produits.onClose]);
 
-  // effect pour fermer clients si clic en dehors
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -113,7 +111,6 @@ export default function Topbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [ventes.isOpen, ventes.onClose]);
 
-  // effect pour fermer produits si clic en dehors
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -128,7 +125,6 @@ export default function Topbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [produits.isOpen, produits.onClose]);
 
-  // effect pour fermer commandes si clic en dehors
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -420,7 +416,6 @@ export default function Topbar() {
         <DrawerContent bg="brand.500" color="white">
           <DrawerCloseButton />
           <DrawerBody mt={8}>
-            {/* On recrée la navigation ici, verticalement */}
             <VStack align="stretch" spacing={4}>
               <NavItem
                 icon={FiHome}
@@ -429,7 +424,6 @@ export default function Topbar() {
                 onClick={onClose}
               />
 
-              {/* Menu Clients dans le drawer */}
               <NavItem
                 icon={FiUsers}
                 label="Clients"

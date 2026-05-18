@@ -1,6 +1,16 @@
 import {
-  Table, Thead, Tbody, Tr, Th, Td, TableContainer,
-  Box, VStack, Text, Flex, useMediaQuery // <-- On ajoute useMediaQuery
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  Box,
+  VStack,
+  Text,
+  Flex,
+  useMediaQuery, // <-- On ajoute useMediaQuery
 } from "@chakra-ui/react";
 import type { ColumnDefinition } from "../../config/columns";
 
@@ -10,15 +20,19 @@ type ResourceTableProps<T extends { id: string }> = {
   onRowClick?: (item: T) => void;
 };
 
-const ResourceTable = <T extends { id: string }>({ data, columns, onRowClick }: ResourceTableProps<T>) => {
-    const [isLargerThan1700] = useMediaQuery("(min-width: 1700px)");
+const ResourceTable = <T extends { id: string }>({
+  data,
+  columns,
+  onRowClick,
+}: ResourceTableProps<T>) => {
+  const [isLargerThan1700] = useMediaQuery("(min-width: 1700px)");
 
   return (
     <>
       {/* 
-          Si isLargerThan1700 est FAUX, on affiche les CARDS.
-          Si c'est VRAI, on affiche le TABLEAU.
-          Le "?" et le ":" garantissent qu'un SEUL des deux est rendu.
+RESPONSIVE DESIGN :
+- En dessous de 1700px : Affichage en cartes (VStack + Box)
+- Au dessus de 1700px : Affichage en tableau (TableContainer + Table)
       */}
       {!isLargerThan1700 ? (
         /* --- VERSION CARDS --- */
@@ -33,18 +47,26 @@ const ResourceTable = <T extends { id: string }>({ data, columns, onRowClick }: 
               bg="black"
               color="white"
               onClick={() => onRowClick?.(item)}
-              _hover={{ color: "brand.700", bg: "brand.600", cursor: "pointer" }}
+              _hover={{
+                color: "brand.700",
+                bg: "brand.600",
+                cursor: "pointer",
+              }}
               transition="all 0.2s"
             >
               <Flex wrap="wrap" gap={8}>
                 {columns.map((col) => (
-                  <Box key={String(col.key)} minW={{ base: "100%", md: "300px" }} flex="1">
-                    <Text 
-                      fontSize="xs" 
-                      fontWeight="bold" 
-                      color="whiteAlpha.500" 
-                      textTransform="uppercase" 
-                      letterSpacing="widest" 
+                  <Box
+                    key={String(col.key)}
+                    minW={{ base: "100%", md: "300px" }}
+                    flex="1"
+                  >
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="whiteAlpha.500"
+                      textTransform="uppercase"
+                      letterSpacing="widest"
                       mb={1}
                     >
                       {col.label}
@@ -65,7 +87,11 @@ const ResourceTable = <T extends { id: string }>({ data, columns, onRowClick }: 
             <Thead>
               <Tr>
                 {columns.map((col) => (
-                  <Th color="white" key={String(col.key)} borderColor="whiteAlpha.300">
+                  <Th
+                    color="white"
+                    key={String(col.key)}
+                    borderColor="whiteAlpha.300"
+                  >
                     {col.label}
                   </Th>
                 ))}
@@ -76,7 +102,11 @@ const ResourceTable = <T extends { id: string }>({ data, columns, onRowClick }: 
                 <Tr
                   key={item.id}
                   onClick={() => onRowClick?.(item)}
-                  _hover={{ color: "brand.700", bg: "brand.600", cursor: "pointer" }}
+                  _hover={{
+                    color: "brand.700",
+                    bg: "brand.600",
+                    cursor: "pointer",
+                  }}
                 >
                   {columns.map((col) => (
                     <Td key={String(col.key)} borderColor="whiteAlpha.200">

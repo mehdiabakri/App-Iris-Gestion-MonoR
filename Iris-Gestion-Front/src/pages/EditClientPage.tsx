@@ -1,15 +1,10 @@
-// src/pages/EditClientPage.tsx
-
 import React, { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-// 1. Correction de l'import : le fichier s'appelle `clients.ts` (au pluriel)
 import { updateClient } from "../api/client";
-// 2. Correction de l'import : on importe le hook `useClient` (au singulier) depuis `useClients.ts`
 import { useClient } from "../hooks/useClients";
 
-// On utilise le type centralisé pour le formulaire
 import type { ClientFormData } from "../types/Types";
 
 import {
@@ -29,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 
 const EditClientPage = () => {
-  const { clientId } = useParams<{ clientId: string }>(); // On type le paramètre pour plus de sécurité
+  const { clientId } = useParams<{ clientId: string }>(); 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const toast = useToast();
@@ -37,7 +32,6 @@ const EditClientPage = () => {
   const { data: clientData, isLoading: isLoadingClient } = useClient(clientId);
 
   const methods = useForm<ClientFormData>();
-  // 3. On déstructure `register` ici pour pouvoir l'utiliser dans le JSX
   const {
     register,
     handleSubmit,
@@ -47,7 +41,6 @@ const EditClientPage = () => {
 
   useEffect(() => {
     if (clientData) {
-      // Logique améliorée pour le pré-remplissage
       const commandeData = clientData.commandes?.[0] || {};
       const formData = { ...clientData, ...commandeData };
       reset(formData);
@@ -114,7 +107,6 @@ const EditClientPage = () => {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={8} align="stretch">
-            {/* 5. On replace la Box pour la structure */}
             <Box
               p={6}
               borderWidth="1px"
@@ -174,7 +166,7 @@ const EditClientPage = () => {
             </Box>
 
             <Button
-              mt={4} // On ajuste la marge
+              mt={4}
               colorScheme="yellow"
               isLoading={mutation.isPending}
               type="submit"

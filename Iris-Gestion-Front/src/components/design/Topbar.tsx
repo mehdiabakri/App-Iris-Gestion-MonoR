@@ -41,7 +41,7 @@ import { FaUserPlus } from "react-icons/fa6";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ExportDateModal from "../modals/ExportDateModal";
 
-import logoSrc from "../../../public/logo-Iris-Gestion.png";
+import logoSrc from "../../assets/logo-Iris-Gestion.png";
 
 export default function Topbar() {
   const clients = useDisclosure();
@@ -234,17 +234,7 @@ export default function Topbar() {
 
   return (
     <>
-      <Box
-        bg="brand.500"
-        px={6}
-        py={3}
-        boxShadow="sm"
-        position="fixed"
-        top={0}
-        left={0}
-        right={0}
-        zIndex={1000}
-      >
+      <Box bg="brand.500" px={6} py={3} position="relative">
         <Flex align="center" justify="space-between" mx="auto">
           <Avatar
             src={logoSrc}
@@ -393,7 +383,7 @@ export default function Topbar() {
               variant="solid"
               ml={50}
             >
-              Ciao
+              Quitter
             </Button>
           </HStack>
 

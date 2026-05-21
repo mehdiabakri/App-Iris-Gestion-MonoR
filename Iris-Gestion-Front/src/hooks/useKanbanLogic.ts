@@ -18,7 +18,6 @@ const formatterDonnees = (commandesBrutes: Commande[]): KanbanData => {
   const structure: KanbanData = {
     columns: {
       "A retoucher": { title: "🎨 À retoucher", items: [] },
-      "A envoyer client": { title: "✉️ À envoyer", items: [] },
       "Attente retour client": { title: "⏳ Attente retour", items: [] },
       "A commander": { title: "🛒 À commander", items: [] },
       "Commande OK": { title: "✅ Commande OK", items: [] },
@@ -27,7 +26,6 @@ const formatterDonnees = (commandesBrutes: Commande[]): KanbanData => {
     },
     columnOrder: [
       "A retoucher",
-      "A envoyer client",
       "Attente retour client",
       "A commander",
       "Commande OK",

@@ -171,7 +171,7 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
 
                                 <Divider borderColor="gray.100" />
 
-                                {/* DÉTAILS DE LA COMMANDE (Style de ta capture) */}
+                                {/* DÉTAILS DE LA COMMANDE */}
                                 <VStack align="stretch" spacing={1}>
                                   <HStack justify="space-between">
                                     <Text fontSize="xs" color="gray.500">

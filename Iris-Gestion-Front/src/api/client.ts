@@ -1,5 +1,3 @@
-// src/api/client.ts
-
 import { customFetch } from './customFetch';
 import type { Client, ClientFormData, CreateClientPayload } from '../types/Types';
 

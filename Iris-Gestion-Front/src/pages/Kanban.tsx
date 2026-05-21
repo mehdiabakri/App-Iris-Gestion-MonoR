@@ -33,7 +33,7 @@ const Kanban = () => {
       isError={isError}
       error={error}
     >
-      <Flex justify="flex-end" mb={4} px={2}>
+      <Flex mb={4} px={2}>
         <GlobalSearchBar 
           searchQuery={searchQuery} 
           onSearchChange={setSearchQuery} 

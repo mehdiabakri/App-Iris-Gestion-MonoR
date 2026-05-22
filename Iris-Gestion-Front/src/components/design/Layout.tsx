@@ -1,9 +1,11 @@
 import { Flex, Box } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
+import { Outlet,useLocation  } from "react-router-dom";
 import Topbar from "./Topbar";
 import DemoBanner from "../design/DemoBanner";
 
 const Layout = () => {
+  const location = useLocation();
+  const isKanbanPage = location.pathname.includes("/kanban"); // Vérifie si l'URL contient "/kanban" pour ajuster la width
   return (
     <Flex direction="column" minH="100vh" bg="black">
       
@@ -13,7 +15,7 @@ const Layout = () => {
         top={0} 
         left={0} 
         right={0} 
-        zIndex={2000} 
+        zIndex={1000} 
       >
         <DemoBanner />
         <Topbar />
@@ -22,8 +24,11 @@ const Layout = () => {
       <Box 
         as="main" 
         pt="110px" 
-        px={6} 
+        px={isKanbanPage ? 2 : 6}  
         flex="1"
+        w="100%"
+        maxW={isKanbanPage ? "100%" : "1900px"}
+        mx="auto"
       >
         <Outlet />
       </Box>

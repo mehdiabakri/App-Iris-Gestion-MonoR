@@ -31,7 +31,7 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
   if (!data.columnOrder.length) return null;
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Flex gap="16px" overflowX="auto" pb="20px" px="10px">
+      <Flex gap="16px" px="10px">
         {data.columnOrder.map((columnId) => {
           const column = data.columns[columnId];
           return (

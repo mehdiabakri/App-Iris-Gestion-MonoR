@@ -144,37 +144,37 @@ const mapToCommandeClient = (client: Client): Commande['client'] => {
 export const fakeClients: Client[] = [
   {
     id: "1", createdAt: "2024-01-10T08:00:00Z", prenom: "Thomas", nom: "Muller",
-    email: "t.muller@gmail.com", telephone: "0612345678", adresse: "12 Rue de la République",
+    email: "t.test-m2@gmail.com", telephone: "0612345678", adresse: "12 Rue de la République",
     complementAdresse: "Appartement 4B", codePostal: "75001", ville: "Paris", pays: "France",
     rgpdConsent: true, remarque: "Client VIP", commandes: []
   },
   {
     id: "2", createdAt: "2024-01-15T12:00:00Z", prenom: "Sarah", nom: "Lavoine",
-    email: "sarah.l@hotmail.fr", telephone: "0788990011", adresse: "45 Boulevard Haussmann",
+    email: "t.test-m2.l@hotmail.fr", telephone: "0612345678", adresse: "45 Boulevard Haussmann",
     complementAdresse: "", codePostal: "75009", ville: "Paris", pays: "France",
     rgpdConsent: true, remarque: "Architecte d'intérieur", commandes: []
   },
   {
     id: "3", createdAt: "2024-02-01T09:00:00Z", prenom: "Kevin", nom: "Durant",
-    email: "k.durant@yahoo.com", telephone: "0655443322", adresse: "8 Impasse des Lilas",
+    email: "k.t.test-m2@yahoo.com", telephone: "0612345678", adresse: "8 Impasse des Lilas",
     complementAdresse: "Bâtiment C", codePostal: "69002", ville: "Lyon", pays: "France",
     rgpdConsent: true, remarque: "", commandes: []
   },
   {
     id: "4", createdAt: "2024-02-10T15:00:00Z", prenom: "Elena", nom: "Rossi",
-    email: "elena.rossi@outlook.it", telephone: "0611223344", adresse: "22 Rue des Alpes",
+    email: "t.test-m2.rossi@outlook.it", telephone: "0612345678", adresse: "22 Rue des Alpes",
     complementAdresse: "", codePostal: "74000", ville: "Annecy", pays: "France",
     rgpdConsent: true, remarque: "Parle italien", commandes: []
   },
   {
     id: "5", createdAt: "2024-02-20T10:00:00Z", prenom: "Marc", nom: "Lefebvre",
-    email: "m.lefebvre@orange.fr", telephone: "0699887766", adresse: "50 Avenue de la Mer",
+    email: "t.test-m2.lefebvre@orange.fr", telephone: "0612345678", adresse: "50 Avenue de la Mer",
     complementAdresse: "Résidence le Phare", codePostal: "13008", ville: "Marseille", pays: "France",
     rgpdConsent: true, remarque: "Demande souvent des news", commandes: []
   },
   {
     id: "6", createdAt: "2024-02-25T11:00:00Z", prenom: "Sophie", nom: "Morel",
-    email: "sophie.morel@gmail.com", telephone: "0744556677", adresse: "103 Rue du Faubourg",
+    email: "t.test-m2.morel@gmail.com", telephone: "0612345678", adresse: "103 Rue du Faubourg",
     complementAdresse: "", codePostal: "33000", ville: "Bordeaux", pays: "France",
     rgpdConsent: true, remarque: "Nouveau client", commandes: []
   }

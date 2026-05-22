@@ -251,7 +251,7 @@ export default function Topbar() {
           >
             <NavItem icon={FiHome} label="Dashboard" to="/" />
 
-            {/* Clients menu collapsible */}
+            {/* Clients */}
             <Box position="relative" ref={clientsRef}>
               <NavItem
                 icon={FiUsers}
@@ -298,7 +298,7 @@ export default function Topbar() {
 
             <NavItem icon={FiPackage} label="Commandes" to="/commandes" />
 
-            {/* Produits menu collapsible */}
+            {/* Produits */}
             <Box position="relative" ref={produitsRef}>
               <NavItem
                 icon={FiPackage}

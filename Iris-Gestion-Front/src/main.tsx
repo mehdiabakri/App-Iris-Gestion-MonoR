@@ -35,7 +35,7 @@ enableMocking().then(() => {
       <BrowserRouter>
         <ChakraProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
-            <Box minH="100vh" w="100%"> 
+            <Box minH="100vh" w="100% "> 
               <AuthProvider>
                 <App />
               </AuthProvider>

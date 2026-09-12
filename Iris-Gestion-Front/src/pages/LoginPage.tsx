@@ -120,7 +120,7 @@ useEffect(() => {
 
           <Button
             type="submit"
-            colorScheme="yellow"
+            colorScheme="gray"
             width="full"
             isLoading={isSubmitting}
           >

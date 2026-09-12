@@ -62,7 +62,7 @@ const SaveCommandeYae = ({ order, onSuccess }: SaveCommandeYaeProps) => {
 
   if (isEditing || !order.commandeYae) {
     return (
-      <Box p={4} borderWidth="1px" borderRadius="md" borderColor="gray.200">
+      <Box p={4} borderWidth="1px"borderColor="gray.200">
         <FormControl>
           <FormLabel fontSize="sm">Numéro de la commande</FormLabel>
           <HStack>
@@ -96,7 +96,7 @@ const SaveCommandeYae = ({ order, onSuccess }: SaveCommandeYaeProps) => {
   }
 
   return (
-    <Box p={4} borderWidth="1px" borderRadius="md" borderColor="gray.200">
+    <Box p={4} borderWidth="1px" borderColor="gray.200">
       <HStack justify="space-between" align="center">
         <HStack>
           <Text fontWeight="bold">N° de commande YAE :</Text>

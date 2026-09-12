@@ -22,12 +22,10 @@ const ProtectedRoutes = () => {
     return <Spinner />; 
   }
 
-  // Si on n'est pas authentifié, on redirige vers le login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Si on est authentifié, on affiche la page demandée
   return <Outlet />;
 };
 

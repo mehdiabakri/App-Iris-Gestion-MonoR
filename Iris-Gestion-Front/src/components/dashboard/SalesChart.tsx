@@ -70,7 +70,7 @@ const SalesChart = () => {
           <Bar
             dataKey="anneePrecedente"
             name={previousYear.toString()}
-            fill="#E2E8F0"
+            fill="#ff9f9f"
             radius={[4, 4, 0, 0]}
           />
 
@@ -78,7 +78,7 @@ const SalesChart = () => {
           <Bar
             dataKey="anneeEnCours"
             name={currentYear.toString()}
-            fill="#f8de29"
+            fill="#acacac"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>

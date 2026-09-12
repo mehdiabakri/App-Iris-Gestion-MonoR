@@ -88,7 +88,7 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
                               borderRadius="lg"
                               boxShadow={snapshot.isDragging ? "2xl" : "sm"}
                               borderLeft="5px solid"
-                              borderColor="brand.500"
+                              borderColor="brand.100"
                               position="relative"
                               transition="all 0.2s"
                               _hover={{ boxShadow: "md" }}
@@ -120,7 +120,7 @@ export default function KanbanPage({ commandes }: KanbanPageProps) {
                                   right={2}
                                   p={1}
                                   borderRadius="md"
-                                  bg="brand.500"
+                                  bg="brand.100"
                                   color="brand.700"
                                   zIndex={10}
                                   cursor="pointer"

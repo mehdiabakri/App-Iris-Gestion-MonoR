@@ -65,7 +65,7 @@ const SaveTrackingUrlForm = ({
 
   if (isEditing || !order.lienSuiviColis) {
     return (
-      <Box p={4} borderWidth="1px" borderRadius="md" borderColor="gray.200">
+      <Box p={4} borderWidth="1px" borderColor="gray.200">
         <FormControl>
           <FormLabel fontSize="sm">Lien de suivi du colis</FormLabel>
           <HStack>
@@ -99,7 +99,7 @@ const SaveTrackingUrlForm = ({
   }
 
   return (
-    <Box p={4} borderWidth="1px" borderRadius="md" borderColor="gray.200">
+    <Box p={4} borderWidth="1px" borderColor="gray.200">
       <HStack justify="space-between" align="center">
         <Box>
           <FormLabel fontSize="sm" mb={0}>

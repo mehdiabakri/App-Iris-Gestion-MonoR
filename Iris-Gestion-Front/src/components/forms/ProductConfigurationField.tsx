@@ -66,7 +66,7 @@ const ProductConfigurationField = () => {
   };
 
   return (
-    <Box p={6} borderWidth="1px" borderRadius="lg" bg="brand.600" boxShadow="sm">
+    <Box p={6} borderWidth="1px"  bg="brand.400" boxShadow="sm">
       <Heading size="md" mb={6}>Configuration du Produit</Heading>
       <VStack spacing={6} align="stretch">
         <FormControl>

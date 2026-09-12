@@ -396,7 +396,7 @@ const EditCommandModal = ({
                 Annuler
               </Button>
               <Button
-                colorScheme="yellow"
+                colorScheme="gray"
                 isLoading={mutation.isPending}
                 type="submit"
               >

@@ -84,18 +84,14 @@ const AllCommandesPage = () => {
             onChange={handleStatutChange}
             value={filters.statut || ''} 
             maxWidth="300px"
-            bg="brand.700"
-            color="white" 
-            borderColor="whiteAlpha.400"
-            _hover={{ borderColor: "brand.500" }}
-            _focus={{ 
-              borderColor: "brand.500", 
-              boxShadow: "0 0 0 1px #F8DE29" // Glow jaune au focus
-            }}
-            iconColor="brand.500"   // La flèche du select en jaune
+            bg="brand.50"
+            color="gray.700" 
+            borderColor="gray.400"
+            _hover={{ borderColor: "brand.200" }}
+            iconColor="brand.200"   // La flèche du select en jaune
           >
             {STATUTS.map(statut => (
-              <option key={statut} value={statut} style={{ backgroundColor: '#000' }}>
+              <option key={statut} value={statut} style={{ backgroundColor: '#fff' }}>
                 {statut}
               </option>
             ))}
@@ -104,9 +100,9 @@ const AllCommandesPage = () => {
           <Button 
             onClick={handleResetFilters} 
             variant="outline"
-            borderColor="brand.500"
-            color="brand.500"
-            _hover={{ bg: "brand.500", color: "brand.700" }}
+            borderColor="gray.400"
+            color="gray.400"
+            _hover={{ bg: "gray.500", color: "brand.50" }}
           >
             Réinitialiser
           </Button>
@@ -134,8 +130,8 @@ const AllCommandesPage = () => {
               onClick={() => paginate(currentPage - 1)}
               isDisabled={currentPage === 1}
               variant="outline"
-              borderColor="brand.500"
-              color="brand.500"
+              borderColor="gray.500"
+              color="gray.500"
               leftIcon={<ChevronLeftIcon boxSize={6} />}
               _hover={{
                 bg: "brand.500",

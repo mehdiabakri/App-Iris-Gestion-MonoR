@@ -14,10 +14,10 @@ const StatCard = ({ title, value, icon }: StatCardProps) => {
     <Stat p={5} shadow="md" borderWidth="1px" borderRadius="lg" bg="white">
       <Flex justifyContent="space-between" alignItems="center">
         <Box>
-          <StatLabel color="gray.500" fontSize="sm" fontWeight="medium">
+          <StatLabel color="brand.700" fontSize="sm" fontWeight="medium">
             {title}
           </StatLabel>
-          <StatNumber fontSize="3xl" fontWeight="bold">
+          <StatNumber fontSize="3xl" fontWeight="bold" color="brand.700">
             {value}
           </StatNumber>
         </Box>
@@ -27,7 +27,7 @@ const StatCard = ({ title, value, icon }: StatCardProps) => {
           alignItems="center"
           justifyContent="center"
           borderRadius="full"
-          color={`brand.500`}
+          color={`brand.300`}
         >
           <Icon as={icon} boxSize={8} />
         </Flex>

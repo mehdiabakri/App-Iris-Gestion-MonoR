@@ -40,7 +40,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
 
   if (!order) {
     return (
-      <Box p={6} borderWidth="1px" borderRadius="lg" bg="white" boxShadow="sm">
+      <Box p={6} borderWidth="1px" bg="white" boxShadow="sm">
         <Text fontStyle="italic" color="gray.500">
           Sélectionnez une commande pour voir les détails.
         </Text>
@@ -54,7 +54,6 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
       p={6}
       borderWidth="1px"
       borderColor="gray.200"
-      borderRadius="lg"
       bg="white"
       boxShadow="sm"
     >
@@ -111,11 +110,11 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
       </Heading>
       <VStack align="stretch" spacing={3} mb={6}>
         {/* On affiche le produit de base */}
-        <HStack justify="space-between" p={2} bg="brand.500" borderRadius="md">
+        <HStack justify="space-between" p={2} bg="gray.300">
           <Text fontWeight="bold">Catégorie :</Text>
           <Text>{order.produitBase?.categorie?.nom || "N/A"}</Text>
         </HStack>
-        <HStack justify="space-between" p={2} bg="brand.600" borderRadius="md">
+        <HStack justify="space-between" p={2} bg="gray.200">
           <Text fontWeight="bold">Produit :</Text>
           <Text>{order.produitBase?.nom || "N/A"}</Text>
         </HStack>
@@ -129,10 +128,9 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
               key={option.id}
               justify="space-between"
               p={2}
-              bg="brand.600"
-              borderRadius="md"
+              bg="gray.100"
             >
-              <Text color="gray.600">Taille :</Text>
+              <Text color="brand.700">Taille :</Text>
               <Text fontWeight="bold">{option.nom}</Text>
             </HStack>
           ))}
@@ -146,17 +144,16 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
               key={option.id}
               justify="space-between"
               p={2}
-              bg="brand.600"
-              borderRadius="md"
+              bg="gray.100"
             >
-              <Text color="gray.600">Finition :</Text>
+              <Text color="brand.700">Finition :</Text>
               <Text fontWeight="bold">{option.nom}</Text>
             </HStack>
           ))}
 
         {/* --- SECTION EXTRAS --- */}
         <Divider my={2} />
-        <Heading size="sm" color="brand.700">
+        <Heading size="sm" color="gray.700">
           Extras
         </Heading>
 
@@ -171,7 +168,6 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
                 justify="space-between"
                 p={2}
                 bg="gray.100"
-                borderRadius="md"
               >
                 <Text color="gray.600">{option.nom}</Text>
               </HStack>
@@ -190,7 +186,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
           <Heading size="sm" mt={6} mb={4} color="brand.700">
             Remarque :
           </Heading>
-          <Box p={2} bg="yellow.50" borderRadius="md">
+          <Box p={2} bg="gray.100">
             <Text fontStyle="italic">{order.remarque}</Text>
           </Box>
         </>
@@ -203,7 +199,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
       </Heading>
 
       <VStack align="stretch" spacing={4}>
-        <HStack justify="space-between" p={2} bg="brand.100" borderRadius="md">
+        <HStack justify="space-between" p={2} bg="gray.300">
           <Text>
             <strong>Mode de livraison :</strong> {order.livraison}
           </Text>

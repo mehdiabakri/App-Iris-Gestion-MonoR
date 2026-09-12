@@ -1,13 +1,6 @@
 import React from "react";
 import { useDashboardStats } from "../hooks/useDashboardStats";
-import {
-  Box,
-  Flex,
-  Heading,
-  SimpleGrid,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import StatCard from "../components/dashboard/StatCard";
 import SalesChart from "../components/dashboard/SalesChart";
 
@@ -17,8 +10,6 @@ import {
   FiBox,
   FiFile,
   FiCodepen,
-  FiLoader,
-  FiCircle,
   FiClock,
   FiShoppingBag,
   FiUsers,
@@ -26,31 +17,32 @@ import {
 import ListPageLayout from "../components/design/ListPageLayout";
 
 const DashboardPage = () => {
-  const { data: monthlySales,isLoading, isError, error } = useDashboardStats();
+  const { data: monthlySales, isLoading, isError, error } = useDashboardStats();
 
   if (isLoading) {
     return (
       <Flex justify="center" align="center" h="100vh">
-        <Spinner size="xl" />
+        <Spinner size="xl" color="brand.500" />
       </Flex>
     );
   }
 
   if (isError) {
-    return <Text>Erreur de chargement des données: {error.message}</Text>;
+    return <Text color="red.500">Erreur de chargement des données: {error.message}</Text>;
   }
 
   return (
     <ListPageLayout
-      title="Stats du mois"
+      title="Statistiques du mois"
       isLoading={isLoading}
       isError={isError}
       error={error}
     >
-        {/* Section des stats globales */}
       <Box p={{ base: 4, md: 8 }}>
-        <Box mt={50} mb={10}>
-          <Heading color="white" mb={5}>
+        
+        {/* Section 1 : Stats globales */}
+        <Box mt={4} mb={10}>
+          <Heading size="md" color="brand.700" mb={5}>
             Croissance portefeuille clients et commandes
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
@@ -58,81 +50,45 @@ const DashboardPage = () => {
               title="Total clients"
               value={monthlySales?.totalClients ?? 0}
               icon={FiUsers}
-              color="purple"
+              color="brand.700"
             />
             <StatCard
               title="Commandes"
               value={monthlySales?.totalCommandes ?? 0}
               icon={FiShoppingBag}
-              color="blue"
+              color="brand.700"
             />
             <StatCard
               title="En cours"
               value={monthlySales?.inProgressCommandes ?? 0}
               icon={FiClock}
-              color="orange"
+              color="brand.700"
             />
           </SimpleGrid>
         </Box>
 
-        {/* Section des commandes par produit */}
-        <Box mt={50} mb={110}>
-          <Heading color="white" mb={5}>
+        {/* Section 2 : Commandes par produit */}
+        <Box mt={10} mb={10}>
+          <Heading size="md" color="brand.700" mb={5}>
             Ventes par catégories
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={6} mb={8}>
-            <StatCard
-              title="Tableaux"
-              value={monthlySales?.commandesTableaux ?? 0}
-              icon={FiImage}
-              color="teal"
-            />
-            <StatCard
-              title="Impressions"
-              value={monthlySales?.commandesImpressions ?? 0}
-              icon={FiPrinter}
-              color="teal"
-            />
-            <StatCard
-              title="Caissons"
-              value={monthlySales?.commandesCaisson ?? 0}
-              icon={FiBox}
-              color="teal"
-            />
-            <StatCard
-              title="Fichiers"
-              value={monthlySales?.commandesFichiers ?? 0}
-              icon={FiFile}
-              color="teal"
-            />
-            <StatCard
-              title="Blocs"
-              value={monthlySales?.commandesBlocs ?? 0}
-              icon={FiCodepen}
-              color="teal"
-            />
-            <StatCard
-              title="Ronds"
-              value={monthlySales?.commandesRonds ?? 0}
-              icon={FiCircle}
-              color="teal"
-            />
-            <StatCard
-              title="Bijoux"
-              value={monthlySales?.commandesBijoux ?? 0}
-              icon={FiLoader}
-              color="teal"
-            />
+          <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={6}>
+            <StatCard title="Tableaux" value={monthlySales?.commandesTableaux ?? 0} icon={FiImage} color="brand.700" />
+            <StatCard title="Impressions" value={monthlySales?.commandesImpressions ?? 0} icon={FiPrinter} color="brand.700" />
+            <StatCard title="Caissons" value={monthlySales?.commandesCaisson ?? 0} icon={FiBox} color="brand.700" />
+            <StatCard title="Fichiers" value={monthlySales?.commandesFichiers ?? 0} icon={FiFile} color="brand.700" />
+            <StatCard title="Blocs" value={monthlySales?.commandesBlocs ?? 0} icon={FiCodepen} color="brand.700" />
           </SimpleGrid>
         </Box>
 
-        {/* Section du Graphique */}
+        {/* Section 3 : Graphique */}
         <Box>
-          <Heading color="white" mb={5}>
+          <Heading size="md" color="brand.700" mb={5}>
             Comparatif des ventes Vs N-1
           </Heading>
           <SalesChart />
         </Box>
+        
       </Box>
     </ListPageLayout>
   );

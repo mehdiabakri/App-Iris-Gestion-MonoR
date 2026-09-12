@@ -20,7 +20,6 @@ async function enableMocking() {
   const { worker } = await import("./mocks/browser");
 
   return worker.start({
-    // On demande à MSW d'ignorer tout ce qui n'est pas une requête API
     onUnhandledRequest: "bypass",
     waitUntilReady: true,
     serviceWorker: {

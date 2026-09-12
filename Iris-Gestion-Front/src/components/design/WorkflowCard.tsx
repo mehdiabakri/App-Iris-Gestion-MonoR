@@ -57,8 +57,7 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
       justifyContent="space-between"
       p={5}
       borderWidth="1px"
-      borderRadius="lg"
-      boxShadow="md"
+      boxShadow="lg"
       bg="white"
       transition="all 0.2s"
       _hover={{
@@ -187,8 +186,8 @@ const WorkflowCard = ({ commande }: WorkflowCardProps) => {
         justifyContent="center"
         borderRadius="md"
         cursor="pointer"
-        bg="brand.500"
-        _hover={{ bg: "brand.400" }}
+        bg="gray.300"
+        _hover={{ bg: "gray.400" }}
         p={2}
       >
         <Icon as={MdOutlineSearch} boxSize={6} />{" "}

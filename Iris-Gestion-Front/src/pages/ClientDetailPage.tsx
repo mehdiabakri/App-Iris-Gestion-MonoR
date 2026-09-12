@@ -47,11 +47,12 @@ const InfoLine = ({
   value,
 }: {
   icon: React.ElementType;
+  color?: string;
   label: string;
   value: string | null | undefined;
 }) => (
   <HStack spacing={4} align="center">
-    <Icon as={icon} color="brand.500" w={6} h={6} />
+    <Icon as={icon} color="brand.300" w={6} h={6} />
     <Box>
       <Text fontSize="sm" color="gray.600">
         {label}
@@ -207,7 +208,7 @@ const ClientDetailPage = () => {
       {/* --- Section En-tête --- */}
       <Flex justify="space-between" alignItems="center" mb={6} flexWrap="wrap">
         <HStack>
-          <Heading as="h1" size="lg" color="brand.600">
+          <Heading as="h1" size="lg" color="brand.700">
             {client?.prenom} {client?.nom}
           </Heading>
         </HStack>
@@ -215,7 +216,7 @@ const ClientDetailPage = () => {
           <Button
             as={RouterLink}
             to={`/clients/${client?.id}/edit`}
-            colorScheme="yellow"
+            colorScheme="gray"
           >
             Modifier Client
           </Button>
@@ -238,7 +239,6 @@ const ClientDetailPage = () => {
           p={6}
           borderWidth="1px"
           borderColor="gray.200"
-          borderRadius="lg"
           bg="white"
           boxShadow="sm"
         >
@@ -290,7 +290,6 @@ const ClientDetailPage = () => {
           p={6}
           borderWidth="1px"
           borderColor="gray.200"
-          borderRadius="lg"
           bg="white"
           boxShadow="sm"
         >
@@ -306,8 +305,8 @@ const ClientDetailPage = () => {
               justifyContent="center"
               borderRadius="md"
               cursor="pointer"
-              bg="brand.500"
-              _hover={{ bg: "brand.300" }}
+              bg="brand.300"
+              _hover={{ bg: "brand.200" }}
               p={2}
             >
               <Icon as={MdAddAPhoto} color="white" boxSize={6} />

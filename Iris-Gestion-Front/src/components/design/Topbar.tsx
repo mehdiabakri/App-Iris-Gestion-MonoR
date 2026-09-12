@@ -41,8 +41,6 @@ import { FaUserPlus } from "react-icons/fa6";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ExportDateModal from "../modals/ExportDateModal";
 
-import logoSrc from "../../assets/logo-Iris-Gestion.png";
-
 export default function Topbar() {
   const clients = useDisclosure();
   const produits = useDisclosure();
@@ -170,12 +168,12 @@ export default function Topbar() {
           display="flex"
           alignItems="center"
           gap={2}
-          borderRadius="md"
           color="brand.700"
           fontWeight={isSub ? "normal" : "semibold"}
           _hover={{
             bg: "brand.700",
-            color: "brand.500",
+            color: "brand.50",
+            border: "1px solid",
             textDecoration: "none",
           }}
           cursor="pointer"
@@ -205,12 +203,12 @@ export default function Topbar() {
           display="flex"
           alignItems="center"
           gap={2}
-          borderRadius="md"
           color="brand.700"
           fontWeight={isSub ? "normal" : "semibold"}
           _hover={{
             bg: "brand.700",
-            color: "brand.500",
+            color: "brand.50",
+            border: "1px solid",
             textDecoration: "none",
           }}
           cursor="default"
@@ -234,12 +232,12 @@ export default function Topbar() {
 
   return (
     <>
-      <Box bg="brand.500" px={6} py={3} position="relative">
+      <Box bg="gray.100" px={6} py={3} position="relative">
         <Flex align="center" justify="space-between" mx="auto">
           <Avatar
-            src={logoSrc}
+            src="https://www.m2-photographie.fr/wp-content/uploads/2026/01/cropped-LOGO-M2-PHOTOGRAPHIE-PHOTOGRAPHE-BORNE-SELFIE-IRIS-1.png"
             name="M2 Core"
-            boxSize="40px"
+            boxSize="60px"
             borderRadius="none"
             mr={8}
           />
@@ -263,9 +261,8 @@ export default function Topbar() {
               <Collapse in={clients.isOpen} unmountOnExit>
                 <VStack
                   minW="200px"
-                  bg="brand.500"
+                  bg="brand.50"
                   mt={1}
-                  borderRadius="md"
                   align="start"
                   px={2}
                   py={1}
@@ -310,9 +307,8 @@ export default function Topbar() {
               <Collapse in={produits.isOpen} unmountOnExit>
                 <VStack
                   minW="200px"
-                  bg="brand.500"
+                  bg="brand.50"
                   mt={1}
-                  borderRadius="md"
                   align="start"
                   px={2}
                   py={1}
@@ -378,9 +374,8 @@ export default function Topbar() {
             </Tooltip>
             <Button
               onClick={logout}
-              leftIcon={<FiLogOut />}
               colorScheme="red"
-              variant="solid"
+              variant="ghost"
               ml={50}
             >
               Quitter

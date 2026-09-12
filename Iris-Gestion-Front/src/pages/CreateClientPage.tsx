@@ -137,7 +137,7 @@ const CreateClientPage = () => {
 
   return (
     <Box p={{ base: 4, md: 8 }}>
-      <Heading mb={6} color="brand.600">
+      <Heading mb={6} color="brand.700">
         Nouveau Client & Commande
       </Heading>
 
@@ -370,34 +370,28 @@ const CreateClientPage = () => {
             <Box
               p={6}
               borderWidth="1px"
-              borderRadius="lg"
               bg="white"
               boxShadow="sm"
             >
               <Heading size="md" mb={6} color="brand.700">
                 Détails de la Post-production
               </Heading>
-              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6} >
                 <FormControl>
                   <FormLabel>Effet</FormLabel>
                   <Select
                     placeholder="Choisir un effet"
                     {...register("commande.effet")}
                   >
-                    <option value="Naturel">Naturel</option>
-                    <option value="Riviere">Rivière</option>
-                    <option value="Explosion">Explosion</option>
-                    <option value="New Explosion">New Explosion</option>
-                    <option value="Planete">Planète</option>
-                    <option value="Comete">Comète</option>
-                    <option value="Duo">Duo / Sur le coté</option>
-                    <option value="Fusion">Fusion</option>
-                    <option value="Coeur">Coeur</option>
-                    <option value="Poudre">Poudre</option>
-                    <option value="Infini">Infini</option>
-                    <option value="Reflet">Reflet</option>
-                    <option value="Fleur">Fleur</option>
-                    <option value="Passion">Passion</option>
+                    <option value="Classique">Classique</option>
+                    <option value="Dust">Dust</option>
+                    <option value="Eau">Eau</option>
+                    <option value="Eclat">Eclat</option>
+                    <option value="Infinity">Infinity</option>
+                    <option value="Love">Love</option>
+                    <option value="Soleil">Soleil</option>
+                    <option value="Symbiose">Symbiose</option>
+                    <option value="Rectangulaire">Rectangulaire</option>
                   </Select>
                 </FormControl>
                 <FormControl>
@@ -421,7 +415,7 @@ const CreateClientPage = () => {
             {/* --- Bouton de Soumission --- */}
             <Button
               mt={8}
-              colorScheme="yellow"
+              colorScheme="gray"
               isLoading={mutation.isPending}
               type="submit"
               size="lg"

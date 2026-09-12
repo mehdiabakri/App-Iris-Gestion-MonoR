@@ -167,7 +167,7 @@ const EditClientPage = () => {
 
             <Button
               mt={4}
-              colorScheme="yellow"
+              colorScheme="gray"
               isLoading={mutation.isPending}
               type="submit"
               size="lg"

@@ -70,13 +70,13 @@ const SaveGalleryUrlForm = ({ order, onSuccess }: SaveGalleryUrlFormProps) => {
         mt={4}
         p={4}
         borderWidth="1px"
-        borderRadius="md"
         borderColor="gray.200"
       >
         <FormControl>
           <FormLabel fontSize="sm">Lien de la galerie</FormLabel>
           <HStack>
             <Input
+            borderRadius="none"
               placeholder="Collez l'URL de la galerie ici..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -111,7 +111,6 @@ const SaveGalleryUrlForm = ({ order, onSuccess }: SaveGalleryUrlFormProps) => {
       mt={4}
       p={4}
       borderWidth="1px"
-      borderRadius="md"
       borderColor="gray.200"
     >
       <HStack justify="space-between" align="center">

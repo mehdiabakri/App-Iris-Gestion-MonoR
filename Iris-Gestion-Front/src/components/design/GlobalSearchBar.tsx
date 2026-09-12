@@ -23,8 +23,8 @@ export default function GlobalSearchBar({
           placeholder={placeholder}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          borderColor="gray.200"
-          _focus={{ borderColor: "brand.500", boxShadow: "0 0 0 1px var(--chakra-colors-brand-500)" }}
+          borderColor="gray.300"
+          _focus={{ boxShadow: "0 0 0 1px var(--chakra-colors-gray-300)" }}
         />
         {searchQuery && (
           <InputRightElement>

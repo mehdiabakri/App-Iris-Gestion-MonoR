@@ -9,6 +9,19 @@ const myCustomYellow = {
   500: "#fef08a",
 };
 
+const myCustomGray = {
+  50: "#f9fafb",  // Gris ultra clair (parfait pour les fonds de cartes)
+  100: "#f3f4f6", // Gris très clair (pour les bordures douces)
+  200: "#e5e7eb", // Gris clair (hover sur les boutons gris)
+  300: "#d1d5db", // Gris moyen clair
+  400: "#9ca3af", // Gris moyen (parfait pour les textes secondaires / sous-titres)
+  500: "#6b7280", // Gris principal (parfait pour les icônes discrètes)
+  600: "#4b5563",
+  700: "#374151", // Gris foncé (idéal pour le texte principal)
+  800: "#1f2937",
+  900: "#111827", // Presque noir (titres importants ou mode sombre)
+};
+
 const theme = extendTheme({
   breakpoints: {
     sm: "30em", // 480px - Mobile
@@ -25,11 +38,13 @@ const theme = extendTheme({
       100: "#ffe3e6ff",
       200: "#4f6d7a",
       300: "#ffbb6eff",
+      400: "#f3f4f6",
       500: "#F8DE29",
       600: "#FFF7C0",
       700: "#000000",
     },
     yellow: myCustomYellow,
+    gray: myCustomGray,
   },
 
   fonts: {

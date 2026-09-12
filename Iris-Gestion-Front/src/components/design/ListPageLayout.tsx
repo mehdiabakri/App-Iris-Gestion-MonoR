@@ -36,7 +36,7 @@ const ListPageLayout = ({
         mb={8}
         gap={4}
       >
-        <Heading fontSize="3xl" color="brand.500">
+        <Heading fontSize="3xl" color="brand.700">
           {title}
         </Heading>
 

@@ -64,7 +64,7 @@ RESPONSIVE DESIGN :
                     <Text
                       fontSize="xs"
                       fontWeight="bold"
-                      color="whiteAlpha.500"
+                      color="brand.700"
                       textTransform="uppercase"
                       letterSpacing="widest"
                       mb={1}
@@ -83,12 +83,12 @@ RESPONSIVE DESIGN :
       ) : (
         /* --- VERSION TABLEAU --- */
         <TableContainer>
-          <Table variant="simple" size="lg" color="white">
+          <Table variant="simple" size="lg" color="brand.700">
             <Thead>
               <Tr>
                 {columns.map((col) => (
                   <Th
-                    color="white"
+                    color="brand.700"
                     key={String(col.key)}
                     borderColor="whiteAlpha.300"
                   >
@@ -104,7 +104,7 @@ RESPONSIVE DESIGN :
                   onClick={() => onRowClick?.(item)}
                   _hover={{
                     color: "brand.700",
-                    bg: "brand.600",
+                    bg: "brand.100",
                     cursor: "pointer",
                   }}
                 >

@@ -7,7 +7,7 @@ const Layout = () => {
   const location = useLocation();
   const isKanbanPage = location.pathname.includes("/kanban"); // Vérifie si l'URL contient "/kanban" pour ajuster la width
   return (
-    <Flex direction="column" minH="100vh" bg="black">
+    <Flex direction="column" minH="100vh" bg="brand.50" color="brand.700">
       
       <Box 
         as="header" 

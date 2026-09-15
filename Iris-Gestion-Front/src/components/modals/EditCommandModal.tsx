@@ -210,14 +210,20 @@ const EditCommandModal = ({
                       <FormControl isInvalid={!!errors.statut}>
                         <FormLabel>Statut</FormLabel>
                         <Select {...register("statut")}>
-                    <option value="A retoucher">A retoucher</option>
-                    <option value="A imprimer">A imprimer</option>
-                    <option value="A envoyer client">A envoyer client</option>
-                    <option value="Attente retour client">Attente retour client</option>
-                    <option value="A commander">A commander</option>
-                    <option value="Commande OK">Commande OK</option>
-                    <option value="Livraison en cours">Livraison en cours</option>
-                    <option value="Terminé">Terminé</option>
+                          <option value="A retoucher">A retoucher</option>
+                          <option value="A imprimer">A imprimer</option>
+                          <option value="A envoyer client">
+                            A envoyer client
+                          </option>
+                          <option value="Attente retour client">
+                            Attente retour client
+                          </option>
+                          <option value="A commander">A commander</option>
+                          <option value="Commande OK">Commande OK</option>
+                          <option value="Livraison en cours">
+                            Livraison en cours
+                          </option>
+                          <option value="Terminé">Terminé</option>
                         </Select>
                       </FormControl>
                       <FormControl>
@@ -278,20 +284,15 @@ const EditCommandModal = ({
                       <FormControl>
                         <FormLabel>Effet</FormLabel>
                         <Select placeholder="Choisir" {...register("effet")}>
-                          <option value="Naturel">Naturel</option>
-                          <option value="Riviere">Rivière</option>
-                          <option value="Explosion">Explosion</option>
-                          <option value="New Explosion">New Explosion</option>
-                          <option value="Planete">Planète</option>
-                          <option value="Comete">Comète</option>
-                          <option value="Duo">Duo / Sur le coté</option>
-                          <option value="Fusion">Fusion</option>
-                          <option value="Coeur">Coeur</option>
-                          <option value="Poudre">Poudre</option>
-                          <option value="Infini">Infini</option>
-                          <option value="Reflet">Reflet</option>
-                          <option value="Fleur">Fleur</option>
-                          <option value="Passion">Passion</option>
+                          <option value="Classique">Classique</option>
+                          <option value="Dust">Dust</option>
+                          <option value="Eau">Eau</option>
+                          <option value="Eclat">Eclat</option>
+                          <option value="Infinity">Infinity</option>
+                          <option value="Love">Love</option>
+                          <option value="Soleil">Soleil</option>
+                          <option value="Symbiose">Symbiose</option>
+                          <option value="Rectangulaire">Rectangulaire</option>
                         </Select>
                       </FormControl>
                       <FormControl>

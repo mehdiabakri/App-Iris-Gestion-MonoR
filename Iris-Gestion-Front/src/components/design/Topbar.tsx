@@ -28,7 +28,6 @@ import {
   FiEdit,
   FiPackage,
   FiList,
-  FiLogOut,
   FiPlusSquare,
   FiPlusCircle,
   FiChevronDown,

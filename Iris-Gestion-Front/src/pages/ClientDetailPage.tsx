@@ -92,7 +92,7 @@ const ClientDetailPage = () => {
 
   const [selectedOrder, setSelectedOrder] = useState<Commande | null>(null);
   const [commandeAModifier, setCommandeAModifier] = useState<Commande | null>(
-    null
+    null,
   );
 
   const handleEditClick = (commande: Commande) => {
@@ -115,7 +115,7 @@ const ClientDetailPage = () => {
   const currentOrder = useMemo(() => {
     if (!client?.commandes) return null;
     return client.commandes.find(
-      (commande: Commande) => commande.statut !== "Terminé"
+      (commande: Commande) => commande.statut !== "Terminé",
     );
   }, [client?.commandes]);
 
@@ -139,7 +139,7 @@ const ClientDetailPage = () => {
   const handleDeleteClick = () => {
     if (
       window.confirm(
-        "Êtes-vous sûr de vouloir supprimer ce client et toutes ses commandes ? Cette action est irréversible."
+        "Êtes-vous sûr de vouloir supprimer ce client et toutes ses commandes ? Cette action est irréversible.",
       )
     ) {
       if (clientId) {
@@ -172,7 +172,7 @@ const ClientDetailPage = () => {
       // Si une commande était déjà sélectionnée on cherche sa nouvelle version dans les données fraîches du client.
       if (prevSelectedOrder) {
         const updatedOrder = client.commandes.find(
-          (c) => c.id === prevSelectedOrder.id
+          (c) => c.id === prevSelectedOrder.id,
         );
         // On retourne la nouvelle version, ou null si elle a disparu.
         return updatedOrder || null;
@@ -255,32 +255,43 @@ const ClientDetailPage = () => {
               label="Téléphone"
               value={client?.telephone}
             />
-            <InfoLine
-              icon={MdLocationOn}
-              label="Adresse"
-              value={`${client?.adresse || ""}, ${client?.codePostal || ""} ${
-                client?.ville || ""
-              }`}
-            />
+            <Box>
+              <VStack align="start" spacing={1}>
+                <HStack>
+                  <InfoLine
+                    icon={MdLocationOn}
+                    label="Adresse"
+                    value={client?.adresse || ""}
+                  />
+                  <CopyButton
+                    textToCopy={[
+                      client?.adresse,
+                      client?.complementAdresse,
+                      [client?.codePostal, client?.ville]
+                        .filter(Boolean)
+                        .join(" "),
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
+                  />
+                </HStack>
+                <Text ml={10} color="brand.700" fontWeight="bold">
+                  {client?.complementAdresse || ""}
+                </Text>
+                <Text ml={10} color="brand.700" fontWeight="bold">
+                  {[client?.codePostal, client?.ville]
+                    .filter(Boolean)
+                    .join(" ")}
+                </Text>
+              </VStack>
+            </Box>
+
             {currentOrder && (
               <InfoLine
                 icon={MdAutoFixHigh}
                 label="Provenance"
                 value={currentOrder.provenance}
               />
-            )}
-            {client?.remarque && (
-              <>
-                <Divider />
-                <Box pt={2}>
-                  <Text fontSize="sm" color="gray.600">
-                    Remarque
-                  </Text>
-                  <Text fontStyle="italic" color="brand.700">
-                    "{client.remarque}"
-                  </Text>
-                </Box>
-              </>
             )}
           </VStack>
         </Box>

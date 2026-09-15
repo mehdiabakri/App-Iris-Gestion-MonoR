@@ -61,6 +61,7 @@ const OrderDetail = ({ order, onUpdate }: OrderDetailProps) => {
         <Heading size="md" color="brand.700">
           Détails de la Commande
         </Heading>
+        
         <Tag
           colorScheme={order.statut === "Terminé" ? "green" : "orange"}
           variant="solid"

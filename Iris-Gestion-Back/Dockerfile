@@ -49,5 +49,8 @@ RUN chown -R www-data:www-data /var/www/html/var
 COPY config/jwt /var/www/html/config/jwt/
 RUN chown -R www-data:www-data /var/www/html/config/jwt
 
+# Configuration de sécurité PHP
+RUN printf "display_errors = Off\ndisplay_startup_errors = Off\nexpose_php = Off\nlog_errors = On\n" > /usr/local/etc/php/conf.d/security.ini
+
 CMD ["php-fpm"]
 EXPOSE 9000
